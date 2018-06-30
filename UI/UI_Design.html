@@ -12,7 +12,9 @@
    padding-left: 5px;
    padding-right: 5px;
 }
-
+.slidecontainer {
+    width: 100%;
+}
 </style>
   <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -91,13 +93,52 @@
         <h3 class="panel-title" style="font-size: 30px;">3. Parameters Settings</h3>
     </div>
     <div class="panel-body">
-      <h4>Custom Range Slider</h4>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="panel panel-danger">
+            <div class="panel-heading" style="padding-top: 5px">
+              <h4 class="panel-title">Ordinance Characteristics</h4>
+            </div>
+            <div class="panel-body">
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider1"> <p>Value: <span id="SliderValue1"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<div class="slidecontainer">
-  <p>Default range slider:</p>
-  <input type="range" min="1" max="100" value="50">
 
-</div>
+
+        <div class="col-sm-3">
+          <div class="panel panel-warning">
+            <div class="panel-heading" style="padding-top: 5px">
+              <h4 class="panel-title">Demand (Consumers)</h4>
+            </div>
+            <div class="panel-body">
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider1"> <p>Value: <span id="SliderValue1"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-sm-3">
+          <div class="panel panel-info">
+            <div class="panel-heading" style="padding-top: 5px">
+              <h4 class="panel-title">Supply (Retail Food Store)</h4>
+            </div>
+            <div class="panel-body">
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider1"> <p>Value: <span id="SliderValue1"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 </div>
@@ -112,7 +153,15 @@
     </div>
 </div>
 
+<script>
+var slider = document.getElementById("Slider1");
+var output = document.getElementById("SliderValue1");
+output.innerHTML = slider.value;
 
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+</script>
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
