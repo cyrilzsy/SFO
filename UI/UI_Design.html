@@ -18,6 +18,7 @@
 </style>
   <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="plotly-latest.min.js"></script>
 </head>
 <body>
 
@@ -34,11 +35,11 @@
         <h3 class="panel-title" style="font-size: 30px;">1. Initialize</h3>
     </div>
     <div class="panel-body">
-      <div id="button1" style="padding-top: 10px; padding-bottom: 15px">
-      <button type="button" class="btn btn-primary btn-lg" style="font-size: 30px; text-shadow: black 5px 3px 3px">
+      <div style="padding-top: 10px; padding-bottom: 15px">
+      <button id="button1" type="button" class="btn btn-primary btn-lg" style="font-size: 30px; text-shadow: black 5px 3px 3px">
         <span class="glyphicon glyphicon-off"></span> Click to Start
       </button>
-      <button type="button" class="btn btn-default btn-lg" style="font-size: 30px; text-shadow: gray 3px 3px 3px">
+      <button id="button2" type="button" class="btn btn-default btn-lg" style="font-size: 30px; text-shadow: gray 3px 3px 3px">
         <span class="glyphicon glyphicon-refresh"></span> Click to Reset
       </button>
       </div>
@@ -50,30 +51,30 @@
         <h3 class="panel-title" style="font-size: 30px;">2. Choose A Food</h3>
     </div>
     <div class="panel-body">
-        <div class="dropdown">
+      <div class="btn-toolbar" role="toolbar">
+        <div class="dropdown" style="padding-right: 10px">
           <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
             <span class="	glyphicon glyphicon-th-list"></span>
             Fruits & Vegetables
           </button>
 			    <ul class="dropdown-menu">
 				    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Banana</a></li>
-				    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>100% Whole Wheat Bread</a></li>
-				    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Fat Free Milk</a></li>
             <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Frozen Vegetables</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Low-Sodium Canned Beans</a></li>
 			    </ul>
-          <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+        </div>
+
+        <div class="dropdown" style="padding-right: 10px">
+          <button type="button" class="btn dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown">
             <span class="	glyphicon glyphicon-th-list"></span>
             Drinks
           </button>
 			    <ul class="dropdown-menu">
-				    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Banana</a></li>
-				    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>100% Whole Wheat Bread</a></li>
 				    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Fat Free Milk</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Frozen Vegetables</a></li>
-            <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Low-Sodium Canned Beans</a></li>
 			    </ul>
-          <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
+        </div>
+
+        <div class="dropdown" style="padding-right: 10px">
+          <button type="button" class="btn dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown">
             <span class="	glyphicon glyphicon-th-list"></span>
             Protain
           </button>
@@ -85,6 +86,27 @@
             <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Low-Sodium Canned Beans</a></li>
 			    </ul>
         </div>
+
+        <div class="dropdown" style="padding-right: 10px">
+          <button type="button" class="btn dropdown-toggle" id="dropdownMenu4" data-toggle="dropdown">
+            <span class="	glyphicon glyphicon-th-list"></span>
+            Bread
+          </button>
+			    <ul class="dropdown-menu">
+				    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>100% Whole Wheat Bread</a></li>
+			    </ul>
+        </div>
+
+        <div class="dropdown" style="padding-right: 10px">
+          <button type="button" class="btn dropdown-toggle" id="dropdownMenu5" data-toggle="dropdown">
+            <span class="	glyphicon glyphicon-th-list"></span>
+            Beans
+          </button>
+			    <ul class="dropdown-menu">
+            <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Low-Sodium Canned Beans</a></li>
+			    </ul>
+        </div>
+      </div>
     </div>
 </div>
 
@@ -94,47 +116,98 @@
     </div>
     <div class="panel-body">
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="panel panel-danger">
             <div class="panel-heading" style="padding-top: 5px">
               <h4 class="panel-title">Ordinance Characteristics</h4>
             </div>
             <div class="panel-body">
+
               <div class="slidecontainer">
               <p>Default range slider:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider1"> <p>Value: <span id="SliderValue1"></span></p>
+              <input type="range" min="1" max="100" value="50" id="Slider1"> <p style="pull">Value: <span id="SliderValue1"></span></p>
               </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider2"> <p>Value: <span id="SliderValue2"></span></p>
+              </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider3"> <p>Value: <span id="SliderValue3"></span></p>
+              </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider4"> <p>Value: <span id="SliderValue4"></span></p>
+              </div>
+
             </div>
           </div>
         </div>
 
 
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="panel panel-warning">
             <div class="panel-heading" style="padding-top: 5px">
               <h4 class="panel-title">Demand (Consumers)</h4>
             </div>
             <div class="panel-body">
+
               <div class="slidecontainer">
               <p>Default range slider:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider1"> <p>Value: <span id="SliderValue1"></span></p>
+              <input type="range" min="1" max="100" value="50" id="Slider5"> <p>Value: <span id="SliderValue5"></span></p>
               </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider6"> <p>Value: <span id="SliderValue6"></span></p>
+              </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider7"> <p>Value: <span id="SliderValue7"></span></p>
+              </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider8"> <p>Value: <span id="SliderValue8"></span></p>
+              </div>
+
             </div>
           </div>
         </div>
 
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="panel panel-info">
             <div class="panel-heading" style="padding-top: 5px">
               <h4 class="panel-title">Supply (Retail Food Store)</h4>
             </div>
             <div class="panel-body">
+
               <div class="slidecontainer">
               <p>Default range slider:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider1"> <p>Value: <span id="SliderValue1"></span></p>
+              <input type="range" min="1" max="100" value="50" id="Slider9"> <p>Value: <span id="SliderValue9"></span></p>
               </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider10"> <p>Value: <span id="SliderValue10"></span></p>
+              </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider11"> <p>Value: <span id="SliderValue11"></span></p>
+              </div>
+
+              <div class="slidecontainer">
+              <p>Default range slider:</p>
+              <input type="range" min="1" max="100" value="50" id="Slider12"> <p>Value: <span id="SliderValue12"></span></p>
+              </div>
+
             </div>
           </div>
         </div>
@@ -154,13 +227,14 @@
 </div>
 
 <script>
-var slider = document.getElementById("Slider1");
-var output = document.getElementById("SliderValue1");
-output.innerHTML = slider.value;
+    var slider1 = document.getElementById("Slider1");
+    var output1 = document.getElementById("SliderValue1");
+    output1.innerHTML = slider1.value;
+    slider1.oninput = function () {
+      output1.innerHTML = this.value;
+    }
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
-}
+
 </script>
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
