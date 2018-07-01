@@ -221,21 +221,91 @@
         <h3 class="panel-title" style="font-size: 30px;">4. Results</h3>
     </div>
     <div class="panel-body">
+      <div class="row">
+
+        <div class="col-sm-4">
+          <div id="plot1"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot1"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot1"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot1"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot1"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot1"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot1"></div>
+        </div>
+
+      </div>
 
 
     </div>
 </div>
 
 <script>
-    var slider1 = document.getElementById("Slider1");
-    var output1 = document.getElementById("SliderValue1");
-    output1.innerHTML = slider1.value;
-    slider1.oninput = function () {
-      output1.innerHTML = this.value;
-    }
-
+  var Sliders = ["Slider1","Slider2","Slider3","Slider4","Slider5","Slider6","Slider7","Slider8","Slider9","Slider10","Slider11","Slider12"];
+  var SliderValues = ["SliderValue1","SliderValue2","SliderValue3","SliderValue4","SliderValue5","SliderValue6","SliderValue7","SliderValue8","SliderValue9","SliderValue10","SliderValue11","SliderValue12"];
+  var i;
+  var slider = [];
+  var output = [];
+  for (i=0; i < Sliders.length; i++) {
+    slider[i] = document.getElementById(Sliders[i]);
+    output[i] = document.getElementById(SliderValues[i]);
+    output[i].innerHTML = slider[i].value;
+    slider[i].oninput = (function(e) {
+      return function() {
+    output[e].innerHTML = this.value;}
+    })(i)
+  }
 
 </script>
+
+<script>
+  var xValue = ['Product A', 'Product B', 'Product C'];
+
+var yValue = [20, 14, 23];
+
+var trace1 = {
+  x: xValue,
+  y: yValue,
+  type: 'bar',
+  text: yValue,
+  textposition: 'auto',
+  hoverinfo: 'none',
+  marker: {
+    color: 'rgb(158,202,225)',
+    opacity: 0.6,
+    line: {
+      color: 'rbg(8,48,107)',
+      width: 1.5
+    }
+  }
+};
+
+var data = [trace1];
+
+var layout = {
+  title: 'January 2013 Sales Report'
+};
+
+Plotly.newPlot('plot1', data, layout);
+</script>
+
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
