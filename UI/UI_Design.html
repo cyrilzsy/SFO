@@ -324,7 +324,7 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
   C_storage = Par[2] + Par[3] * S_infra;
   C_total = C_delivery + C_storage + C_store;
 
-  for (i=0; i<t_max; i++) {
+  for (i=1; i<t_max; i++) {
     Y_supply[i] = Math.max(S_required * Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);
     S_actual[i] = Y_supply[i] + S_actual[i-1];
     Y_demand[i] = Par[4] + Par[5]*Training + Par[6] * Signage + Par[7] * Convenience + Par[8] * Taste + Par[9] *Affordability + Par[10] * Healthiness - Par[11] * (C_cust);
@@ -338,6 +338,7 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
     M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
   }
   return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
+
 }
 
 
@@ -372,7 +373,7 @@ for (i=0; i < Sliders.length; i++) {
       C_cust = slider[11].value;
       Par = [0.1511, -0.0352, 0.1864, -0.0352, 3, 0.14, 0.18, 0.15, 0.18, 0.17, 0.13, 3.875, 0.4550, 0.0104, -0.0323, 1];
       timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par);
-      console.log(timeResult[0]);
+console.log(timeResult);
       updatePlot1(timeResult[0][99]);
 
     }
