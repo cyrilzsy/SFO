@@ -18,7 +18,7 @@
 </style>
   <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="plotly-latest.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 
@@ -228,57 +228,47 @@
         </div>
 
         <div class="col-sm-4">
-          <div id="plot1"></div>
+          <div id="plot2"></div>
         </div>
 
         <div class="col-sm-4">
-          <div id="plot1"></div>
+          <div id="plot3"></div>
         </div>
-
-        <div class="col-sm-4">
-          <div id="plot1"></div>
-        </div>
-
-        <div class="col-sm-4">
-          <div id="plot1"></div>
-        </div>
-
-        <div class="col-sm-4">
-          <div id="plot1"></div>
-        </div>
-
-        <div class="col-sm-4">
-          <div id="plot1"></div>
-        </div>
-
       </div>
 
+      <div class="row">
+        <div class="col-sm-4">
+          <div id="plot4"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot5"></div>
+        </div>
+
+        <div class="col-sm-4">
+          <div id="plot6"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <div id="plot7"></div>
+        </div>
+      </div>
 
     </div>
 </div>
 
 <script>
-  var Sliders = ["Slider1","Slider2","Slider3","Slider4","Slider5","Slider6","Slider7","Slider8","Slider9","Slider10","Slider11","Slider12"];
-  var SliderValues = ["SliderValue1","SliderValue2","SliderValue3","SliderValue4","SliderValue5","SliderValue6","SliderValue7","SliderValue8","SliderValue9","SliderValue10","SliderValue11","SliderValue12"];
-  var i;
-  var slider = [];
-  var output = [];
-  for (i=0; i < Sliders.length; i++) {
-    slider[i] = document.getElementById(Sliders[i]);
-    output[i] = document.getElementById(SliderValues[i]);
-    output[i].innerHTML = slider[i].value;
-    slider[i].oninput = (function(e) {
-      return function() {
-    output[e].innerHTML = this.value;}
-    })(i)
-  }
+var Sliders = ["Slider1","Slider2","Slider3","Slider4","Slider5","Slider6","Slider7","Slider8","Slider9","Slider10","Slider11","Slider12"];
+var SliderValues = ["SliderValue1","SliderValue2","SliderValue3","SliderValue4","SliderValue5","SliderValue6","SliderValue7","SliderValue8","SliderValue9","SliderValue10","SliderValue11","SliderValue12"];
+var i;
+var slider = [];
+var output = [];
 
-</script>
+var xValue = ['Product A', 'Product B', 'Product C'];
 
-<script>
-  var xValue = ['Product A', 'Product B', 'Product C'];
-
-var yValue = [20, 14, 23];
+var yValue = [];
 
 var trace1 = {
   x: xValue,
@@ -303,7 +293,93 @@ var layout = {
   title: 'January 2013 Sales Report'
 };
 
-Plotly.newPlot('plot1', data, layout);
+var t_max = 100;
+var Enforcement;
+var Training;
+var Signage;
+var Convenience;
+var Taste;
+var Affordability;
+var Healthiness;
+var S_infra;
+var S_required;
+var X_delivery;
+var C_store;
+var C_cust;
+var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
+
+var S_actual = [];
+var Y_supply = [];
+var Y_cust = [];
+var Y_waste = [];
+var Y_demand = [];
+var M_profit = [];
+var M_storage = [];
+var M_supply = [];
+var M_delivery = [];
+var M_cust = [];
+
+function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par) {
+  C_delivery = Par[0] + X_delivery * Par[1];
+  C_storage = Par[2] + Par[3] * S_infra;
+  C_total = C_delivery + C_storage + C_store;
+
+  for (i=0; i<t_max; i++) {
+    Y_supply[i] = Math.max(S_required * Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);
+    S_actual[i] = Y_supply[i] + S_actual[i-1];
+    Y_demand[i] = Par[4] + Par[5]*Training + Par[6] * Signage + Par[7] * Convenience + Par[8] * Taste + Par[9] *Affordability + Par[10] * Healthiness - Par[11] * (C_cust);
+    Y_cust[i] = Math.min(Y_demand[i],S_actual[i]);
+    Y_waste[i] = Math.max(S_actual[i] * Par[15] - Y_cust[i],0);
+    S_actual[i] = S_actual[i] - Y_cust[i] - Y_waste[i];
+    M_supply[i] = Y_supply[i] * C_store;
+    M_storage[i] = C_storage * S_actual[i];
+    M_delivery[i] = C_delivery * Y_supply[i];
+    M_cust[i] = C_cust * Y_cust[i];
+    M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
+  }
+  return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
+}
+
+
+
+function updatePlot1(values) {
+  yValue[0] = values;
+  yValue[1] = 10;
+  Plotly.newPlot('plot1', data, layout);
+}
+
+for (i=0; i < Sliders.length; i++) {
+  slider[i] = document.getElementById(Sliders[i]);
+  output[i] = document.getElementById(SliderValues[i]);
+  output[i].innerHTML = slider[i].value;                   // initialize
+  slider[i].oninput = (function(e) {
+    return function() {
+
+      output[e].innerHTML = this.value;
+
+
+      Enforcement = slider[0].value;
+      Training = slider[1].value;
+      Signage = slider[2].value;
+      Convenience = slider[4].value;
+      Taste = slider[5].value;
+      Affordability = slider[6].value;
+      Healthiness = slider[7].value;
+      S_infra = slider[8].value;
+      S_required = slider[3].value;
+      X_delivery = slider[9].value;
+      C_store = slider[10].value;
+      C_cust = slider[11].value;
+      Par = [0.1511, -0.0352, 0.1864, -0.0352, 3, 0.14, 0.18, 0.15, 0.18, 0.17, 0.13, 3.875, 0.4550, 0.0104, -0.0323, 1];
+      timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par);
+      console.log(timeResult[0]);
+      updatePlot1(timeResult[0][99]);
+
+    }
+    })(i);                                                  // (i) is the argument, passed to (e)
+}
+
+// Plotly.newPlot('plot1', data, layout);
 </script>
 
 <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
