@@ -2,60 +2,164 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<title>Staple Food Ordinance</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<style>
-  body {
-    padding-top: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-  .slidecontainer {
-    width: 100%;
-  }
-</style>
+  <meta charset="UTF-8">
+  <title>Staple Food Ordinance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+  <!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> -->
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <style>
+    body {
+      padding-top: 2px;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+    .slidecontainer {
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
-<div style="position:absolute; height:400px; overflow:auto"></div>
 
 <div class="navbar navbar-default" style="background-color: #32383e;width: auto; height: auto">
-  <div class="panel-heading">
-    <h1 style="color: white">Staple Food Ordinance Model <small>Web App Ver. 01</small></h1>
+    <h1 style="color: white">Staple Food Ordinance Model</h1>
+
+    <div class="btn-toolbar" role="toolbar">
+      <button id="button2" type="button" class="btn">
+        <span class="glyphicon glyphicon-refresh"></span> Reset
+      </button>
+    </div>
+
+    <li class="dropdown" id="menuDropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" style="font-size:150%; color: white">
+        <span class="glyphicon glyphicon-menu-hamburger" id="hamburger_menu"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a style="font-size:125%" href="#helpModal" data-toggle="modal" id="helpMenu">Help</a></li>
+        <li class="divider"></li>
+        <li><a style="font-size:125%" href="#infoModal" data-toggle="modal">Info</a></li>
+        <li><a style="font-size:125%" href="#acknModal" data-toggle="modal">Acknowledgements</a></li>
+        <!-- See index.html in ContraceptiveDT for an example of a hopscotch tour -->
+      </ul>
+    </li>
+</div>
+
+<!-- Modal -->
+<div id="infoModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Staple Food Ordinance Model</h3>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>Scientific authors and contributors:</h4>
+        <h4>Joel Gittelsohn, PhD</h4>
+        <h4>Lisa Poirier, MPH</h4>
+        <h4>[others]</h4>
+        <h4>[including Baltimore City collaborators]</h4>
+        <br />
+        <h5>App designers:</h5>
+        <h5>Siyao Zhu and Tak Igusa</h5>
+        <br />
+
+        <h4>DISCLAIMER</h4>
+        <p>
+          The Authors provides the App and the services, information, content and/or data (collectively, “Information”) contained therein for informational purposes only.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="panel panel-success">
-  <div class="panel-heading" style="padding-top: 15px">
-    <h3 class="panel-title" style="font-size: 30px;">1. Initialize</h3>
+<div id="acknModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Staple Food Ordinance Model</h3>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h4>Acknowledgements</h4>
+        <p>
+          The development of this mobile web application was partially supported by ... . The content is solely the responsibility of the authors and does not necessarily represent the official views of ... or the Johns Hopkins University.
+        </p>
+        <h5>Suggested citation format</h5>
+        <p>
+          Gittelsohn, J, Poirier, L, Zhao, S and Igusa, T (2018). Staple Food Ordinance Model (Alpha Version 1.0). Johns Hopkins University, Baltimore, MD. [Mobile application software.] Available from: https://engineering.jhu.edu/tak/SFO
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="panel-body">
-    <div style="padding-top: 10px; padding-bottom: 15px">
-      <button id="button1" type="button" class="btn btn-primary btn-lg" style="font-size: 30px; text-shadow: black 5px 3px 3px">
-        <span class="glyphicon glyphicon-off"></span> Click to Start
-      </button>
-      <button id="button2" type="button" class="btn btn-default btn-lg" style="font-size: 30px; text-shadow: gray 3px 3px 3px">
-        <span class="glyphicon glyphicon-refresh"></span> Click to Reset
-      </button>
+<div id="helpModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Staple Food Ordinance Model: Help</h3>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="panel-group">
+          <div class="panel-primary">
+            <div class="panel-heading">Upper menu</div>
+            <div class="panel-body">
+              <h5>[header]</h5>
+              <ul>
+                <li>[list instructions and hints, and used <b>bold</b> when referring to sliders and buttons.]</li>
+                <li>[continue the list]</li>
+              </ul>
+            </div>
+          </div>
+          <div class="panel-primary">
+            <div class="panel-heading">Graphs</div>
+            <div class="panel-body">
+              <h5>Plot 1</h5>
+              <ul>
+                <li>[describe the first plot here]</li>
+                <li>[more descripton]</li>
+              </ul>
+              <h5>Plot 2</h5>
+              <ul>
+                <li>[describe the second plot here]</li>
+                <li>[more descripton]</li>
+              </ul>
+            </div>
+          </div>
+        </div>        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="panel panel-success">
-  <div class="panel-heading" style="padding-top: 15px">
-    <h3 class="panel-title" style="font-size: 30px;">2. Choose A Food</h3>
+  <div class="panel-heading">
+    <h2 class="panel-title">2. Choose A Food</h2>
   </div>
 
   <div class="panel-body">
     <div class="btn-toolbar" role="toolbar">
-      <div class="dropdown" style="padding-right: 10px">
+      <div class="dropdown">
         <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
           <span class="	glyphicon glyphicon-th-list"></span>
           Fruits & Vegetables
@@ -66,7 +170,7 @@
 		    </ul>
       </div>
 
-      <div class="dropdown" style="padding-right: 10px">
+      <div class="dropdown">
         <button type="button" class="btn dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown">
           <span class="	glyphicon glyphicon-th-list"></span>
           Drinks
@@ -76,7 +180,7 @@
 		    </ul>
       </div>
 
-      <div class="dropdown" style="padding-right: 10px">
+      <div class="dropdown">
         <button type="button" class="btn dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown">
           <span class="	glyphicon glyphicon-th-list"></span>
             Protein
@@ -90,7 +194,7 @@
 		    </ul>
       </div>
 
-      <div class="dropdown" style="padding-right: 10px">
+      <div class="dropdown">
         <button type="button" class="btn dropdown-toggle" id="dropdownMenu4" data-toggle="dropdown">
           <span class="	glyphicon glyphicon-th-list"></span>
           Bread
@@ -100,7 +204,7 @@
 		    </ul>
       </div>
 
-      <div class="dropdown" style="padding-right: 10px">
+      <div class="dropdown">
         <button type="button" class="btn dropdown-toggle" id="dropdownMenu5" data-toggle="dropdown">
           <span class="	glyphicon glyphicon-th-list"></span>
           Beans
@@ -114,36 +218,36 @@
 </div>
 
 <div class="panel panel-success">
-  <div class="panel-heading" style="padding-top: 15px">
-    <h3 class="panel-title" style="font-size: 30px;">3. Parameters Settings</h3>
+  <div class="panel-heading">
+    <h2 class="panel-title">3. Set Parameters</h2>
   </div>
   <div class="panel-body">
     <div class="row">
       <div class="col-sm-4">
         <div class="panel panel-danger">
-          <div class="panel-heading" style="padding-top: 5px">
+          <div class="panel-heading">
             <h4 class="panel-title">Ordinance Characteristics</h4>
           </div>
 
           <div class="panel-body">
             <div class="slidecontainer">
-              <p>Level of Enforcement:</p>
-              <input type="range" min="0" max="1" value="0.5" id="Slider1"> <p style="pull">Value: <span id="SliderValue1"></span></p>
+              <p>Level of Enforcement: <span id="SliderValue1"></span></p>
+              <input type="range" min="0" max="1" value="0.5" id="Slider1">
             </div>
 
             <div class="slidecontainer">
-              <p>Promotions to Corner Store Owners:</p>
-              <input type="range" min="1" max="10" value="5" id="Slider2"> <p>Value: <span id="SliderValue2"></span></p>
+              <p>Promotions to Corner Store Owners: <span id="SliderValue2"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider2">
             </div>
 
             <div class="slidecontainer">
-              <p>Promotions to Consumers:</p>
-              <input type="range" min="1" max="10" value="5" id="Slider3"> <p>Value: <span id="SliderValue3"></span></p>
+              <p>Promotions to Consumers: <span id="SliderValue3"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider3">
             </div>
 
             <div class="slidecontainer">
-              <p>Minimum Stock Required:</p>
-              <input type="range" min="1" max="20" value="5" id="Slider4"> <p>Value: <span id="SliderValue4"></span></p>
+              <p>Minimum Stock Required: <span id="SliderValue4"></span></p>
+              <input type="range" min="1" max="20" value="5" id="Slider4">
             </div>
           </div>
         </div>
@@ -151,29 +255,29 @@
 
       <div class="col-sm-4">
         <div class="panel panel-warning">
-          <div class="panel-heading" style="padding-top: 5px">
+          <div class="panel-heading">
             <h4 class="panel-title">Demand (Consumers)</h4>
           </div>
 
           <div class="panel-body">
             <div class="slidecontainer">
-              <p>Convenience of Preparation:</p>
-              <input type="range" min="1" max="10" value="5" id="Slider5"> <p>Value: <span id="SliderValue5"></span></p>
+              <p>Convenience of Preparation: <span id="SliderValue5"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider5">
             </div>
 
             <div class="slidecontainer">
-              <p>Taste:</p>
-              <input type="range" min="1" max="10" value="5" id="Slider6"> <p>Value: <span id="SliderValue6"></span></p>
+              <p>Taste: <span id="SliderValue6"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider6">
             </div>
 
             <div class="slidecontainer">
-              <p>Affordability:</p>
-              <input type="range" min="1" max="10" value="5" id="Slider7"> <p>Value: <span id="SliderValue7"></span></p>
+              <p>Affordability: <span id="SliderValue7"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider7">
             </div>
 
             <div class="slidecontainer">
-              <p>Healthiness:</p>
-              <input type="range" min="1" max="10" value="5" id="Slider8"> <p>Value: <span id="SliderValue8"></span></p>
+              <p>Healthiness: <span id="SliderValue8"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider8">
             </div>
           </div>
         </div>
@@ -182,29 +286,29 @@
 
       <div class="col-sm-4">
         <div class="panel panel-info">
-          <div class="panel-heading" style="padding-top: 5px">
+          <div class="panel-heading">
             <h4 class="panel-title">Supply (Retail Food Store)</h4>
           </div>
 
           <div class="panel-body">
             <div class="slidecontainer">
-              <p>Infrastructure (Storage) Capacity:</p>
-              <input type="range" min="1" max="5" value="2" id="Slider9"> <p>Value: <span id="SliderValue9"></span></p>
+              <p>Infrastructure (Storage) Capacity: <span id="SliderValue9"></span></p>
+              <input type="range" min="1" max="5" value="2" id="Slider9">
             </div>
 
             <div class="slidecontainer">
-              <p>Ease of Delivery:</p>
-              <input type="range" min="1" max="5" value="3" id="Slider10"> <p>Value: <span id="SliderValue10"></span></p>
+              <p>Ease of Delivery: <span id="SliderValue10"></span></p>
+              <input type="range" min="1" max="5" value="3" id="Slider10">
             </div>
 
             <div class="slidecontainer">
-              <p>Unit Cost:</p>
-              <input type="range" min="0.01" max="10" value="1" id="Slider11"> <p>Value: <span id="SliderValue11"></span></p>
+              <p>Unit Cost: <span id="SliderValue11"></span></p>
+              <input type="range" min="0.01" max="10" value="1" id="Slider11">
             </div>
 
             <div class="slidecontainer">
-              <p>Optimal Price on hand:</p>
-              <input type="range" min="0.01" max="10" value="2" id="Slider12"> <p>Value: <span id="SliderValue12"></span></p>
+              <p>Optimal Price on hand: <span id="SliderValue12"></span></p>
+              <input type="range" min="0.01" max="10" value="2" id="Slider12">
             </div>
           </div>
         </div>
@@ -214,8 +318,8 @@
 </div>
 
 <div class="panel panel-success">
-  <div class="panel-heading" style="padding-top: 15px">
-    <h3 class="panel-title" style="font-size: 30px;">4. Results</h3>
+  <div class="panel-heading">
+    <h2 class="panel-title">4. Examine Results</h2>
   </div>
 
   <div class="panel-body">
@@ -258,14 +362,40 @@
 <script>
 var Sliders = ["Slider1","Slider2","Slider3","Slider4","Slider5","Slider6","Slider7","Slider8","Slider9","Slider10","Slider11","Slider12"];
 var SliderValues = ["SliderValue1","SliderValue2","SliderValue3","SliderValue4","SliderValue5","SliderValue6","SliderValue7","SliderValue8","SliderValue9","SliderValue10","SliderValue11","SliderValue12"];
-var i;
 var slider = [];
 var output = [];
 
+var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
+
+for (i=0; i < Sliders.length; i++) {                   // initialize sliders
+  slider[i] = document.getElementById(Sliders[i]);
+  output[i] = document.getElementById(SliderValues[i]);
+  output[i].innerHTML = slider[i].value;
+  slider[i].oninput = (function(e) {
+    return function() {
+      output[e].innerHTML = this.value;                // e is set to i
+      Enforcement = slider[0].value;
+      Training = slider[1].value;
+      Signage = slider[2].value;
+      Convenience = slider[4].value;
+      Taste = slider[5].value;
+      Affordability = slider[6].value;
+      Healthiness = slider[7].value;
+      S_infra = slider[8].value;
+      S_required = slider[3].value;
+      X_delivery = slider[9].value;
+      C_store = slider[10].value;
+      C_cust = slider[11].value;
+      var timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
+//    console.log(timeResult);
+      updatePlot1(timeResult[1][t_max-1]);
+    }
+  })(i);                                                  // (i) is the argument, passed to (e)
+}
+
+// Variables for plots
 var xValue = ['Product A', 'Product B', 'Product C'];
-
 var yValue = [];
-
 var trace1 = {
   x: xValue,
   y: yValue,
@@ -282,72 +412,10 @@ var trace1 = {
     }
   }
 };
-
 var data = [trace1];
-
 var layout = {
   title: 'January 2013 Sales Report'
 };
-
-var t_max = 100;
-var Enforcement;
-var Training;
-var Signage;
-var Convenience;
-var Taste;
-var Affordability;
-var Healthiness;
-var S_infra;
-var S_required;
-var X_delivery;
-var C_store;
-var C_cust;
-var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
-
-var S_actual = new Array(100);
-var Y_supply = new Array(100);
-var Y_cust = new Array(100);
-var Y_waste = new Array(100);
-var Y_demand = new Array(100);
-var M_profit = new Array(100);
-var M_storage = new Array(100);
-var M_supply = new Array(100);
-var M_delivery = new Array(100);
-var M_cust = new Array(100);
-
-for (var j = 0; j < 100; j++) {
-  S_actual[j] = 1;
-  Y_supply[j] = 0;
-  Y_cust[j] = 0;
-  Y_waste[j] = 0;
-  Y_demand[j] = 0;
-  M_profit[j] = 0;
-  M_storage[j] = 0;
-  M_supply[j] = 0;
-  M_delivery[j] = 0;
-  M_cust[j] = 0;
-}
-
-function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par) {
-  C_delivery = Par[0] + X_delivery * Par[1];
-  C_storage = Par[2] + Par[3] * S_infra;
-  C_total = C_delivery + C_storage + C_store;
-
-  for (i=1; i<t_max; i++) {
-    Y_supply[i] = Math.max(S_required * Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);
-    S_actual[i] = Y_supply[i] + S_actual[i-1];
-    Y_demand[i] = Par[4] + Par[5]*Training + Par[6] * Signage + Par[7] * Convenience + Par[8] * Taste + Par[9] *Affordability + Par[10] * Healthiness - Par[11] * (C_cust);
-    Y_cust[i] = Math.min(Y_demand[i],S_actual[i]);
-    Y_waste[i] = Math.max(S_actual[i] * Par[15] - Y_cust[i],0);
-    S_actual[i] = S_actual[i] - Y_cust[i] - Y_waste[i];
-    M_supply[i] = Y_supply[i] * C_store;
-    M_storage[i] = C_storage * S_actual[i];
-    M_delivery[i] = C_delivery * Y_supply[i];
-    M_cust[i] = C_cust * Y_cust[i];
-    M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
-  }
-  return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
-}
 
 function updatePlot1(values) {
   yValue[0] = values;
@@ -355,41 +423,44 @@ function updatePlot1(values) {
   Plotly.newPlot('plot1', data, layout);
 }
 
-for (i=0; i < Sliders.length; i++) {
-  slider[i] = document.getElementById(Sliders[i]);
-  output[i] = document.getElementById(SliderValues[i]);
-  output[i].innerHTML = slider[i].value;                   // initialize
-  slider[i].oninput = (function(e) {
-    return function() {
-      output[e].innerHTML = this.value;
-      Enforcement = slider[0].value;
-      Training = slider[1].value;
-      Signage = slider[2].value;
-      Convenience = slider[4].value;
-      Taste = slider[5].value;
-      Affordability = slider[6].value;
-      Healthiness = slider[7].value;
-      S_infra = slider[8].value;
-      S_required = slider[3].value;
-      X_delivery = slider[9].value;
-      C_store = slider[10].value;
-      C_cust = slider[11].value;
-      Par = [0.1511, -0.0352, 0.1864, -0.0352, 3, 0.14, 0.18, 0.15, 0.18, 0.17, 0.13, 3.875, 0.4550, 0.0104, -0.0323, 1];
-      timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par);
-      console.log(timeResult);
-      updatePlot1(timeResult[1][99]);
-    }
-  })(i);                                                  // (i) is the argument, passed to (e)
+// Variables for ODE
+var t_max = 30;
+var S_actual = [1];           // need to initialize these for the ODE solver, runTime
+var Y_demand = [0];           // don't use new Array
+var Y_supply = [];
+var Y_cust = [];
+var Y_waste = [];
+var M_profit = [];
+var M_storage = [];
+var M_supply = [];
+var M_delivery = [];
+var M_cust = [];
+
+// ODE solver for finding Y, S, M
+function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust) {
+  C_delivery = Par[0] + X_delivery*Par[1];
+  C_storage = Par[2] + Par[3]*S_infra;
+  C_total = C_delivery + C_storage + C_store;
+
+  for (i=1; i<t_max; i++) {
+    Y_supply[i] = Math.max(S_required*Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);
+    S_actual[i] = Y_supply[i] + S_actual[i-1];
+    Y_demand[i] = Par[4] + Par[5]*Training + Par[6]*Signage + Par[7]*Convenience + Par[8]*Taste + Par[9]*Affordability + Par[10]*Healthiness - Par[11]*C_cust;
+    Y_cust[i] = Math.min(Y_demand[i],S_actual[i]);
+    Y_waste[i] = Math.max(S_actual[i]*Par[15] - Y_cust[i],0);
+    S_actual[i] = S_actual[i] - Y_cust[i] - Y_waste[i];
+    M_supply[i] = Y_supply[i]*C_store;
+    M_storage[i] = C_storage*S_actual[i];
+    M_delivery[i] = C_delivery*Y_supply[i];
+    M_cust[i] = C_cust*Y_cust[i];
+    M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
+  }
+  return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
 }
 
-// Plotly.newPlot('plot1', data, layout);
-</script>
+Plotly.newPlot('plot1', data, layout);             // initial plot
 
-<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+</script>
 
 </body>
 </html>
