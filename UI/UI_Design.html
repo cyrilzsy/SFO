@@ -334,20 +334,20 @@ for (var j = 0; j < 100; j++)
 
 function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par) {
   C_delivery = Par[0] + X_delivery * Par[1];
-  C_storage = Par[2] + Par[3] * S_infra;
-  C_total = C_delivery + C_storage + C_store;
+  C_storage  = Par[2] + Par[3] * S_infra;
+  C_total    = C_delivery + C_storage + C_store;
 
   for (i=1; i<t_max; i++) {
     Y_supply[i] = Math.max(S_required * Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);
     S_actual[i] = Y_supply[i] + S_actual[i-1];
     Y_demand[i] = Par[4] + Par[5]*Training + Par[6] * Signage + Par[7] * Convenience + Par[8] * Taste + Par[9] *Affordability + Par[10] * Healthiness - Par[11] * (C_cust);
-    Y_cust[i] = Math.min(Y_demand[i],S_actual[i]);
-    Y_waste[i] = Math.max(S_actual[i] * Par[15] - Y_cust[i],0);
+    Y_cust[i]   = Math.min(Y_demand[i],S_actual[i]);
+    Y_waste[i]  = Math.max(S_actual[i] * Par[15] - Y_cust[i],0);
     S_actual[i] = S_actual[i] - Y_cust[i] - Y_waste[i];
     M_supply[i] = Y_supply[i] * C_store;
-    M_storage[i] = C_storage * S_actual[i];
+    M_storage[i]  = C_storage * S_actual[i];
     M_delivery[i] = C_delivery * Y_supply[i];
-    M_cust[i] = C_cust * Y_cust[i];
+    M_cust[i]   = C_cust * Y_cust[i];
     M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
   }
   return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
@@ -390,7 +390,7 @@ console.log(timeResult);
       updatePlot1(timeResult[1][99]);
 
     }
-    })(i);                                                  // (i) is the argument, passed to (e)
+  })(i);                                                  // (i) is the argument, passed to (e)
 }
 
 // Plotly.newPlot('plot1', data, layout);
