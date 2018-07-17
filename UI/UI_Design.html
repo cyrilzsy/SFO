@@ -308,18 +308,6 @@ var C_store;
 var C_cust;
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
 
-<<<<<<< HEAD
-var S_actual = [0];
-var Y_supply = [];
-var Y_cust   = [];
-var Y_waste  = [];
-var Y_demand = [0];
-var M_profit = [];
-var M_storage  = [];
-var M_supply   = [];
-var M_delivery = [];
-var M_cust     = [];
-=======
 var S_actual = new Array(100);
 var Y_supply = new Array(100);
 var Y_cust = new Array(100);
@@ -343,7 +331,6 @@ for (var j = 0; j < 100; j++)
   M_delivery[j] = 0;
   M_cust[j] = 0;
 }
->>>>>>> 879421f465cfb37e5ea0b8a94224d1a27292df1c
 
 function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par) {
   C_delivery = Par[0] + X_delivery * Par[1];
@@ -399,13 +386,8 @@ for (i=0; i < Sliders.length; i++) {
       C_cust = slider[11].value;
       Par = [0.1511, -0.0352, 0.1864, -0.0352, 3, 0.14, 0.18, 0.15, 0.18, 0.17, 0.13, 3.875, 0.4550, 0.0104, -0.0323, 1];
       timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par);
-<<<<<<< HEAD
-      console.log(timeResult);
-      updatePlot1(timeResult[0][99]);
-=======
 console.log(timeResult);
       updatePlot1(timeResult[1][99]);
->>>>>>> 879421f465cfb37e5ea0b8a94224d1a27292df1c
 
     }
   })(i);                                                  // (i) is the argument, passed to (e)
