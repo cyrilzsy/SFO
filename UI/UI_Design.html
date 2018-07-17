@@ -125,22 +125,22 @@
 
               <div class="slidecontainer">
               <p>Level of Enforcement:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider1"> <p style="pull">Value: <span id="SliderValue1"></span></p>
+              <input type="range" min="0" max="1" value="0.5" id="Slider1"> <p style="pull">Value: <span id="SliderValue1"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Promotions to Corner Store Owners:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider2"> <p>Value: <span id="SliderValue2"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider2"> <p>Value: <span id="SliderValue2"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Promotions to Consumers:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider3"> <p>Value: <span id="SliderValue3"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider3"> <p>Value: <span id="SliderValue3"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Minimum Stock Required:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider4"> <p>Value: <span id="SliderValue4"></span></p>
+              <input type="range" min="1" max="20" value="5" id="Slider4"> <p>Value: <span id="SliderValue4"></span></p>
               </div>
 
             </div>
@@ -158,22 +158,22 @@
 
               <div class="slidecontainer">
               <p>Convenience of Preparation:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider5"> <p>Value: <span id="SliderValue5"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider5"> <p>Value: <span id="SliderValue5"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Taste:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider6"> <p>Value: <span id="SliderValue6"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider6"> <p>Value: <span id="SliderValue6"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Affordability:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider7"> <p>Value: <span id="SliderValue7"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider7"> <p>Value: <span id="SliderValue7"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Healthiness:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider8"> <p>Value: <span id="SliderValue8"></span></p>
+              <input type="range" min="1" max="10" value="5" id="Slider8"> <p>Value: <span id="SliderValue8"></span></p>
               </div>
 
             </div>
@@ -190,22 +190,22 @@
 
               <div class="slidecontainer">
               <p>Infrastructure (Storage) Capacity:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider9"> <p>Value: <span id="SliderValue9"></span></p>
+              <input type="range" min="1" max="5" value="2" id="Slider9"> <p>Value: <span id="SliderValue9"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Ease of Delivery:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider10"> <p>Value: <span id="SliderValue10"></span></p>
+              <input type="range" min="1" max="5" value="3" id="Slider10"> <p>Value: <span id="SliderValue10"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Unit Cost:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider11"> <p>Value: <span id="SliderValue11"></span></p>
+              <input type="range" min="0.01" max="10" value="1" id="Slider11"> <p>Value: <span id="SliderValue11"></span></p>
               </div>
 
               <div class="slidecontainer">
               <p>Optimal Price on hand:</p>
-              <input type="range" min="1" max="100" value="50" id="Slider12"> <p>Value: <span id="SliderValue12"></span></p>
+              <input type="range" min="0.01" max="10" value="2" id="Slider12"> <p>Value: <span id="SliderValue12"></span></p>
               </div>
 
             </div>
@@ -308,33 +308,59 @@ var C_store;
 var C_cust;
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
 
-var S_actual = [];
+<<<<<<< HEAD
+var S_actual = [0];
 var Y_supply = [];
-var Y_cust = [];
-var Y_waste = [];
-var Y_demand = [];
+var Y_cust   = [];
+var Y_waste  = [];
+var Y_demand = [0];
 var M_profit = [];
-var M_storage = [];
-var M_supply = [];
+var M_storage  = [];
+var M_supply   = [];
 var M_delivery = [];
-var M_cust = [];
+var M_cust     = [];
+=======
+var S_actual = new Array(100);
+var Y_supply = new Array(100);
+var Y_cust = new Array(100);
+var Y_waste = new Array(100);
+var Y_demand = new Array(100);
+var M_profit = new Array(100);
+var M_storage = new Array(100);
+var M_supply = new Array(100);
+var M_delivery = new Array(100);
+var M_cust = new Array(100);
+for (var j = 0; j < 100; j++)
+{
+  S_actual[j] = 1;
+  Y_supply[j] = 0;
+  Y_cust[j] = 0;
+  Y_waste[j] = 0;
+  Y_demand[j] = 0;
+  M_profit[j] = 0;
+  M_storage[j] = 0;
+  M_supply[j] = 0;
+  M_delivery[j] = 0;
+  M_cust[j] = 0;
+}
+>>>>>>> 879421f465cfb37e5ea0b8a94224d1a27292df1c
 
 function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par) {
   C_delivery = Par[0] + X_delivery * Par[1];
-  C_storage = Par[2] + Par[3] * S_infra;
-  C_total = C_delivery + C_storage + C_store;
+  C_storage  = Par[2] + Par[3] * S_infra;
+  C_total    = C_delivery + C_storage + C_store;
 
   for (i=1; i<t_max; i++) {
     Y_supply[i] = Math.max(S_required * Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);
     S_actual[i] = Y_supply[i] + S_actual[i-1];
     Y_demand[i] = Par[4] + Par[5]*Training + Par[6] * Signage + Par[7] * Convenience + Par[8] * Taste + Par[9] *Affordability + Par[10] * Healthiness - Par[11] * (C_cust);
-    Y_cust[i] = Math.min(Y_demand[i],S_actual[i]);
-    Y_waste[i] = Math.max(S_actual[i] * Par[15] - Y_cust[i],0);
+    Y_cust[i]   = Math.min(Y_demand[i],S_actual[i]);
+    Y_waste[i]  = Math.max(S_actual[i] * Par[15] - Y_cust[i],0);
     S_actual[i] = S_actual[i] - Y_cust[i] - Y_waste[i];
     M_supply[i] = Y_supply[i] * C_store;
-    M_storage[i] = C_storage * S_actual[i];
+    M_storage[i]  = C_storage * S_actual[i];
     M_delivery[i] = C_delivery * Y_supply[i];
-    M_cust[i] = C_cust * Y_cust[i];
+    M_cust[i]   = C_cust * Y_cust[i];
     M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
   }
   return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
@@ -373,11 +399,16 @@ for (i=0; i < Sliders.length; i++) {
       C_cust = slider[11].value;
       Par = [0.1511, -0.0352, 0.1864, -0.0352, 3, 0.14, 0.18, 0.15, 0.18, 0.17, 0.13, 3.875, 0.4550, 0.0104, -0.0323, 1];
       timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust,Par);
-console.log(timeResult);
+<<<<<<< HEAD
+      console.log(timeResult);
       updatePlot1(timeResult[0][99]);
+=======
+console.log(timeResult);
+      updatePlot1(timeResult[1][99]);
+>>>>>>> 879421f465cfb37e5ea0b8a94224d1a27292df1c
 
     }
-    })(i);                                                  // (i) is the argument, passed to (e)
+  })(i);                                                  // (i) is the argument, passed to (e)
 }
 
 // Plotly.newPlot('plot1', data, layout);
