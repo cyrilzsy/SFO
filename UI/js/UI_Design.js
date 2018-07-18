@@ -9,8 +9,6 @@ function fClose() {
   $('.collapse').collapse("hide");
 };
 
-var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
-
 // Variables for plots
 var xValue = ['Product A', 'Product B', 'Product C'];
 var yValue = [];
@@ -40,6 +38,7 @@ var t_max = 30;
 var S_actual = [1];           // need to initialize these for the ODE solver, runTime
 var Y_demand = [0];           // don't use new Array
 var Y_supply = [], Y_cust = [], Y_waste = [], M_profit = [], M_storage = [], M_supply = [], M_delivery = [], M_cust = [];
+var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
 
 // functions
 
@@ -56,7 +55,7 @@ function evalSliders(iFood) {
   X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
   C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];
   C_cust        = sliders.currentValues[iFood[0]][iFood[1]][2][3];
-  var timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
+  let timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
   food.results[iFood[0]][iFood[1]] = timeResult[0][t_max-1];
 }
 
@@ -68,9 +67,9 @@ function updatePlot1(results) {
 
 // ODE solver for finding Y, S, M
 function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust) {
-  C_delivery = Par[0] + X_delivery*Par[1];
-  C_storage = Par[2] + Par[3]*S_infra;
-  C_total = C_delivery + C_storage + C_store;
+  let C_delivery = Par[0] + X_delivery*Par[1];
+  let C_storage = Par[2] + Par[3]*S_infra;
+  let C_total = C_delivery + C_storage + C_store;
 
   for (i=1; i<t_max; i++) {
     Y_supply[i] = Math.max(S_required*Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);

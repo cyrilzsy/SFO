@@ -358,6 +358,9 @@ function updateSelect() {
       }
     }
   };
+
+  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+
   for (i=0; i<sliders.numTypes; i++) {
     for (j=0; j<sliders.numVars[i]; j++) {
       let sliderValue = sliders.currentValues[food.select[0]][food.select[1]][i][j];
@@ -428,13 +431,17 @@ $(document).ready(function(){
         }
       })([i,j]);                                           // (i,j) is the argument, passed to (e)
     }
-  }
+  };
 
-  for (iFood1=0; iFood1<2; iFood1++) {
-    let iFood0 = 0;
-    evalSliders([iFood0,iFood1]);
-    console.log(food.results[iFood0][iFood1]);
-  }
+  console.log(food.results);
+
+  for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
+    for (j0=0; j0<food.numVars[i0]; j0++) {
+      evalSliders([i0,j0]);
+      console.log(i0 + "," + j0 + ", results = " + food.results[i0][j0]);
+    }
+  };
+
   updatePlot1(food.results);
 
   // See ContraceptiveDT for scrollspy options
