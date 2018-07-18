@@ -217,7 +217,7 @@
 
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h2 class="panel-title">3. Set Parameters</h2>
+    <h2 class="panel-title" id="sliderPanel">Sliders for: </h2>
   </div>
   <div class="panel-body">
     <div class="row">
@@ -228,29 +228,6 @@
           </div>
 
           <div class="panel-body" id="setOrdinance">
-<!--             <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
- --><!--             <div class="slidecontainer">
-              <p>Level of Enforcement: <span id="valueEnforcement"></span></p>
-              <input type="range" min="0" max="1" value="0.5" id="sliderEnforcement">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Promotions to Corner Store Owners: <span id="valuePromotionsOwners"></span></p>
-              <input type="range" min="1" max="10" value="5" id="sliderPromotionsOwners">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Promotions to Consumers: <span id="valuePromotionsConsumers"></span></p>
-              <input type="range" min="1" max="10" value="5" id="sliderPromotionsConsumers">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Minimum Stock Required: <span id="valueMinimumStock"></span></p>
-              <input type="range" min="1" max="20" value="5" id="sliderMinimumStock">
-            </div> -->
           </div>
         </div>
       </div>
@@ -262,29 +239,6 @@
           </div>
 
           <div class="panel-body" id="setDemand">
-<!--             <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
- --><!--             <div class="slidecontainer">
-              <p>Convenience of Preparation: <span id="valueConveniencePreparation"></span></p>
-              <input type="range" min="1" max="10" value="5" id="sliderConveniencePreparation">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Taste: <span id="valueTaste"></span></p>
-              <input type="range" min="1" max="10" value="5" id="sliderTaste">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Affordability: <span id="valueAffordability"></span></p>
-              <input type="range" min="1" max="10" value="5" id="sliderAffordability">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Healthiness: <span id="valueHealthiness"></span></p>
-              <input type="range" min="1" max="10" value="5" id="sliderHealthiness">
-            </div> -->
           </div>
         </div>
       </div>
@@ -296,29 +250,6 @@
           </div>
 
           <div class="panel-body" id="setSupply">
-<!--             <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
- --><!--             <div class="slidecontainer">
-              <p>Infrastructure (Storage) Capacity: <span id="valueInfrastructureCapacity"></span></p>
-              <input type="range" min="1" max="5" value="2" id="sliderInfrastructureCapacity">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Ease of Delivery: <span id="valueEaseDelivery"></span></p>
-              <input type="range" min="1" max="5" value="3" id="sliderEaseDelivery">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Unit Cost: <span id="valueUnitCost"></span></p>
-              <input type="range" min="0.01" max="10" value="1" id="sliderUnitCost">
-            </div>
-
-            <div class="slidecontainer">
-              <p>Optimal Price on hand: <span id="valueOptimalPrice"></span></p>
-              <input type="range" min="0.01" max="10" value="2" id="sliderOptimalPrice">
-            </div> -->
           </div>
         </div>
       </div>
@@ -328,7 +259,7 @@
 
 <div class="panel panel-success">
   <div class="panel-heading">
-    <h2 class="panel-title">4. Examine Results</h2>
+    <h2 class="panel-title">Results</h2>
   </div>
 
   <div class="panel-body">
@@ -381,6 +312,8 @@
     numVars: [],
     results: [],
     vars:    [],
+    plot:    [],
+    select:  [0,0],
     numTypes: 0
   };
   food.numTypes = food.names.length;
@@ -412,7 +345,27 @@
   sliders.valuesHTML = Array(sliders.numTypes);
   sliders.sliderHTML = Array(sliders.numTypes);
 
-  var indexFood = [0,0];
+function updateSelect() {
+  food.plot = [];
+  for (i=0; i<food.numTypes; i++) {
+    for (j=0; j<food.numVars[i]; j++) {
+      let foodVarNamei = food.vars[i][j];      
+      if (document.getElementById("plot" + foodVarNamei).checked) {
+        food.plot.push([i,j]);
+      }
+      if (document.getElementById("select" + foodVarNamei).checked) {
+        food.select = [i,j];
+      }
+    }
+  };
+  for (i=0; i<sliders.numTypes; i++) {
+    for (j=0; j<sliders.numVars[i]; j++) {
+      let sliderValue = sliders.currentValues[food.select[0]][food.select[1]][i][j];
+      sliders.valuesHTML[i][j].innerHTML = sliderValue;
+      sliders.sliderHTML[i][j].value = sliderValue;
+    }
+  }  
+}
 
 $(document).ready(function(){
   for (i=0; i<food.numTypes; i++) {
@@ -440,11 +393,10 @@ $(document).ready(function(){
         </div >';
     }
   }
+  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
 
   for (i=0; i<sliders.numTypes; i++) {
     let mySliders0 = document.getElementById("set" + sliders.typeNames[i]);
-    // let mySliders  = mySliders0.getElementsByTagName("div");
-    // console.log(mySliders);
     sliders.numVars[i] = sliders.vars[i].length;
     sliders.valuesHTML[i] = Array(sliders.numVars[i]);
     sliders.sliderHTML[i] = Array(sliders.numVars[i]);
@@ -455,20 +407,23 @@ $(document).ready(function(){
       slidersHTML = slidersHTML +
         '<div class="slidecontainer"> \
           <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
-          <input type="range" min="0" max="10" value="' + sliders.defaultValues[indexFood[0]][indexFood[1]][i][j] + '" id="slider' + sliderVarNamei + '"> \
+          <input type="range" min="0" max="10" value="' + sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" id="slider' + sliderVarNamei + '"> \
         </div >';
-      // console.log(mySliders[j].innerHTML);
     }
     mySliders0.innerHTML = slidersHTML;
     for (j=0; j<sliders.numVars[i]; j++) {
       sliders.valuesHTML[i][j] = document.getElementById("value"  + sliders.vars[i][j]);
       sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
-      sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[indexFood[0]][indexFood[1]][i][j];
+      sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
       sliders.sliderHTML[i][j].oninput = (function(e) {
         return function() {
-          sliders.valuesHTML[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE?
-          sliders.currentValues[indexFood[0]][indexFood[1]][e[0]][e[1]] = this.value;
-          evalSliders(indexFood);                          // indexFood is used later
+          let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
+          console.log(e + ", " + sliderValue);
+          sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i USE ONCHANGE?
+          sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
+          // sliders.valuesHTML[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE?
+          // sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = this.value;
+          evalSliders(food.select);                          // food.select is used later
           updatePlot1(food.results);
         }
       })([i,j]);                                           // (i,j) is the argument, passed to (e)
@@ -480,7 +435,6 @@ $(document).ready(function(){
     evalSliders([iFood0,iFood1]);
     console.log(food.results[iFood0][iFood1]);
   }
-  // initializeSliders(indexFood);
   updatePlot1(food.results);
 
   // See ContraceptiveDT for scrollspy options

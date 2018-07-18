@@ -1,13 +1,3 @@
-// var plotBananas,plotMilk,selectBananas,selectMilk;
-
-// function updateSelect() {
-//   plotBananas = document.getElementById("plotBananas").checked;
-//   plotMilk = document.getElementById("plotFatFreeMilk").checked;
-//   selectBananas = document.getElementById("selectBananas").checked;
-//   selectMilk = document.getElementById("selectFatFreeMilk").checked;
-//   console.log([plotBananas,plotMilk,selectBananas,selectMilk])
-// }
-
 function fReset(button) {
   // document.getElementById("checkboxHt"     ).checked = false
   console.log('Reset');
@@ -18,12 +8,6 @@ function fClose() {
   console.log('Close');
   $('.collapse').collapse("hide");
 };
-
-
-var Sliders = [], SliderValues = [];
-
-var slider  = [[],[],[]];
-var output  = [[],[],[]];
 
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
 
@@ -58,24 +42,6 @@ var Y_demand = [0];           // don't use new Array
 var Y_supply = [], Y_cust = [], Y_waste = [], M_profit = [], M_storage = [], M_supply = [], M_delivery = [], M_cust = [];
 
 // functions
-function initializeSliders(iFood) {                      // need iFood for the initial value of the sliders
-  for (i=0; i<sliders.numTypes; i++) {
-    for (j=0; j<sliders.numVars[i]; i++) {
-      // slider[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
-      // output[i][j] = document.getElementById("value"  + sliders.vars[i][j]);
-      // output[i][j].innerHTML = sliders.defaultValues[iFood[0]][iFood[1]][i][j];
-      // slider[i].oninput   = evalSliders(slider,indexFood,i);
-      // slider[i][j].oninput = (function(e) {
-      //   return function() {
-      //     output[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE
-      //     sliders.currentValues[iFood[0]][iFood[1]][e[0]][e[1]] = this.value;
-      //     evalSliders(indexFood);                          // indexFood is used later
-      //     updatePlot1(results);
-      //   }
-      // })([i,j]);                                           // (i,j) is the argument, passed to (e)
-    }
-  }
-}
 
 function evalSliders(iFood) {
   Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
@@ -122,4 +88,3 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
   }
   return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
 }
-
