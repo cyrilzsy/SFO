@@ -1,12 +1,12 @@
-var plotBananas,plotMilk,selectBananas,selectMilk;
+// var plotBananas,plotMilk,selectBananas,selectMilk;
 
-function updateSelect() {
-  plotBananas = document.getElementById("plotBananas").checked;
-  plotMilk = document.getElementById("plotFatFreeMilk").checked;
-  selectBananas = document.getElementById("selectBananas").checked;
-  selectMilk = document.getElementById("selectFatFreeMilk").checked;
-  console.log([plotBananas,plotMilk,selectBananas,selectMilk])
-}
+// function updateSelect() {
+//   plotBananas = document.getElementById("plotBananas").checked;
+//   plotMilk = document.getElementById("plotFatFreeMilk").checked;
+//   selectBananas = document.getElementById("selectBananas").checked;
+//   selectMilk = document.getElementById("selectFatFreeMilk").checked;
+//   console.log([plotBananas,plotMilk,selectBananas,selectMilk])
+// }
 
 function fReset(button) {
   // document.getElementById("checkboxHt"     ).checked = false
@@ -19,23 +19,11 @@ function fClose() {
   $('.collapse').collapse("hide");
 };
 
-var defaultSliderValues = [
-  [0.5, 5,5,5,5,5,5,5,2,3,1,2],
-  [0.6,10,5,5,5,5,5,5,2,3,1,2],
-  [0.6,10,5,5,5,5,5,5,2,3,1,2],
-  [0.6,10,5,5,5,5,5,5,2,3,1,2],
-  [0.6,10,5,5,5,5,5,5,2,3,1,2]
-  ];
-var currentSliderValues = defaultSliderValues;
-
-var sliderNames = ["Enforcement","PromotionsOwners","PromotionsConsumers","MinimumStock","ConveniencePreparation","Taste","Affordability","Healthiness","InfrastructureCapacity","EaseDelivery","UnitCost","OptimalPrice"];
 
 var Sliders = [], SliderValues = [];
 
-var slider = [];
-var output = [];
-var indexFood = 0;
-var results = [1,1];
+var slider  = [[],[],[]];
+var output  = [[],[],[]];
 
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
 
@@ -71,42 +59,44 @@ var Y_supply = [], Y_cust = [], Y_waste = [], M_profit = [], M_storage = [], M_s
 
 // functions
 function initializeSliders(iFood) {                      // need iFood for the initial value of the sliders
-  for (i=0; i < sliderNames.length; i++) {                   // initialize sliders
-    slider[i] = document.getElementById(["slider" + sliderNames[i]]);
-    output[i] = document.getElementById(["value"  + sliderNames[i]]);
-    output[i].innerHTML = defaultSliderValues[iFood][i];
-    // slider[i].oninput   = evalSliders(slider,indexFood,i);
-    slider[i].oninput = (function(e) {
-      return function() {
-        output[e].innerHTML = this.value;                // e is set to i
-        currentSliderValues[iFood][e] = this.value;
-        evalSliders(indexFood);                          // indexFood is used later
-        updatePlot1(results);
-      }
-    })(i);                                               // (i) is the argument, passed to (e)
+  for (i=0; i<sliders.numTypes; i++) {
+    for (j=0; j<sliders.numVars[i]; i++) {
+      // slider[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
+      // output[i][j] = document.getElementById("value"  + sliders.vars[i][j]);
+      // output[i][j].innerHTML = sliders.defaultValues[iFood[0]][iFood[1]][i][j];
+      // slider[i].oninput   = evalSliders(slider,indexFood,i);
+      // slider[i][j].oninput = (function(e) {
+      //   return function() {
+      //     output[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE
+      //     sliders.currentValues[iFood[0]][iFood[1]][e[0]][e[1]] = this.value;
+      //     evalSliders(indexFood);                          // indexFood is used later
+      //     updatePlot1(results);
+      //   }
+      // })([i,j]);                                           // (i,j) is the argument, passed to (e)
+    }
   }
 }
 
 function evalSliders(iFood) {
-  Enforcement   = currentSliderValues[iFood][0];
-  Training      = currentSliderValues[iFood][1];
-  Signage       = currentSliderValues[iFood][2];
-  S_required    = currentSliderValues[iFood][3];
-  Convenience   = currentSliderValues[iFood][4];
-  Taste         = currentSliderValues[iFood][5];
-  Affordability = currentSliderValues[iFood][6];
-  Healthiness   = currentSliderValues[iFood][7];
-  S_infra       = currentSliderValues[iFood][8];
-  X_delivery    = currentSliderValues[iFood][9];
-  C_store       = currentSliderValues[iFood][10];
-  C_cust        = currentSliderValues[iFood][11];
+  Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
+  Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
+  Signage       = sliders.currentValues[iFood[0]][iFood[1]][0][2];
+  S_required    = sliders.currentValues[iFood[0]][iFood[1]][0][3];
+  Convenience   = sliders.currentValues[iFood[0]][iFood[1]][1][0];
+  Taste         = sliders.currentValues[iFood[0]][iFood[1]][1][1];
+  Affordability = sliders.currentValues[iFood[0]][iFood[1]][1][2];
+  Healthiness   = sliders.currentValues[iFood[0]][iFood[1]][1][3];
+  S_infra       = sliders.currentValues[iFood[0]][iFood[1]][2][0];
+  X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
+  C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];
+  C_cust        = sliders.currentValues[iFood[0]][iFood[1]][2][3];
   var timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
-  results[iFood] = timeResult[0][t_max-1];
+  food.results[iFood[0]][iFood[1]] = timeResult[0][t_max-1];
 }
 
-function updatePlot1(values) {
-  yValue[0] = values[0];
-  yValue[1] = values[1];
+function updatePlot1(results) {
+  yValue[0] = results[0][0];
+  yValue[1] = results[0][1];
   Plotly.newPlot('plot1', data, layout);
 }
 
@@ -128,39 +118,8 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
     M_delivery[i] = C_delivery*Y_supply[i];
     M_cust[i] = C_cust*Y_cust[i];
     M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
-    Y_cust[i] = Enforcement;
+    Y_cust[i] = Training;
   }
   return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
 }
 
-$(document).ready(function(){
-  for (iFood=0; iFood<2; iFood++) {
-    evalSliders(iFood);
-  }
-  initializeSliders(indexFood);
-  updatePlot1(results);
-
-  // See ContraceptiveDT for scrollspy options
-
-  // Add smooth scrolling on all links inside the navbar
-  $("#myNavbar a").on('click', function(event) {
-    // Make sure this.hash has a value before overriding default behavior
-    if (this.hash !== "") {
-      // Prevent default anchor click behavior
-      event.preventDefault();
-
-      // Store hash
-      var hash = this.hash;
-
-      // Using jQuery's animate() method to add smooth page scroll
-      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-      $('html, body').animate({
-        scrollTop: $(hash).offset().top
-      }, 300, function(){
-   
-        // Add hash (#) to URL when done scrolling (default click behavior)
-        window.location.hash = hash;
-      });
-    }
-  });
-});
