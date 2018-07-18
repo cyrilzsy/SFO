@@ -39,7 +39,7 @@
     .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
         display: none;   
     }
-    tr, td, tbody, span, label, div {
+    span, label, div {
       margin-top: 0;
       margin-bottom: 0;
       margin-right: 0;
@@ -47,14 +47,15 @@
       padding: 0;
       border-collapse: collapse;
     }
-    table {
+    table, tr, td, th, tbody {
       margin-top: 0;
       margin-bottom: 0;
       margin-right: 0;
       margin-bottom: 0;
-      padding: 0;
+      padding: 5px;
       border-spacing: 0px;
       border-collapse: collapse;
+      /*border: 1px solid black;*/
     }
     body {
       position: relative;
@@ -201,11 +202,11 @@
 
 <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-expand-sm">
   <div class="container-fluid" id="accordion">
-    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content" aria-controls="nav-content"   aria-expanded="false" aria-label="Toggle-navigation" id="Choices_button"><b>Choices</b></button>
+    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content" aria-controls="nav-content"   aria-expanded="false" aria-label="Toggle-navigation" id="Choices_button"><b>Staple Food Selection</b></button>
 
-    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content-1" aria-controls="nav-content-1" aria-expanded="false" aria-label="Toggle-navigation" id="Patient_button"><b>Patient</b></button>
+    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content-1" aria-controls="nav-content-1" aria-expanded="false" aria-label="Toggle-navigation" id="Patient_button"><b>Options [for future use]</b></button>
     <button class="navbar-btn" onclick="fReset(this)">
-      <span class="glyphicon glyphicon-refresh"></span><b> Reset</b>
+      <span class="glyphicon glyphicon-refresh"></span><b>Reset</b>
     </button>
 
     <button type="button" class="close" onclick="fClose()">
@@ -214,40 +215,85 @@
 
     <div class="panel">
       <div class="collapse" id="nav-content">
-      <table class="table-condensed">
+      <form>
+      <table style="width: 100%">
+        <colgroup>
+          <col style="background-color: beige">
+          <col style="background-color: white">
+          <col style="background-color: beige">
+          <col style="background-color: white">
+          <col style="background-color: beige">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Fruits & Vegetables</th>
+            <th>Drinks</th>
+            <th>Protein</th>
+            <th>Bread</th>
+            <th>Beans</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
-            <td>
-              <div class="[ form-group ]">
-                <input type="checkbox" id="checkboxBananas" autocomplete="off" onchange="updateSelect()"/>
-                <div class="[ btn-group ]">
-                  <label for="checkboxBananas" class="[ btn btn-info ]">
-                    <span class="[ glyphicon glyphicon-ok ]"></span>
-                    <span> </span>
-                  </label>
-                  <label for="checkboxBananas" class="[ btn btn-default active ]">
-                    Bananas
-                  </label>
-                </div>
+            <td><div class="form-group">
+              <input type="checkbox" id="plotBananas" autocomplete="off" onchange="updateSelect()"/>
+              <div class="btn-group">
+                <label for="plotBananas" class="btn btn-info"><span class="glyphicon glyphicon-ok"></span><span> </span></label>
+                <label for="plotBananas" class="btn btn-default active">Bananas</label>
               </div>
-            </td>
-            <td>
-              <div class="[ form-group ]">
-                <input type="checkbox" id="checkboxMilk" autocomplete="off" onchange="updateSelect()"/>
-                <div class="[ btn-group ]">
-                  <label for="checkboxMilk" class="[ btn btn-info ]">
-                    <span class="[ glyphicon glyphicon-ok ]"></span>
-                    <span> </span>
-                  </label>
-                  <label for="checkboxMilk" class="[ btn btn-default active ]">
-                    Milk
-                  </label>
-                </div>
+              <input type="radio" id="selectBananas" name="choose"  onchange="updateSelect()" checked="checked">
+            </div></td>
+
+            <td><div class="form-group">
+              <input type="checkbox" id="plotFatFreeMilk" autocomplete="off" onchange="updateSelect()"/>
+              <div class="btn-group">
+                <label for="plotFatFreeMilk" class="btn btn-info"><span class="glyphicon glyphicon-ok"></span><span> </span></label>
+                <label for="plotFatFreeMilk" class="btn btn-default active">Fat Free Milk</label>
               </div>
-            </td>
+              <input type="radio" id="selectFatFreeMilk" name="choose"  onchange="updateSelect()" >
+            </div ></td>
+
+            <td></td>
+
+            <td><div class="form-group">
+              <input type="checkbox" id="plotWholeWheatBread" autocomplete="off" onchange="updateSelect()"/>
+              <div class="btn-group">
+                <label for="plotWholeWheatBread" class="btn btn-info"><span class="glyphicon glyphicon-ok"></span><span> </span></label>
+                <label for="plotWholeWheatBread" class="btn btn-default active">Whole Wheat Bread</label>
+              </div>
+              <input type="radio" id="selectWholeWheatBread" name="choose"  onchange="updateSelect()" >
+            </div ></td>
+
+            <td><div class="form-group">
+              <input type="checkbox" id="plotLowSodiumCannedBeans" autocomplete="off" onchange="updateSelect()"/>
+              <div class="btn-group">
+                <label for="plotLowSodiumCannedBeans" class="btn btn-info"><span class="glyphicon glyphicon-ok"></span><span> </span></label>
+                <label for="plotLowSodiumCannedBeans" class="btn btn-default active">Low-Sodium Canned Beans</label>
+              </div>
+              <input type="radio" id="selectLowSodiumCannedBeans" name="choose"  onchange="updateSelect()" >
+            </div ></td>
+          </tr>
+          <tr>
+            <td><div class="form-group">
+              <input type="checkbox" id="plotFrozenVegetables" autocomplete="off" onchange="updateSelect()"/>
+              <div class="btn-group">
+                <label for="plotFrozenVegetables" class="btn btn-info"><span class="glyphicon glyphicon-ok"></span><span> </span></label>
+                <label for="plotFrozenVegetables" class="btn btn-default active">Frozen Vegetables</label>
+              </div>
+              <input type="radio" id="selectFrozenVegetables" name="choose"  onchange="updateSelect()" >
+            </div ></td>
+
+            <td></td>
+
+            <td></td>
+
+            <td></td>
+
+            <td></td>
           </tr>
         </tbody>
       </table>
+      </form>
       </div>
     </div>
 
@@ -255,20 +301,14 @@
       <div class="collapse" id="nav-content-1">
       <form>
         <label class="radio-inline">
-          <input type="radio" id="sliderOranges"         name="choose"  onchange="updateSelect()" checked="checked">Oranges
-        </label>
-        <label class="radio-inline">
-          <input type="radio" id="sliderPears"           name="choose"  onchange="updateSelect()" >Pears
-        </label>
-        <label class="radio-inline">
-          <input type="radio" id="SmokingYN"       name="choose"  onchange="updateSelect()" >Smoking
+          <input type="radio" id="SmokingYN"       name="choose"  onchange="updateSelect()" >Option A
         </label>
         <br />
         <label class="radio-inline">
-          <input type="radio" id="HyptertensionYN" name="choose"  onchange="updateSelect()" >Hyptertension
+          <input type="radio" id="HyptertensionYN" name="choose"  onchange="updateSelect()" >Option B
         </label>
         <label class="radio-inline">
-          <input type="radio" id="ObeseYN"         name="choose"  onchange="updateSelect()" >Obesity
+          <input type="radio" id="ObeseYN"         name="choose"  onchange="updateSelect()" >Option C
         </label>
         <br />
       </form>
@@ -276,84 +316,6 @@
     </div>
   </div>
 </nav>
-
-<!-- <div class="panel panel-success">
-  <div class="panel-heading">
-    <h2 class="panel-title">2. Choose A Food</h2>
-  </div>
-
-  <div class="panel-body">
-    <div class="btn-toolbar" role="toolbar">
-      <div class="dropdown">
-        <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-          <span class="	glyphicon glyphicon-th-list"></span>
-          Fruits & Vegetables
-        </button>
-		    <ul class="dropdown-menu">
-			    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Banana</a></li>
-          <li>
-            <div class="[ form-group ]">
-              <input type="checkbox" id="checkboxFrozenVegetables"  onchange="updateSelect()" autocomplete="off" checked = "True"/>
-              <div class="btn-group btn-group-xs">
-                <label for="checkboxFrozenVegetables" class="[ btn btn-info ]">
-                  <span class="[ glyphicon glyphicon-ok ]"></span>
-                  <span> </span>                                                 
-                </label>
-                <label for="checkboxFrozenVegetables" class="[ btn btn-default active ]">
-                  Frozen Vegetables
-                </label>
-              </div>
-            </div>
-          </li>
-		    </ul>
-      </div>
-
-      <div class="dropdown">
-        <button type="button" class="btn dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown">
-          <span class="	glyphicon glyphicon-th-list"></span>
-          Drinks
-        </button>
-		    <ul class="dropdown-menu">
-			    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Fat Free Milk</a></li>
-		    </ul>
-      </div>
-
-      <div class="dropdown">
-        <button type="button" class="btn dropdown-toggle" id="dropdownMenu3" data-toggle="dropdown">
-          <span class="	glyphicon glyphicon-th-list"></span>
-            Protein
-        </button>
-		    <ul class="dropdown-menu">
-			    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Banana</a></li>
-			    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>100% Whole Wheat Bread</a></li>
-			    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Fat Free Milk</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Frozen Vegetables</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Low-Sodium Canned Beans</a></li>
-		    </ul>
-      </div>
-
-      <div class="dropdown">
-        <button type="button" class="btn dropdown-toggle" id="dropdownMenu4" data-toggle="dropdown">
-          <span class="	glyphicon glyphicon-th-list"></span>
-          Bread
-        </button>
-		    <ul class="dropdown-menu">
-			    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>100% Whole Wheat Bread</a></li>
-		    </ul>
-      </div>
-
-      <div class="dropdown">
-        <button type="button" class="btn dropdown-toggle" id="dropdownMenu5" data-toggle="dropdown">
-          <span class="	glyphicon glyphicon-th-list"></span>
-          Beans
-        </button>
-		    <ul class="dropdown-menu">
-          <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Low-Sodium Canned Beans</a></li>
-		    </ul>
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div class="panel panel-success">
   <div class="panel-heading">
@@ -369,23 +331,23 @@
 
           <div class="panel-body">
             <div class="slidecontainer">
-              <p>Level of Enforcement: <span id="SliderValue1"></span></p>
-              <input type="range" min="0" max="1" value="0.5" id="Slider1">
+              <p>Level of Enforcement: <span id="valueEnforcement"></span></p>
+              <input type="range" min="0" max="1" value="0.5" id="sliderEnforcement">
             </div>
 
             <div class="slidecontainer">
-              <p>Promotions to Corner Store Owners: <span id="SliderValue2"></span></p>
-              <input type="range" min="1" max="10" value="5" id="Slider2">
+              <p>Promotions to Corner Store Owners: <span id="valuePromotionsOwners"></span></p>
+              <input type="range" min="1" max="10" value="5" id="sliderPromotionsOwners">
             </div>
 
             <div class="slidecontainer">
-              <p>Promotions to Consumers: <span id="SliderValue3"></span></p>
-              <input type="range" min="1" max="10" value="5" id="Slider3">
+              <p>Promotions to Consumers: <span id="valuePromotionsConsumers"></span></p>
+              <input type="range" min="1" max="10" value="5" id="sliderPromotionsConsumers">
             </div>
 
             <div class="slidecontainer">
-              <p>Minimum Stock Required: <span id="SliderValue4"></span></p>
-              <input type="range" min="1" max="20" value="5" id="Slider4">
+              <p>Minimum Stock Required: <span id="valueMinimumStock"></span></p>
+              <input type="range" min="1" max="20" value="5" id="sliderMinimumStock">
             </div>
           </div>
         </div>
@@ -399,28 +361,27 @@
 
           <div class="panel-body">
             <div class="slidecontainer">
-              <p>Convenience of Preparation: <span id="SliderValue5"></span></p>
-              <input type="range" min="1" max="10" value="5" id="Slider5">
+              <p>Convenience of Preparation: <span id="valueConveniencePreparation"></span></p>
+              <input type="range" min="1" max="10" value="5" id="sliderConveniencePreparation">
             </div>
 
             <div class="slidecontainer">
-              <p>Taste: <span id="SliderValue6"></span></p>
-              <input type="range" min="1" max="10" value="5" id="Slider6">
+              <p>Taste: <span id="valueTaste"></span></p>
+              <input type="range" min="1" max="10" value="5" id="sliderTaste">
             </div>
 
             <div class="slidecontainer">
-              <p>Affordability: <span id="SliderValue7"></span></p>
-              <input type="range" min="1" max="10" value="5" id="Slider7">
+              <p>Affordability: <span id="valueAffordability"></span></p>
+              <input type="range" min="1" max="10" value="5" id="sliderAffordability">
             </div>
 
             <div class="slidecontainer">
-              <p>Healthiness: <span id="SliderValue8"></span></p>
-              <input type="range" min="1" max="10" value="5" id="Slider8">
+              <p>Healthiness: <span id="valueHealthiness"></span></p>
+              <input type="range" min="1" max="10" value="5" id="sliderHealthiness">
             </div>
           </div>
         </div>
       </div>
-
 
       <div class="col-sm-4">
         <div class="panel panel-info">
@@ -430,23 +391,23 @@
 
           <div class="panel-body">
             <div class="slidecontainer">
-              <p>Infrastructure (Storage) Capacity: <span id="SliderValue9"></span></p>
-              <input type="range" min="1" max="5" value="2" id="Slider9">
+              <p>Infrastructure (Storage) Capacity: <span id="valueInfrastructureCapacity"></span></p>
+              <input type="range" min="1" max="5" value="2" id="sliderInfrastructureCapacity">
             </div>
 
             <div class="slidecontainer">
-              <p>Ease of Delivery: <span id="SliderValue10"></span></p>
-              <input type="range" min="1" max="5" value="3" id="Slider10">
+              <p>Ease of Delivery: <span id="valueEaseDelivery"></span></p>
+              <input type="range" min="1" max="5" value="3" id="sliderEaseDelivery">
             </div>
 
             <div class="slidecontainer">
-              <p>Unit Cost: <span id="SliderValue11"></span></p>
-              <input type="range" min="0.01" max="10" value="1" id="Slider11">
+              <p>Unit Cost: <span id="valueUnitCost"></span></p>
+              <input type="range" min="0.01" max="10" value="1" id="sliderUnitCost">
             </div>
 
             <div class="slidecontainer">
-              <p>Optimal Price on hand: <span id="SliderValue12"></span></p>
-              <input type="range" min="0.01" max="10" value="2" id="Slider12">
+              <p>Optimal Price on hand: <span id="valueOptimalPrice"></span></p>
+              <input type="range" min="0.01" max="10" value="2" id="sliderOptimalPrice">
             </div>
           </div>
         </div>
@@ -499,14 +460,14 @@
 
 <script>
 
-var plotBananas,plotMilk,sliderOranges,sliderPears;
+var plotBananas,plotMilk,selectBananas,selectMilk;
 
 function updateSelect() {
-  plotBananas = document.getElementById("checkboxBananas").checked;
-  plotMilk = document.getElementById("checkboxMilk").checked;
-  sliderOranges = document.getElementById("sliderOranges").checked;
-  sliderPears = document.getElementById("sliderPears").checked;
-  console.log([plotBananas,plotMilk,sliderOranges,sliderPears])
+  plotBananas = document.getElementById("plotBananas").checked;
+  plotMilk = document.getElementById("plotFatFreeMilk").checked;
+  selectBananas = document.getElementById("selectBananas").checked;
+  selectMilk = document.getElementById("selectFatFreeMilk").checked;
+  console.log([plotBananas,plotMilk,selectBananas,selectMilk])
 }
 
 function fReset(button) {
@@ -520,11 +481,18 @@ function fClose() {
   $('.collapse').collapse("hide");
 };
 
-var defaultSliderValues = [[0.5,5,5,5,5,5,5,5,2,3,1,2],[0.5,10,5,5,5,5,5,5,2,3,1,2]];
+var defaultSliderValues = [
+  [0.5, 5,5,5,5,5,5,5,2,3,1,2],
+  [0.6,10,5,5,5,5,5,5,2,3,1,2],
+  [0.6,10,5,5,5,5,5,5,2,3,1,2],
+  [0.6,10,5,5,5,5,5,5,2,3,1,2],
+  [0.6,10,5,5,5,5,5,5,2,3,1,2]
+  ];
 var currentSliderValues = defaultSliderValues;
 
-var Sliders = ["Slider1","Slider2","Slider3","Slider4","Slider5","Slider6","Slider7","Slider8","Slider9","Slider10","Slider11","Slider12"];
-var SliderValues = ["SliderValue1","SliderValue2","SliderValue3","SliderValue4","SliderValue5","SliderValue6","SliderValue7","SliderValue8","SliderValue9","SliderValue10","SliderValue11","SliderValue12"];
+var sliderNames = ["Enforcement","PromotionsOwners","PromotionsConsumers","MinimumStock","ConveniencePreparation","Taste","Affordability","Healthiness","InfrastructureCapacity","EaseDelivery","UnitCost","OptimalPrice"];
+
+var Sliders = [], SliderValues = [];
 
 var slider = [];
 var output = [];
@@ -561,20 +529,13 @@ var layout = {
 var t_max = 30;
 var S_actual = [1];           // need to initialize these for the ODE solver, runTime
 var Y_demand = [0];           // don't use new Array
-var Y_supply = [];
-var Y_cust = [];
-var Y_waste = [];
-var M_profit = [];
-var M_storage = [];
-var M_supply = [];
-var M_delivery = [];
-var M_cust = [];
+var Y_supply = [], Y_cust = [], Y_waste = [], M_profit = [], M_storage = [], M_supply = [], M_delivery = [], M_cust = [];
 
 // functions
 function initializeSliders(iFood) {                      // need iFood for the initial value of the sliders
-  for (i=0; i < Sliders.length; i++) {                   // initialize sliders
-    slider[i] = document.getElementById(Sliders[i]);
-    output[i] = document.getElementById(SliderValues[i]);
+  for (i=0; i < sliderNames.length; i++) {                   // initialize sliders
+    slider[i] = document.getElementById(["slider" + sliderNames[i]]);
+    output[i] = document.getElementById(["value"  + sliderNames[i]]);
     output[i].innerHTML = defaultSliderValues[iFood][i];
     // slider[i].oninput   = evalSliders(slider,indexFood,i);
     slider[i].oninput = (function(e) {
@@ -634,12 +595,6 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
   return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
 }
 
-// // Accordion default to close
-// $( document ).ready(function() {
-//   $('.collapse').collapse("hide");
-// });
-
-// Add smooth scrolling on all links inside the navbar
 $(document).ready(function(){
   for (iFood=0; iFood<2; iFood++) {
     evalSliders(iFood);
@@ -647,8 +602,7 @@ $(document).ready(function(){
   initializeSliders(indexFood);
   updatePlot1(results);
 
-  // Add scrollspy to <body>
-  // $('body').scrollspy({target: ".navbar", offset: 50});   
+  // See ContraceptiveDT for scrollspy options
 
   // Add smooth scrolling on all links inside the navbar
   $("#myNavbar a").on('click', function(event) {
@@ -669,7 +623,7 @@ $(document).ready(function(){
         // Add hash (#) to URL when done scrolling (default click behavior)
         window.location.hash = hash;
       });
-    }  // End if
+    }
   });
 });
 
