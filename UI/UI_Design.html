@@ -6,13 +6,10 @@
   <title>Staple Food Ordinance</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <!-- <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script> -->
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
   <style>
@@ -78,28 +75,28 @@
 
 <body data-spy="scroll" data-target="#myNavbar" data-offset="50">
 
-<div class="navbar navbar-default" style="background-color: #32383e;width: auto; height: auto">
-    <h1 style="color: white">Staple Food Ordinance Model</h1>
-
-    <div class="btn-toolbar" role="toolbar">
-      <a href="" id="button2" class="btn" style="font-size:150%; color: white">
-        <span class="glyphicon glyphicon-refresh"></span> Reset
-      </a>
-    </div>
-
-    <li class="dropdown" id="menuDropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" style="font-size:150%; color: white">
+<!-- <div class="navbar navbar-default" style="background-color: #32383e;width: auto; height: auto"> -->
+<nav class="navbar navbar-expand navbar-inverse" id="myNavbar">
+  <ul class="nav nav-pills">
+    <li class="dropdown" id="menuDropdown" style="display: inline">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" style="font-size:125%; color: white">
         <span class="glyphicon glyphicon-menu-hamburger" id="hamburger_menu"></span>
       </a>
       <ul class="dropdown-menu">
-        <li><a style="font-size:125%" href="#helpModal" data-toggle="modal" id="helpMenu">Help</a></li>
+        <li><a style="font-size:100%" href="#helpModal" data-toggle="modal" id="helpMenu">Help</a></li>
         <li class="divider"></li>
-        <li><a style="font-size:125%" href="#infoModal" data-toggle="modal">Info</a></li>
-        <li><a style="font-size:125%" href="#acknModal" data-toggle="modal">Acknowledgements</a></li>
+        <li><a style="font-size:100%" href="#infoModal" data-toggle="modal">Info</a></li>
+        <li><a style="font-size:100%" href="#acknModal" data-toggle="modal">Acknowledgements</a></li>
         <!-- See index.html in ContraceptiveDT for an example of a hopscotch tour -->
       </ul>
     </li>
-</div>
+
+    <li>
+      <span style="color: white; font-size:200%">Staple Food Ordinance Model</span>
+    </li>
+  </ul>
+</nav>
+<!-- </div> -->
 
 <!-- Modal -->
 <div id="infoModal" class="modal fade" role="dialog">
@@ -107,8 +104,8 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Staple Food Ordinance Model</h3>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Staple Food Ordinance Model</h3>
       </div>
       <div class="modal-body">
         <h4>Scientific authors and contributors:</h4>
@@ -138,8 +135,8 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Staple Food Ordinance Model</h3>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Staple Food Ordinance Model</h3>
       </div>
       <div class="modal-body">
         <h4>Acknowledgements</h4>
@@ -149,6 +146,7 @@
         <h5>Suggested citation format</h5>
         <p>
           Gittelsohn, J, Poirier, L, Zhao, S and Igusa, T (2018). Staple Food Ordinance Model (Alpha Version 1.0). Johns Hopkins University, Baltimore, MD. [Mobile application software.] Available from: https://engineering.jhu.edu/tak/SFO
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -162,8 +160,8 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Staple Food Ordinance Model: Help</h3>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Staple Food Ordinance Model: Help</h3>
       </div>
       <div class="modal-body">
         <div class="panel-group">
@@ -201,14 +199,21 @@
   </div>
 </div>
 
+<nav class="navbar navbar-inverse navbar-fixed-bottom navbar-expand-sm">
   <div class="container-fluid" id="accordion">
-    <button class="navbar-btn" onclick="fReset(this)">Reset</button>
+    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content" aria-controls="nav-content"   aria-expanded="false" aria-label="Toggle-navigation" id="Choices_button"><b>Choices</b></button>
+
+    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content-1" aria-controls="nav-content-1" aria-expanded="false" aria-label="Toggle-navigation" id="Patient_button"><b>Patient</b></button>
+    <button class="navbar-btn" onclick="fReset(this)">
+      <span class="glyphicon glyphicon-refresh"></span><b> Reset</b>
+    </button>
 
     <button type="button" class="close" onclick="fClose()">
       <span style="color: #fff!important; opacity: 1!important;">&times;</span>
     </button>
 
     <div class="panel">
+      <div class="collapse" id="nav-content">
       <table class="table-condensed">
         <tbody>
           <tr>
@@ -243,9 +248,11 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
 
     <div class="panel">
+      <div class="collapse" id="nav-content-1">
       <form>
         <label class="radio-inline">
           <input type="radio" id="sliderOranges"         name="choose"  onchange="updateSelect()" checked="checked">Oranges
@@ -265,7 +272,10 @@
         </label>
         <br />
       </form>
+      </div>
+    </div>
   </div>
+</nav>
 
 <!-- <div class="panel panel-success">
   <div class="panel-heading">
