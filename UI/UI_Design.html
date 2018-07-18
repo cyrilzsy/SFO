@@ -24,18 +24,67 @@
     .slidecontainer {
       width: 100%;
     }
+    .form-group input[type="checkbox"] {
+    display: none;
+    }
+    .form-group input[type="checkbox"] + .btn-group > label span {
+        width: 20px;
+    }
+    .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+        display: none;
+    }
+    .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+        display: inline-block;   
+    }
+    .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+        display: inline-block;
+    }
+    .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+        display: none;   
+    }
+    tr, td, tbody, span, label, div {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-right: 0;
+      margin-bottom: 0;
+      padding: 0;
+      border-collapse: collapse;
+    }
+    table {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-right: 0;
+      margin-bottom: 0;
+      padding: 0;
+      border-spacing: 0px;
+      border-collapse: collapse;
+    }
+    body {
+      position: relative;
+    }
+    .panel-group, .panel {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      border: none;
+    }
+    .navbar, .collapse, .navbar-collapse {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
   </style>
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#myNavbar" data-offset="50">
 
 <div class="navbar navbar-default" style="background-color: #32383e;width: auto; height: auto">
     <h1 style="color: white">Staple Food Ordinance Model</h1>
 
     <div class="btn-toolbar" role="toolbar">
-      <button id="button2" type="button" class="btn">
+      <a href="" id="button2" class="btn" style="font-size:150%; color: white">
         <span class="glyphicon glyphicon-refresh"></span> Reset
-      </button>
+      </a>
     </div>
 
     <li class="dropdown" id="menuDropdown">
@@ -152,7 +201,73 @@
   </div>
 </div>
 
-<div class="panel panel-success">
+  <div class="container-fluid" id="accordion">
+    <button class="navbar-btn" onclick="fReset(this)">Reset</button>
+
+    <button type="button" class="close" onclick="fClose()">
+      <span style="color: #fff!important; opacity: 1!important;">&times;</span>
+    </button>
+
+    <div class="panel">
+      <table class="table-condensed">
+        <tbody>
+          <tr>
+            <td>
+              <div class="[ form-group ]">
+                <input type="checkbox" id="checkboxBananas" autocomplete="off" onchange="updateSelect()"/>
+                <div class="[ btn-group ]">
+                  <label for="checkboxBananas" class="[ btn btn-info ]">
+                    <span class="[ glyphicon glyphicon-ok ]"></span>
+                    <span> </span>
+                  </label>
+                  <label for="checkboxBananas" class="[ btn btn-default active ]">
+                    Bananas
+                  </label>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="[ form-group ]">
+                <input type="checkbox" id="checkboxMilk" autocomplete="off" onchange="updateSelect()"/>
+                <div class="[ btn-group ]">
+                  <label for="checkboxMilk" class="[ btn btn-info ]">
+                    <span class="[ glyphicon glyphicon-ok ]"></span>
+                    <span> </span>
+                  </label>
+                  <label for="checkboxMilk" class="[ btn btn-default active ]">
+                    Milk
+                  </label>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <form>
+        <label class="radio-inline">
+          <input type="radio" id="sliderOranges"         name="choose"  onchange="updateSelect()" checked="checked">Oranges
+        </label>
+        <label class="radio-inline">
+          <input type="radio" id="sliderPears"           name="choose"  onchange="updateSelect()" >Pears
+        </label>
+        <label class="radio-inline">
+          <input type="radio" id="SmokingYN"       name="choose"  onchange="updateSelect()" >Smoking
+        </label>
+        <br />
+        <label class="radio-inline">
+          <input type="radio" id="HyptertensionYN" name="choose"  onchange="updateSelect()" >Hyptertension
+        </label>
+        <label class="radio-inline">
+          <input type="radio" id="ObeseYN"         name="choose"  onchange="updateSelect()" >Obesity
+        </label>
+        <br />
+      </form>
+  </div>
+
+<!-- <div class="panel panel-success">
   <div class="panel-heading">
     <h2 class="panel-title">2. Choose A Food</h2>
   </div>
@@ -166,7 +281,20 @@
         </button>
 		    <ul class="dropdown-menu">
 			    <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Banana</a></li>
-          <li><a href=""><span class="glyphicon glyphicon-leaf"></span>Frozen Vegetables</a></li>
+          <li>
+            <div class="[ form-group ]">
+              <input type="checkbox" id="checkboxFrozenVegetables"  onchange="updateSelect()" autocomplete="off" checked = "True"/>
+              <div class="btn-group btn-group-xs">
+                <label for="checkboxFrozenVegetables" class="[ btn btn-info ]">
+                  <span class="[ glyphicon glyphicon-ok ]"></span>
+                  <span> </span>                                                 
+                </label>
+                <label for="checkboxFrozenVegetables" class="[ btn btn-default active ]">
+                  Frozen Vegetables
+                </label>
+              </div>
+            </div>
+          </li>
 		    </ul>
       </div>
 
@@ -215,7 +343,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <div class="panel panel-success">
   <div class="panel-heading">
@@ -360,38 +488,40 @@
 </div>
 
 <script>
+
+var plotBananas,plotMilk,sliderOranges,sliderPears;
+
+function updateSelect() {
+  plotBananas = document.getElementById("checkboxBananas").checked;
+  plotMilk = document.getElementById("checkboxMilk").checked;
+  sliderOranges = document.getElementById("sliderOranges").checked;
+  sliderPears = document.getElementById("sliderPears").checked;
+  console.log([plotBananas,plotMilk,sliderOranges,sliderPears])
+}
+
+function fReset(button) {
+  // document.getElementById("checkboxHt"     ).checked = false
+  console.log('Reset');
+  updateSelect();
+}
+
+function fClose() {
+  console.log('Close');
+  $('.collapse').collapse("hide");
+};
+
+var defaultSliderValues = [[0.5,5,5,5,5,5,5,5,2,3,1,2],[0.5,10,5,5,5,5,5,5,2,3,1,2]];
+var currentSliderValues = defaultSliderValues;
+
 var Sliders = ["Slider1","Slider2","Slider3","Slider4","Slider5","Slider6","Slider7","Slider8","Slider9","Slider10","Slider11","Slider12"];
 var SliderValues = ["SliderValue1","SliderValue2","SliderValue3","SliderValue4","SliderValue5","SliderValue6","SliderValue7","SliderValue8","SliderValue9","SliderValue10","SliderValue11","SliderValue12"];
+
 var slider = [];
 var output = [];
+var indexFood = 0;
+var results = [1,1];
 
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
-
-for (i=0; i < Sliders.length; i++) {                   // initialize sliders
-  slider[i] = document.getElementById(Sliders[i]);
-  output[i] = document.getElementById(SliderValues[i]);
-  output[i].innerHTML = slider[i].value;
-  slider[i].oninput = (function(e) {
-    return function() {
-      output[e].innerHTML = this.value;                // e is set to i
-      Enforcement = slider[0].value;
-      Training = slider[1].value;
-      Signage = slider[2].value;
-      Convenience = slider[4].value;
-      Taste = slider[5].value;
-      Affordability = slider[6].value;
-      Healthiness = slider[7].value;
-      S_infra = slider[8].value;
-      S_required = slider[3].value;
-      X_delivery = slider[9].value;
-      C_store = slider[10].value;
-      C_cust = slider[11].value;
-      var timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
-//    console.log(timeResult);
-      updatePlot1(timeResult[1][t_max-1]);
-    }
-  })(i);                                                  // (i) is the argument, passed to (e)
-}
 
 // Variables for plots
 var xValue = ['Product A', 'Product B', 'Product C'];
@@ -417,12 +547,6 @@ var layout = {
   title: 'January 2013 Sales Report'
 };
 
-function updatePlot1(values) {
-  yValue[0] = values;
-  yValue[1] = 10;
-  Plotly.newPlot('plot1', data, layout);
-}
-
 // Variables for ODE
 var t_max = 30;
 var S_actual = [1];           // need to initialize these for the ODE solver, runTime
@@ -435,6 +559,47 @@ var M_storage = [];
 var M_supply = [];
 var M_delivery = [];
 var M_cust = [];
+
+// functions
+function initializeSliders(iFood) {                      // need iFood for the initial value of the sliders
+  for (i=0; i < Sliders.length; i++) {                   // initialize sliders
+    slider[i] = document.getElementById(Sliders[i]);
+    output[i] = document.getElementById(SliderValues[i]);
+    output[i].innerHTML = defaultSliderValues[iFood][i];
+    // slider[i].oninput   = evalSliders(slider,indexFood,i);
+    slider[i].oninput = (function(e) {
+      return function() {
+        output[e].innerHTML = this.value;                // e is set to i
+        currentSliderValues[iFood][e] = this.value;
+        evalSliders(indexFood);                          // indexFood is used later
+        updatePlot1(results);
+      }
+    })(i);                                               // (i) is the argument, passed to (e)
+  }
+}
+
+function evalSliders(iFood) {
+  Enforcement   = currentSliderValues[iFood][0];
+  Training      = currentSliderValues[iFood][1];
+  Signage       = currentSliderValues[iFood][2];
+  S_required    = currentSliderValues[iFood][3];
+  Convenience   = currentSliderValues[iFood][4];
+  Taste         = currentSliderValues[iFood][5];
+  Affordability = currentSliderValues[iFood][6];
+  Healthiness   = currentSliderValues[iFood][7];
+  S_infra       = currentSliderValues[iFood][8];
+  X_delivery    = currentSliderValues[iFood][9];
+  C_store       = currentSliderValues[iFood][10];
+  C_cust        = currentSliderValues[iFood][11];
+  var timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
+  results[iFood] = timeResult[0][t_max-1];
+}
+
+function updatePlot1(values) {
+  yValue[0] = values[0];
+  yValue[1] = values[1];
+  Plotly.newPlot('plot1', data, layout);
+}
 
 // ODE solver for finding Y, S, M
 function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust) {
@@ -454,11 +619,49 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
     M_delivery[i] = C_delivery*Y_supply[i];
     M_cust[i] = C_cust*Y_cust[i];
     M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
+    Y_cust[i] = Enforcement;
   }
   return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
 }
 
-Plotly.newPlot('plot1', data, layout);             // initial plot
+// // Accordion default to close
+// $( document ).ready(function() {
+//   $('.collapse').collapse("hide");
+// });
+
+// Add smooth scrolling on all links inside the navbar
+$(document).ready(function(){
+  for (iFood=0; iFood<2; iFood++) {
+    evalSliders(iFood);
+  }
+  initializeSliders(indexFood);
+  updatePlot1(results);
+
+  // Add scrollspy to <body>
+  // $('body').scrollspy({target: ".navbar", offset: 50});   
+
+  // Add smooth scrolling on all links inside the navbar
+  $("#myNavbar a").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 300, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    }  // End if
+  });
+});
 
 </script>
 
