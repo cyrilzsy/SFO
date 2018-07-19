@@ -8,6 +8,7 @@
 
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -86,7 +87,7 @@
         </p>
         <h5>Suggested citation format</h5>
         <p>
-          Gittelsohn, J, Poirier, L, Zhao, S and Igusa, T (2018). Staple Food Ordinance Model (Alpha Version 1.0). Johns Hopkins University, Baltimore, MD. [Mobile application software.] Available from: https://engineering.jhu.edu/tak/SFO
+          Gittelsohn, J, Poirier, L, Zhu, S and Igusa, T (2018). Staple Food Ordinance Model (Alpha Version 1.0). Johns Hopkins University, Baltimore, MD. [Mobile application software.] Available from: https://engineering.jhu.edu/tak/SFO
         </p>
       </div>
       <div class="modal-footer">
@@ -107,31 +108,100 @@
       <div class="modal-body">
         <div class="panel-group">
           <div class="panel-primary">
-            <div class="panel-heading">Upper menu</div>
+            <div class="panel-heading">Bottom bar</div>
             <div class="panel-body">
-              <h5>[header]</h5>
+              <h5>Start you tour here</h5>
               <ul>
-                <li>[list instructions and hints, and used <b>bold</b> when referring to sliders and buttons.]</li>
-                <li>[continue the list]</li>
+                <li>Click on <b>Staple Food Selection</b> button in the bottom bar</li>
+                <li>Choose the food you want to simulate by click the <b>blue buttons</b> on the left of each food (Muilt-selection allowed)</li>
+                <li>Choose the food you want to change the characteristics in the <b>radio button</b> on the right of the food (one food each time)</li>
+                <li>Click the <b>Staple Food Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window</li>
+                <li>Click on <b>Plot Selection</b> button to show the availible plots for the result</li>
+                <li>Choose the results that you are interested in by click the <b>blue buttons</b> on the left of each variable</li>
+                <li>Click the <b>Plot Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window</li>
+
               </ul>
             </div>
           </div>
+
+          <div class="panel-primary">
+            <div class="panel-heading">Upper menu</div>
+            <div class="panel-body">
+              <h5>Enter Your Conditions</h5>
+              <ul>
+                <li>Use the <b>Sliders</b> in the Upper menu to change the characteristic of each food</li>
+                <li>You will see changes in the <b>Result</b> area directly</li>
+              </ul>
+            </div>
+          </div>
+
           <div class="panel-primary">
             <div class="panel-heading">Graphs</div>
             <div class="panel-body">
+              <p>Following descriptions of plots are in the same order of the <b>Plot Selection</b>, from top to bottom, if you selected all the plots in that menu, you will see from <b>Plot 1</b> to <b>Plot 10</b> located from left to right, from top to bottom</p>
               <h5>Plot 1</h5>
               <ul>
-                <li>[describe the first plot here]</li>
-                <li>[more descripton]</li>
+                <li><b>Y_supply</b></li>
+                <li>Unit: units/week</li>
+                <li>Amount supplied to the store each week</li>
               </ul>
               <h5>Plot 2</h5>
               <ul>
-                <li>[describe the second plot here]</li>
-                <li>[more descripton]</li>
+                <li><b>S_actual</b></li>
+                <li>Unit: units</li>
+                <li>Actual stock in store</li>
+              </ul>
+              <h5>Plot 3</h5>
+              <ul>
+                <li><b>Y_demand</b></li>
+                <li>Unit: units/week</li>
+                <li>Customer demand, how many of this food does the customer want each week</li>
+              </ul>
+              <h5>Plot 4</h5>
+              <ul>
+                <li><b>Y_cust</b></li>
+                <li>Unit: units/week</li>
+                <li>Amount of food actually purchased by customer each week</li>
+              </ul>
+              <h5>Plot 5</h5>
+              <ul>
+                <li><b>Y_waste</b></li>
+                <li>Unit: units/week</li>
+                <li>Amount wasted from store each week</li>
+              </ul>
+              <h5>Plot 6</h5>
+              <ul>
+                <li><b>M_profit</b></li>
+                <li>Unit: $/week</li>
+                <li>Weekly profit, how much money earned by the store (Costs deducted)</li>
+              </ul>
+              <h5>Plot 7</h5>
+              <ul>
+                <li><b>M_storage</b></li>
+                <li>Unit: $/week</li>
+                <li>Storage cost per week, based on how many foods are actually stored in the store</li>
+              </ul>
+              <h5>Plot 8</h5>
+              <ul>
+                <li><b>M_supply</b></li>
+                <li>Unit: $/week</li>
+                <li>Weekly purchase cost for the store (to supplier), how much does the store spend to buy the food each week</li>
+              </ul>
+              <h5>Plot 9</h5>
+              <ul>
+                <li><b>M_delivery</b></li>
+                <li>Unit: $/week</li>
+                <li>Weekly cost of delivery, how much does the store spend on delivery related actions</li>
+              </ul>
+              <h5>Plot 10</h5>
+              <ul>
+                <li><b>M_cust</b></li>
+                <li>Unit: $/week</li>
+                <li>Weekly revenue from customer (to store), how much money does the store earned from customer (cost not deducted)</li>
               </ul>
             </div>
           </div>
-        </div>        
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -307,5 +377,6 @@
 <script src="js/UI_Design.js"></script>
 <script src="js/SFO_calc.js"></script>
 
+  </div>
 </body>
 </html>
