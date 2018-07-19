@@ -87,8 +87,8 @@ function updatePlot1() {
       let layout = {
         title: key
       };
-      plotNum = plotNum + 1;
       Plotly.newPlot('plot' + plotNum, data, layout);
+      plotNum = plotNum + 1;
     }
   }
 }
