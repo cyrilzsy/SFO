@@ -17,6 +17,7 @@
 
 <body data-spy="scroll" data-target="#myNavbar" data-offset="50">
 
+<!-- Top navbar -->
 <nav class="navbar navbar-expand navbar-inverse" id="myNavbar">
   <ul class="nav nav-pills">
     <li class="dropdown" id="menuDropdown" style="display: inline">
@@ -37,8 +38,6 @@
     </li>
   </ul>
 </nav>
-
-<div id="debugText"></div>
 
 <!-- Modal -->
 <div id="infoModal" class="modal fade" role="dialog">
@@ -141,11 +140,13 @@
   </div>
 </div>
 
+<!-- Bottom navbar -->
 <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-expand-sm">
   <div class="container-fluid" id="accordion">
     <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content" aria-controls="nav-content"   aria-expanded="false" aria-label="Toggle-navigation" id="Choices_button"><b>Staple Food Selection</b></button>
 
-    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content-1" aria-controls="nav-content-1" aria-expanded="false" aria-label="Toggle-navigation" id="Patient_button"><b>Options [for future use]</b></button>
+    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content-1" aria-controls="nav-content-1" aria-expanded="false" aria-label="Toggle-navigation" id="Patient_button"><b>Plot Selection</b></button>
+
     <button class="navbar-btn" onclick="fReset(this)">
       <span class="glyphicon glyphicon-refresh"></span><b>Reset</b>
     </button>
@@ -198,7 +199,8 @@
     <div class="panel">
       <div class="collapse" id="nav-content-1">
       <form>
-        <label class="radio-inline">
+        <div id="plotSelectionForm">
+<!--         <label class="radio-inline">
           <input type="radio" id="SmokingYN"       name="choose"  onchange="updateSelect()" >Option A
         </label>
         <br />
@@ -208,13 +210,15 @@
         <label class="radio-inline">
           <input type="radio" id="ObeseYN"         name="choose"  onchange="updateSelect()" >Option C
         </label>
-        <br />
+        <br /> -->
+        </div>
       </form>
       </div>
     </div>
   </div>
 </nav>
 
+<!-- Sliders -->
 <div class="panel panel-success">
   <div class="panel-heading">
     <h2 class="panel-title" id="sliderPanel">Sliders for: </h2>
@@ -257,6 +261,7 @@
   </div>
 </div>
 
+<!-- Plots -->
 <div class="panel panel-success">
   <div class="panel-heading">
     <h2 class="panel-title">Results</h2>
@@ -310,14 +315,14 @@
              ["Whole Wheat Bread"],
              ["Low Sodium Canned Beans"]],
     numVars: [],
-    results: [],
+    results: Object.create(null),
     vars:    [],
-    plot:    [],
+    plot:    [[0,0],[1,0]],
     select:  [0,0],
     numTypes: 0
   };
   food.numTypes = food.names.length;
-  food.results  = Array(food.numTypes);
+  // food.results  = Array(food.numTypes);
 
   var sliders = {
     defaultValues: [
@@ -367,25 +372,76 @@ function updateSelect() {
       sliders.valuesHTML[i][j].innerHTML = sliderValue;
       sliders.sliderHTML[i][j].value = sliderValue;
     }
-  }  
+  };
+
+  for (key in z) {
+    z_plot[key] = document.getElementById("plot" + key).checked;
+  };
+
+  updatePlot1();
 }
 
 $(document).ready(function(){
+  for (i=0; i<sliders.numTypes; i++) {
+    sliders.numVars[i] = sliders.vars[i].length;
+    sliders.valuesHTML[i] = Array(sliders.numVars[i]);
+    sliders.sliderHTML[i] = Array(sliders.numVars[i]);
+  };
+
+  for (key in z) {
+    z_plot[key] = false;
+  };
+  z_plot["Y_cust"] = true;
+
+  let plotSelectionHTML = '';
+  for (key in z) {
+    let plotOption = '';
+    if (z_plot[key]) {
+      plotOption = 'checked="checked"';
+    };
+    food.results[key] = Array(food.numTypes);
+    plotSelectionHTML = plotSelectionHTML + 
+      '<div class="form-group"> \
+        <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
+        <div class="btn-group"> \
+          <label for="plot' + key + '" class="btn btn-info"> \
+            <span class="glyphicon glyphicon-ok"></span><span> </span> \
+          </label> \
+          <label for="plot' + key + '" class="btn btn-default active">' + key + '</label> \
+        </div> \
+      </div >';
+  };
+  document.getElementById("plotSelectionForm").innerHTML = plotSelectionHTML;
+
+  for (i0=0; i0<food.numTypes; i0++) {
+    food.numVars[i0] = food.names[i0].length;
+    // food.results[i0] = Array(z_length);
+    let food_n = food.numVars[i0];
+    food.vars[i0]    = Array(food_n);
+    zs[i0]           = Array(food_n);
+    for (key in z) {
+      food.results[key][i0] = Array(food_n);
+    };
+  };
+
   for (i=0; i<food.numTypes; i++) {
-    food.numVars[i] = food.names[i].length;
-    food.results[i] = Array(food.numVars[i]);
-    food.vars[i]    = Array(food.numVars[i]);
     for (j=0; j<food.numVars[i]; j++) {
       let foodNamei = food.names[i][j];
       let foodVarNamei = foodNamei.replace(/ /g,"");     // replace all " " with "" (remove blank spaces for variable names)
       food.vars[i][j] = foodVarNamei;
       let selectOption = '';
-      if (i==0 && j==0) {
+      let plotOption = '';
+      for (k=0; k<food.plot.length; k++) {
+        if (food.plot[k][0]==i && food.plot[k][1]==j) {
+          plotOption = 'checked="checked"';
+        }
+      };
+      if (food.select[0]==i && food.select[1]==j) {
         selectOption = 'checked="checked"';
-      }
+      };
       myTable[food.numTypes*j + i].innerHTML =
         '<div class="form-group"> \
-          <input type="checkbox" id="plot' + foodVarNamei + '" autocomplete="off" onchange="updateSelect()" ' + selectOption + '/> \
+          <input type="checkbox" id="plot' + foodVarNamei + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
           <div class="btn-group"> \
             <label for="plot' + foodVarNamei + '" class="btn btn-info"> \
               <span class="glyphicon glyphicon-ok"></span><span> </span> \
@@ -400,9 +456,6 @@ $(document).ready(function(){
 
   for (i=0; i<sliders.numTypes; i++) {
     let mySliders0 = document.getElementById("set" + sliders.typeNames[i]);
-    sliders.numVars[i] = sliders.vars[i].length;
-    sliders.valuesHTML[i] = Array(sliders.numVars[i]);
-    sliders.sliderHTML[i] = Array(sliders.numVars[i]);
     slidersHTML = '';
     for (j=0; j<sliders.numVars[i]; j++) {
       let sliderNamei = sliders.namesDisplay[i][j];
@@ -427,22 +480,19 @@ $(document).ready(function(){
           // sliders.valuesHTML[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE?
           // sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = this.value;
           evalSliders(food.select);                          // food.select is used later
-          updatePlot1(food.results);
+          updatePlot1();
         }
       })([i,j]);                                           // (i,j) is the argument, passed to (e)
     }
   };
 
-  console.log(food.results);
-
   for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
     for (j0=0; j0<food.numVars[i0]; j0++) {
       evalSliders([i0,j0]);
-      console.log(i0 + "," + j0 + ", results = " + food.results[i0][j0]);
     }
   };
 
-  updatePlot1(food.results);
+  updatePlot1();
 
   // See ContraceptiveDT for scrollspy options
 

@@ -9,35 +9,26 @@ function fClose() {
   $('.collapse').collapse("hide");
 };
 
-// Variables for plots
-var xValue = ['Product A', 'Product B', 'Product C'];
-var yValue = [];
-var trace1 = {
-  x: xValue,
-  y: yValue,
-  type: 'bar',
-  text: yValue,
-  textposition: 'auto',
-  hoverinfo: 'none',
-  marker: {
-    color: 'rgb(158,202,225)',
-    opacity: 0.6,
-    line: {
-      color: 'rbg(8,48,107)',
-      width: 1.5
-    }
-  }
-};
-var data = [trace1];
-var layout = {
-  title: 'January 2013 Sales Report'
-};
-
 // Variables for ODE
 var t_max = 30;
 var S_actual = [1];           // need to initialize these for the ODE solver, runTime
 var Y_demand = [0];           // don't use new Array
-var Y_supply = [], Y_cust = [], Y_waste = [], M_profit = [], M_storage = [], M_supply = [], M_delivery = [], M_cust = [];
+var z = {
+  Y_supply:  [],
+  S_actual:  [],
+  Y_demand:  [],
+  Y_cust:    [],
+  Y_waste:   [],
+  M_profit:  [],
+  M_storage: [],
+  M_supply:  [],
+  M_delivery:[],
+  M_cust:    []
+};
+var zs = [];
+var z_length = Object.keys(z).length;
+var z_plot   = Object.create(null);
+
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
 
 // functions
@@ -55,14 +46,51 @@ function evalSliders(iFood) {
   X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
   C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];
   C_cust        = sliders.currentValues[iFood[0]][iFood[1]][2][3];
-  let timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
-  food.results[iFood[0]][iFood[1]] = timeResult[0][t_max-1];
+  // let timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
+  runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
+  for (key in z) {
+    // console.log(food.results);
+    // console.log(key)
+    // console.log(food.results[key])
+    food.results[key][iFood[0]][iFood[1]] = z[key][t_max-1];
+  }
 }
 
-function updatePlot1(results) {
-  yValue[0] = results[0][0];
-  yValue[1] = results[0][1];
-  Plotly.newPlot('plot1', data, layout);
+function updatePlot1() {
+  let plotNum = 0;
+  for (key in z) {
+    if (z_plot[key]) {
+      let xValue = [];
+      let yValue = [];
+      for (i=0; i<food.plot.length; i++) {
+        let ploti = food.plot[i];
+        xValue.push(food.names[ploti[0]][ploti[1]]);
+        yValue.push(food.results[key][ploti[0]][ploti[1]]);
+      }
+      let trace1 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        }
+      };
+      let data = [trace1];
+      let layout = {
+        title: key
+      };
+      plotNum = plotNum + 1;
+      Plotly.newPlot('plot' + plotNum, data, layout);
+    }
+  }
 }
 
 // ODE solver for finding Y, S, M
@@ -70,20 +98,22 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
   let C_delivery = Par[0] + X_delivery*Par[1];
   let C_storage = Par[2] + Par[3]*S_infra;
   let C_total = C_delivery + C_storage + C_store;
+  z.Y_demand[0] = 0;
+  z.Y_supply[0] = 1;
 
   for (i=1; i<t_max; i++) {
-    Y_supply[i] = Math.max(S_required*Enforcement - S_actual[i-1],0,Y_demand[i-1] - S_actual[i-1]);
-    S_actual[i] = Y_supply[i] + S_actual[i-1];
-    Y_demand[i] = Par[4] + Par[5]*Training + Par[6]*Signage + Par[7]*Convenience + Par[8]*Taste + Par[9]*Affordability + Par[10]*Healthiness - Par[11]*C_cust;
-    Y_cust[i] = Math.min(Y_demand[i],S_actual[i]);
-    Y_waste[i] = Math.max(S_actual[i]*Par[15] - Y_cust[i],0);
-    S_actual[i] = S_actual[i] - Y_cust[i] - Y_waste[i];
-    M_supply[i] = Y_supply[i]*C_store;
-    M_storage[i] = C_storage*S_actual[i];
-    M_delivery[i] = C_delivery*Y_supply[i];
-    M_cust[i] = C_cust*Y_cust[i];
-    M_profit[i] = M_cust[i] - M_delivery[i] - M_storage[i] - M_supply[i];
-    Y_cust[i] = Training;
+    z.Y_supply[i] = Math.max(S_required*Enforcement - z.S_actual[i-1],0,z.Y_demand[i-1] - z.S_actual[i-1]);
+    z.S_actual[i] = z.Y_supply[i] + z.S_actual[i-1];
+    z.Y_demand[i] = Par[4] + Par[5]*Training + Par[6]*Signage + Par[7]*Convenience + Par[8]*Taste + Par[9]*Affordability + Par[10]*Healthiness - Par[11]*C_cust;
+    z.Y_cust[i]   = Math.min(z.Y_demand[i],z.S_actual[i]);
+    z.Y_waste[i]  = Math.max(z.S_actual[i]*Par[15] - z.Y_cust[i],0);
+    z.S_actual[i] = z.S_actual[i] - z.Y_cust[i] - z.Y_waste[i];
+    z.M_supply[i] = z.Y_supply[i]*C_store;
+    z.M_storage[i] = C_storage*z.S_actual[i];
+    z.M_delivery[i] = C_delivery*z.Y_supply[i];
+    z.M_cust[i]   = C_cust*z.Y_cust[i];
+    z.M_profit[i] = z.M_cust[i] - z.M_delivery[i] - z.M_storage[i] - z.M_supply[i];
+    z.Y_cust[i]   = Training;
   }
-  return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
+  // return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
 }
