@@ -1,3 +1,78 @@
+  var myTable0 = document.getElementById("checkboxTable");
+  var myTable  = myTable0.getElementsByTagName("td");
+  var numNodes = myTable.length;
+  var food = {
+    names:  [["Bananas","Frozen Vegetables"],
+             ["Fat Free Milk"],
+             [],
+             ["Whole Wheat Bread"],
+             ["Low Sodium Canned Beans"]],
+    numVars: [],
+    results: Object.create(null),
+    vars:    [],
+    plot:    [[0,0],[1,0]],
+    select:  [0,0],
+    numTypes: 0
+  };
+  food.numTypes = food.names.length;
+
+  var sliders = {
+    defaultValues: [
+                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1,2]], [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ],
+                    [ [] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ]
+                   ],
+    currentValues: [],
+    typeNames:     ["Ordinance","Demand","Supply"],
+    vars:         [["Enforcement","PromotionsOwners","PromotionsConsumers","MinimumStock"],
+                   ["ConveniencePreparation","Taste","Affordability","Healthiness"],
+                   ["InfrastructureCapacity","EaseDelivery","UnitCost","OptimalPrice"]],
+    namesDisplay: [["Level of Enforcement","Promotions to Store Owners","Promotions to Consumers","Minimum Stock Required"],
+                   ["Convenience of Preparation","Taste","Affordability","Healthiness"],
+                   ["Infrastructure (storage) Capacity","Ease of Delivery","Unit Cost","Optimal Price on Hand"]],
+    numVars:       [],
+    valuesHTML:    [],
+    slidersHTML:   [],
+    numTypes:      0
+  };
+  sliders.currentValues = sliders.defaultValues;
+  sliders.numTypes = sliders.vars.length;
+  sliders.valuesHTML = Array(sliders.numTypes);
+  sliders.sliderHTML = Array(sliders.numTypes);
+
+function updateSelect() {
+  food.plot = [];
+  for (i=0; i<food.numTypes; i++) {
+    for (j=0; j<food.numVars[i]; j++) {
+      let foodVarNamei = food.vars[i][j];      
+      if (document.getElementById("plot" + foodVarNamei).checked) {
+        food.plot.push([i,j]);
+      }
+      if (document.getElementById("select" + foodVarNamei).checked) {
+        food.select = [i,j];
+      }
+    }
+  };
+
+  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+
+  for (i=0; i<sliders.numTypes; i++) {
+    for (j=0; j<sliders.numVars[i]; j++) {
+      let sliderValue = sliders.currentValues[food.select[0]][food.select[1]][i][j];
+      sliders.valuesHTML[i][j].innerHTML = sliderValue;
+      sliders.sliderHTML[i][j].value = sliderValue;
+    }
+  };
+
+  for (key in z) {
+    z_plot[key] = document.getElementById("plot" + key).checked;
+  };
+
+  updatePlot1();
+}
+
 function fReset(button) {
   // document.getElementById("checkboxHt"     ).checked = false
   console.log('Reset');
@@ -30,31 +105,6 @@ var z_length = Object.keys(z).length;
 var z_plot   = Object.create(null);
 
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
-
-// functions
-
-function evalSliders(iFood) {
-  Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
-  Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
-  Signage       = sliders.currentValues[iFood[0]][iFood[1]][0][2];
-  S_required    = sliders.currentValues[iFood[0]][iFood[1]][0][3];
-  Convenience   = sliders.currentValues[iFood[0]][iFood[1]][1][0];
-  Taste         = sliders.currentValues[iFood[0]][iFood[1]][1][1];
-  Affordability = sliders.currentValues[iFood[0]][iFood[1]][1][2];
-  Healthiness   = sliders.currentValues[iFood[0]][iFood[1]][1][3];
-  S_infra       = sliders.currentValues[iFood[0]][iFood[1]][2][0];
-  X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
-  C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];
-  C_cust        = sliders.currentValues[iFood[0]][iFood[1]][2][3];
-  // let timeResult = runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
-  runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust);
-  for (key in z) {
-    // console.log(food.results);
-    // console.log(key)
-    // console.log(food.results[key])
-    food.results[key][iFood[0]][iFood[1]] = z[key][t_max-1];
-  }
-}
 
 function updatePlot1() {
   let plotNum = 0;
@@ -93,27 +143,140 @@ function updatePlot1() {
   }
 }
 
-// ODE solver for finding Y, S, M
-function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust) {
-  let C_delivery = Par[0] + X_delivery*Par[1];
-  let C_storage = Par[2] + Par[3]*S_infra;
-  let C_total = C_delivery + C_storage + C_store;
-  z.Y_demand[0] = 0;
-  z.Y_supply[0] = 1;
+$(document).ready(function(){
+  for (i=0; i<sliders.numTypes; i++) {
+    sliders.numVars[i] = sliders.vars[i].length;
+    sliders.valuesHTML[i] = Array(sliders.numVars[i]);
+    sliders.sliderHTML[i] = Array(sliders.numVars[i]);
+  };
 
-  for (i=1; i<t_max; i++) {
-    z.Y_supply[i] = Math.max(S_required*Enforcement - z.S_actual[i-1],0,z.Y_demand[i-1] - z.S_actual[i-1]);
-    z.S_actual[i] = z.Y_supply[i] + z.S_actual[i-1];
-    z.Y_demand[i] = Par[4] + Par[5]*Training + Par[6]*Signage + Par[7]*Convenience + Par[8]*Taste + Par[9]*Affordability + Par[10]*Healthiness - Par[11]*C_cust;
-    z.Y_cust[i]   = Math.min(z.Y_demand[i],z.S_actual[i]);
-    z.Y_waste[i]  = Math.max(z.S_actual[i]*Par[15] - z.Y_cust[i],0);
-    z.S_actual[i] = z.S_actual[i] - z.Y_cust[i] - z.Y_waste[i];
-    z.M_supply[i] = z.Y_supply[i]*C_store;
-    z.M_storage[i] = C_storage*z.S_actual[i];
-    z.M_delivery[i] = C_delivery*z.Y_supply[i];
-    z.M_cust[i]   = C_cust*z.Y_cust[i];
-    z.M_profit[i] = z.M_cust[i] - z.M_delivery[i] - z.M_storage[i] - z.M_supply[i];
-    z.Y_cust[i]   = Training;
+  for (key in z) {
+    z_plot[key] = false;
+  };
+  z_plot["Y_demand"] = true;           // initialize
+
+  let plotSelectionHTML = '';
+  for (key in z) {
+    let plotOption = '';
+    if (z_plot[key]) {
+      plotOption = 'checked="checked"';
+    };
+    food.results[key] = Array(food.numTypes);
+    plotSelectionHTML = plotSelectionHTML + 
+      '<div class="form-group"> \
+        <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
+        <div class="btn-group"> \
+          <label for="plot' + key + '" class="btn btn-info"> \
+            <span class="glyphicon glyphicon-ok"></span><span> </span> \
+          </label> \
+          <label for="plot' + key + '" class="btn btn-default active">' + key + '</label> \
+        </div> \
+      </div >';
+  };
+  document.getElementById("plotSelectionForm").innerHTML = plotSelectionHTML;
+
+  for (i0=0; i0<food.numTypes; i0++) {
+    food.numVars[i0] = food.names[i0].length;
+    // food.results[i0] = Array(z_length);
+    let food_n = food.numVars[i0];
+    food.vars[i0]    = Array(food_n);
+    zs[i0]           = Array(food_n);
+    for (key in z) {
+      food.results[key][i0] = Array(food_n);
+    };
+  };
+
+  for (i=0; i<food.numTypes; i++) {
+    for (j=0; j<food.numVars[i]; j++) {
+      let foodNamei = food.names[i][j];
+      let foodVarNamei = foodNamei.replace(/ /g,"");     // replace all " " with "" (remove blank spaces for variable names)
+      food.vars[i][j] = foodVarNamei;
+      let selectOption = '';
+      let plotOption = '';
+      for (k=0; k<food.plot.length; k++) {
+        if (food.plot[k][0]==i && food.plot[k][1]==j) {
+          plotOption = 'checked="checked"';
+        }
+      };
+      if (food.select[0]==i && food.select[1]==j) {
+        selectOption = 'checked="checked"';
+      };
+      myTable[food.numTypes*j + i].innerHTML =
+        '<div class="form-group"> \
+          <input type="checkbox" id="plot' + foodVarNamei + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
+          <div class="btn-group"> \
+            <label for="plot' + foodVarNamei + '" class="btn btn-info"> \
+              <span class="glyphicon glyphicon-ok"></span><span> </span> \
+            </label> \
+            <label for="plot' + foodVarNamei + '" class="btn btn-default active">' + foodNamei + '</label> \
+          </div> \
+          <input type="radio" id="select' + foodVarNamei + '" name="choose" onchange="updateSelect()" ' + selectOption + '> \
+        </div >';
+    }
   }
-  // return [Y_cust,Y_demand,Y_supply,Y_waste,S_actual,M_profit,M_storage,M_supply,M_delivery,M_cust];
-}
+  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+
+  for (i=0; i<sliders.numTypes; i++) {
+    let mySliders0 = document.getElementById("set" + sliders.typeNames[i]);
+    slidersHTML = '';
+    for (j=0; j<sliders.numVars[i]; j++) {
+      let sliderNamei = sliders.namesDisplay[i][j];
+      let sliderVarNamei = sliders.vars[i][j];
+      slidersHTML = slidersHTML +
+        '<div class="slidecontainer"> \
+          <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
+          <input type="range" min="0" max="10" value="' + sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" id="slider' + sliderVarNamei + '"> \
+        </div >';
+    }
+    mySliders0.innerHTML = slidersHTML;
+    for (j=0; j<sliders.numVars[i]; j++) {
+      sliders.valuesHTML[i][j] = document.getElementById("value"  + sliders.vars[i][j]);
+      sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
+      sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
+      sliders.sliderHTML[i][j].oninput = (function(e) {
+        return function() {
+          let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
+          console.log(e + ", " + sliderValue);
+          sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i USE ONCHANGE?
+          sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
+          // sliders.valuesHTML[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE?
+          // sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = this.value;
+          evalSliders(food.select);                          // food.select is used later
+          updatePlot1();
+        }
+      })([i,j]);                                           // (i,j) is the argument, passed to (e)
+    }
+  };
+
+  for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
+    for (j0=0; j0<food.numVars[i0]; j0++) {
+      evalSliders([i0,j0]);
+    }
+  };
+
+  updatePlot1();
+
+  // See ContraceptiveDT for scrollspy options
+
+  // Add smooth scrolling on all links inside the navbar
+  $("#myNavbar a").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 300, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    }
+  });
+});
