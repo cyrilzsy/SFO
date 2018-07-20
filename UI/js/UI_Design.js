@@ -2,11 +2,16 @@
   var myTable  = myTable0.getElementsByTagName("td");
   var numNodes = myTable.length;
   var food = {
-    names:  [["Bananas","Frozen Vegetables"],
-             ["Fat Free Milk"],
-             [],
+    names:  [["Fat Free Milk","Original Milk"],
+             ["Cheddar Cheese"],
+             ["Egg"],
+             ["Tofu"],
+             ["Banana","Frozen Vegetables"],
+             ["Orange Juice"],
+             ["Whole Grain Cereal"],
              ["Whole Wheat Bread"],
-             ["Low Sodium Canned Beans"]],
+             ["Low Sodium Canned Beans"],
+             ["Peas"]],
     numVars: [],
     results: Object.create(null),
     vars:    [],
@@ -18,11 +23,16 @@
 
   var sliders = {
     defaultValues: [
-                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1,2]], [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ],
-                    [ [] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,2]] ]
+                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1,1]], [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]], [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ]
                    ],
     currentValues: [],
     typeNames:     ["Ordinance","Demand","Supply"],
@@ -46,7 +56,7 @@ function updateSelect() {
   food.plot = [];
   for (i=0; i<food.numTypes; i++) {
     for (j=0; j<food.numVars[i]; j++) {
-      let foodVarNamei = food.vars[i][j];      
+      let foodVarNamei = food.vars[i][j];
       if (document.getElementById("plot" + foodVarNamei).checked) {
         food.plot.push([i,j]);
       }
@@ -162,7 +172,7 @@ $(document).ready(function(){
       plotOption = 'checked="checked"';
     };
     food.results[key] = Array(food.numTypes);
-    plotSelectionHTML = plotSelectionHTML + 
+    plotSelectionHTML = plotSelectionHTML +
       '<div class="form-group"> \
         <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
         <div class="btn-group"> \
@@ -273,7 +283,7 @@ $(document).ready(function(){
       $('html, body').animate({
         scrollTop: $(hash).offset().top
       }, 300, function(){
-   
+
         // Add hash (#) to URL when done scrolling (default click behavior)
         window.location.hash = hash;
       });

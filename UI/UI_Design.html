@@ -113,7 +113,7 @@
               <h5>Start you tour here</h5>
               <ul>
                 <li>Click on <b>Staple Food Selection</b> button in the bottom bar</li>
-                <li>Choose the food you want to simulate by click the <b>blue buttons</b> on the left of each food (Muilt-selection allowed)</li>
+                <li>Choose the food you want to simulate by click the <b>blue buttons</b> on the top or the left of each food (Muilt-selection allowed)</li>
                 <li>Choose the food you want to change the characteristics in the <b>radio button</b> on the right of the food (one food each time)</li>
                 <li>Click the <b>Staple Food Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window</li>
                 <li>Click on <b>Plot Selection</b> button to show the availible plots for the result</li>
@@ -149,7 +149,7 @@
               <ul>
                 <li><b>S_actual</b></li>
                 <li>Unit: units</li>
-                <li>Actual stock in store</li>
+                <li>Actual stock in store at the beginning of each week</li>
               </ul>
               <h5>Plot 3</h5>
               <ul>
@@ -199,6 +199,12 @@
                 <li>Unit: $/week</li>
                 <li>Weekly revenue from customer (to store), how much money does the store earned from customer (cost not deducted)</li>
               </ul>
+              <h5>Plot 11</h5>
+              <ul>
+                <li><b>S_actual_end</b></li>
+                <li>Unit: units</li>
+                <li>Actual stock in store at the end of each week</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -235,14 +241,24 @@
           <col style="background-color: beige">
           <col style="background-color: white">
           <col style="background-color: beige">
+          <col style="background-color: white">
+          <col style="background-color: beige">
+          <col style="background-color: white">
+          <col style="background-color: beige">
+          <col style="background-color: white">
         </colgroup>
         <thead>
           <tr>
+            <th>Milk</th>
+            <th>Cheese</th>
+            <th>Eggs</th>
+            <th>Meat & Vegetable Proteins</th>
             <th>Fruits & Vegetables</th>
-            <th>Drinks</th>
-            <th>Protein</th>
-            <th>Bread</th>
-            <th>Beans</th>
+            <th>100% Juice</th>
+            <th>Whole Grain Gereal</th>
+            <th>Whole Grains</th>
+            <th>Canned Beans</th>
+            <th>Dried Peas, Beans, Lentils</th>
           </tr>
         </thead>
         <tbody id="checkboxTable">
@@ -252,8 +268,18 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

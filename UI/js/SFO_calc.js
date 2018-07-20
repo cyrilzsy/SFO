@@ -4,17 +4,19 @@
 var t_max = 30;
 var S_actual = [1];           // need to initialize these for the ODE solver, runTime
 var Y_demand = [0];           // don't use new Array
+
 var z = {
-  Y_supply:  [],
-  S_actual:  [],
-  Y_demand:  [],
-  Y_cust:    [],
-  Y_waste:   [],
-  M_profit:  [],
-  M_storage: [],
-  M_supply:  [],
-  M_delivery:[],
-  M_cust:    []
+  Y_supply:  [0],
+  S_actual:  [2],
+  Y_demand:  [0],
+  Y_cust:    [0],
+  Y_waste:   [0],
+  M_profit:  [0],
+  M_storage: [0],
+  M_supply:  [0],
+  M_delivery:[0],
+  M_cust:    [0],
+  S_actual_end: [1]
 };
 var zs = [];
 var z_length = Object.keys(z).length;
@@ -48,12 +50,12 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
   z.Y_supply[0] = 1;
 
   for (i=1; i<t_max; i++) {
-    z.Y_supply[i] = Math.max(S_required*Enforcement - z.S_actual[i-1],0,z.Y_demand[i-1] - z.S_actual[i-1]);
-    z.S_actual[i] = z.Y_supply[i] + z.S_actual[i-1];
+    z.Y_supply[i] = Math.max(S_required*Enforcement - z.S_actual_end[i-1],0,z.Y_demand[i-1] - z.S_actual_end[i-1]);
+    z.S_actual[i] = z.Y_supply[i] + z.S_actual_end[i-1];
     z.Y_demand[i] = Par[4] + Par[5]*Training + Par[6]*Signage + Par[7]*Convenience + Par[8]*Taste + Par[9]*Affordability + Par[10]*Healthiness - Par[11]*C_cust;
     z.Y_cust[i]   = Math.min(z.Y_demand[i],z.S_actual[i]);
     z.Y_waste[i]  = Math.max(z.S_actual[i]*Par[15] - z.Y_cust[i],0);
-    z.S_actual[i] = z.S_actual[i] - z.Y_cust[i] - z.Y_waste[i];
+    z.S_actual_end[i] = z.S_actual[i] - z.Y_cust[i] - z.Y_waste[i];
     z.M_supply[i] = z.Y_supply[i]*C_store;
     z.M_storage[i] = C_storage*z.S_actual[i];
     z.M_delivery[i] = C_delivery*z.Y_supply[i];
@@ -61,3 +63,5 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
     z.M_profit[i] = z.M_cust[i] - z.M_delivery[i] - z.M_storage[i] - z.M_supply[i];
   }
 }
+
+
