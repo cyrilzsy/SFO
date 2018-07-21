@@ -7,8 +7,8 @@
 // Variables for ODE
 var c_max = 100;
 var t_max = 101;
-var Max_profit;
-var M_profit1 = [1];
+//var Max_profit;
+//var M_profit1 = [1];
 
 var z = {
   Y_supply:  [],
@@ -21,7 +21,10 @@ var z = {
   M_supply:  [],
   M_delivery:[],
   M_cust:    [],
-  S_actual_end: []
+  S_actual_end: [],
+  M_profit1: [1],
+  Max_profit: [],
+  M_Profit: [1]
 };
 var zs = [];
 var z_length = Object.keys(z).length;
@@ -51,8 +54,8 @@ function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability
   let C_delivery = Par[0] + X_delivery*Par[1];
   let C_storage = Par[2] + Par[3]*S_infra;
   let C_total = C_delivery + C_storage + C_store;
-  var y_0 = 7.75;
-  var a = 0.2;
+  var y_0 = Par[4] + Par[5] * Training + Par[6] * Signage + Par[7] * Convenience + Par[8] * Taste + Par[9] * Affordability + Par[10] * Healthiness;
+  var a = Par[11];
 
 
 
@@ -69,20 +72,21 @@ function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability
   for (j = 0; j < c_max; j++) {
     for (i = 1; i < t_max; i++) {
       if ((y_0 - a * j / 10) > S_required) {
-        M_profit1[i] = (j / 10 - C_delivery - C_store - C_storage) * (y_0 - j/10 * a);
+        z.M_profit1[i] = (j / 10 - C_delivery - C_store - C_storage) * (y_0 - j/10 * a);
       }
       else if (((S_required / Par[15]) <= (y_0 - j/10 * a)) && ((y_0 - j/10 * a) <= S_required)) {
-        M_profit1[i] = (j/10 - C_store - C_delivery) * (y_0 - j/10 * a) - C_storage * S_required;
+        z.M_profit1[i] = (j/10 - C_store - C_delivery) * (y_0 - j/10 * a) - C_storage * S_required;
       }
       else if ((S_required / Par[15]) > (y_0 - j/10 * a)) {
-        M_profit1[i] = j/10 * (y_0 - j/10 * a) - (C_store + C_delivery) * S_required / Par[15] - C_storage * S_required;
+        z.M_profit1[i] = j/10 * (y_0 - j/10 * a) - (C_store + C_delivery) * S_required / Par[15] - C_storage * S_required;
       }
 
-      Max_profit = Math.max(M_profit1);
+      z.Max_profit = Math.max(z.M_profit1);
 
     }
   }
-  return [Max_profit];
+  return [z.Max_profit];
 }
 
+console.log(z.Max_profit)
 
