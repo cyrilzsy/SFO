@@ -7,6 +7,8 @@
 // Variables for ODE
 var c_max = 100;
 var t_max = 101;
+var Max_profit;
+var M_profit1 = [1];
 
 var z = {
   Y_supply:  [],
@@ -51,8 +53,8 @@ function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability
   let C_total = C_delivery + C_storage + C_store;
   var y_0 = 7.75;
   var a = 0.2;
-  
-  //for (j = 0; j < t_max; j++) {
+
+
 
     if ((y_0 - a * C_cust) > S_required) {
         z.M_profit = (C_cust - C_delivery - C_store - C_storage) * (y_0 - C_cust * a);
@@ -63,8 +65,24 @@ function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability
     else if ((S_required / Par[15]) > (y_0 - C_cust * a)) {
       z.M_profit = C_cust * (y_0 - C_cust * a) - (C_store + C_delivery) * S_required / Par[15] - C_storage * S_required;
     }
- // }
 
+  for (j = 0; j < c_max; j++) {
+    for (i = 1; i < t_max; i++) {
+      if ((y_0 - a * j / 10) > S_required) {
+        M_profit1[i] = (j / 10 - C_delivery - C_store - C_storage) * (y_0 - j/10 * a);
+      }
+      else if (((S_required / Par[15]) <= (y_0 - j/10 * a)) && ((y_0 - j/10 * a) <= S_required)) {
+        M_profit1[i] = (j/10 - C_store - C_delivery) * (y_0 - j/10 * a) - C_storage * S_required;
+      }
+      else if ((S_required / Par[15]) > (y_0 - j/10 * a)) {
+        M_profit1[i] = j/10 * (y_0 - j/10 * a) - (C_store + C_delivery) * S_required / Par[15] - C_storage * S_required;
+      }
+
+      Max_profit = Math.max(M_profit1);
+
+    }
+  }
+  return [Max_profit];
 }
 
 
