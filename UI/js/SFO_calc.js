@@ -60,7 +60,7 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
     z.M_storage[i] = C_storage*z.S_actual[i];
     z.M_delivery[i] = C_delivery*z.Y_supply[i];
     z.M_cust[i]   = C_cust*z.Y_cust[i];
-    z.M_profit[i] = z.M_cust[i] - z.M_delivery[i] - z.M_storage[i] - z.M_supply[i];
+  //  z.M_profit[i] = z.M_cust[i] - z.M_delivery[i] - z.M_storage[i] - z.M_supply[i];
   }
 }
 
