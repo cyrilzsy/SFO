@@ -7,11 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="hopscotch-0.3.1/css/hopscotch.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="jquery-3.3.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="hopscotch-0.3.1/js/hopscotch.min.js"></script>
 
   <link   rel="stylesheet" type="text/css" href="css/UI_Design.css"/>
  </head>
@@ -27,6 +30,9 @@
       </a>
       <ul class="dropdown-menu">
         <li><a style="font-size:100%" href="#helpModal" data-toggle="modal" id="helpMenu">Help</a></li>
+        <li><a style="font-size:100%" href="#"          onclick="hopscotchTour()">Tour</a></li>
+        <li><a style="font-size:100%" href="#" id="surveyMenu">Survey [under construction]</a></li>
+
         <li class="divider"></li>
         <li><a style="font-size:100%" href="#infoModal" data-toggle="modal">Info</a></li>
         <li><a style="font-size:100%" href="#acknModal" data-toggle="modal">Acknowledgements</a></li>
@@ -219,9 +225,9 @@
 <!-- Bottom navbar -->
 <nav class="navbar navbar-inverse navbar-fixed-bottom navbar-expand-sm">
   <div class="container-fluid" id="accordion">
-    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content" aria-controls="nav-content"   aria-expanded="false" aria-label="Toggle-navigation" id="Choices_button"><b>Staple Food Selection</b></button>
+    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content" aria-controls="nav-content"   aria-expanded="false" aria-label="Toggle-navigation" id="Food_button"><b>Staple Food Selection</b></button>
 
-    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content-1" aria-controls="nav-content-1" aria-expanded="false" aria-label="Toggle-navigation" id="Patient_button"><b>Plot Selection</b></button>
+    <button class="navbar-toggler navbar-btn" type="button" data-toggle="collapse" data-parent="#accordion" data-target="#nav-content-1" aria-controls="nav-content-1" aria-expanded="false" aria-label="Toggle-navigation" id="Plot_button"><b>Plot Selection</b></button>
 
     <button class="navbar-btn" onclick="fReset(this)">
       <span class="glyphicon glyphicon-refresh"></span><b>Reset</b>
@@ -249,7 +255,7 @@
         </colgroup>
         <thead>
           <tr>
-            <th>Milk</th>
+            <th id="First_Food_Selection">Milk</th>
             <th>Cheese</th>
             <th>Eggs</th>
             <th>Meat & Vegetable Proteins</th>
@@ -403,6 +409,7 @@
 <script src="js/UI_Design.js"></script>
 <!-- <script src="js/SFO_calc.js"></script> -->
 <script src="js/SFO_calc_profit_maximization.js"></script>
+<script src="js/hopscotchTour.js"></script>
 
   </div>
 </body>
