@@ -22,33 +22,33 @@ var zs       = [];
 var z_length = Object.keys(z).length;
 var z_plot   = Object.create(null);
 var Pars     = [
-                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1],
+                [ [0.6082,-0.1036,0.6489,-0.0883,3,0.15,0.19,0.19,0.16,0.15,0.11,1.41,1.6626,0.0485,-0.1052,4],
                   [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Milk
                 [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Cheese
                 [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Eggs
                 [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Meat
                 [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1],
-                  [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Fruits & Vegetables
+                  [0.3350,-0.0725,0.3323,-0.0517,5,0.16,0.1,0.11,0.15,0.14,0.17,2.62,0.5567,0.0565,-0.0237,2] ], // Fruits & Vegetables
                 [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
                 [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
-                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
-                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
-                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
+                [ [0.4594,-0.0978,0.5480,-0.099,4,0.17,0.13,0.18,0.17,0.16,0.12,2.162,0.8594,0.0713,-0.0442,3] ],  //Whole Wheat Bread
+                [ [0.4842,-0.0837,0.5247,-0.0770,2,0.18,0.11,0.2,0.14,0.13,0.19,1.35,0.469,0.1291,-0.0098,12] ],  //Canned Beans
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ]
                ];
 
 function evalSliders(iFood) {
-  let Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
-  let Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
-  let Signage       = sliders.currentValues[iFood[0]][iFood[1]][0][2];
-  let S_required    = sliders.currentValues[iFood[0]][iFood[1]][0][3];
-  let Convenience   = sliders.currentValues[iFood[0]][iFood[1]][1][0];
-  let Taste         = sliders.currentValues[iFood[0]][iFood[1]][1][1];
-  let Affordability = sliders.currentValues[iFood[0]][iFood[1]][1][2];
-  let Healthiness   = sliders.currentValues[iFood[0]][iFood[1]][1][3];
-  let S_infra       = sliders.currentValues[iFood[0]][iFood[1]][2][0];
-  let X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
-  let C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];         // take out price
-  let Par           = Pars[iFood[0]][iFood[1]];
+   let Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
+   let Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
+   let Signage       = sliders.currentValues[iFood[0]][iFood[1]][0][2];
+   let S_required    = sliders.currentValues[iFood[0]][iFood[1]][0][3];
+   let Convenience   = sliders.currentValues[iFood[0]][iFood[1]][1][0];
+   let Taste         = sliders.currentValues[iFood[0]][iFood[1]][1][1];
+   let Affordability = sliders.currentValues[iFood[0]][iFood[1]][1][2];
+   let Healthiness   = sliders.currentValues[iFood[0]][iFood[1]][1][3];
+   let S_infra       = sliders.currentValues[iFood[0]][iFood[1]][2][0];
+   let X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
+   let C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];         // take out price
+   let Par           = Pars[iFood[0]][iFood[1]];
   runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,Par);
   for (key in z) {
     food.results[key][iFood[0]][iFood[1]] = z[key];                        // z is not an array
@@ -69,24 +69,25 @@ function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability
 
   for (j = 0; j < n_max; j++) {
     C_custj   = C_cust_max*j/n_max;           // price for the customer
-    S_expire  = S_required/Par[15];           // maximum amount of food that can expire each week
+    S_expire  = Enforcement*S_required/Par[15];           // maximum amount of food that can expire each week
     Y_demand  = y_0 - C_custj*a;              // demand
-    if        (Y_demand  > S_required) {
+    if        (Y_demand  > Enforcement*S_required) {
       M_profit = (C_custj - C_delivery - C_store - C_storage)*Y_demand;
     }
-    else if (((Y_demand <= S_required)) && ((S_expire) <= Y_demand)) {
-      M_profit = (C_custj - C_delivery - C_store)*Y_demand - C_storage*S_required;
+    else if (((Y_demand <= Enforcement*S_required)) && ((S_expire) <= Y_demand)) {
+      M_profit = (C_custj - C_delivery - C_store)*Y_demand - C_storage*Enforcement*S_required;
     }
     else {
-      M_profit = (C_custj)*Y_demand - C_storage*S_required - (C_store + C_delivery)*S_expire;
+      M_profit = (C_custj)*Y_demand - C_storage*Enforcement*S_required - (C_store + C_delivery)*S_expire;
     }
     if (M_profit > M_profit_max) {            // update the maximum profit
       j_max      = j;                         // index j corresponding to the maximum profit
       z.M_profit = M_profit;                  // set the z key values
       z.Y_demand = Y_demand;
       z.price    = C_custj;
+      M_profit_max = M_profit;
     }
-    z.S_actual   = Math.max(S_required,z.Y_demand);    // set the remaining z key values
+    z.S_actual   = Math.max(Enforcement*S_required,z.Y_demand);    // set the remaining z key values
     z.Y_supply   = Math.max(z.Y_demand,S_expire);
     z.Y_cust     = z.Y_demand;
     z.Y_waste    = Math.max(S_expire-z.Y_demand,0);
