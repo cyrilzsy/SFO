@@ -2,13 +2,9 @@
  * Created by Siyao on 2018/7/20.
  */
 
-// ODE solver for finding Y, S, M
-
-// Variables for ODE
+// Variables for maximization
 var c_max = 100;
 var t_max = 101;
-//var Max_profit;
-//var M_profit1 = [1];
 
 var z = {
   Y_supply:  [],
@@ -26,7 +22,7 @@ var z = {
   Max_profit: [],
   M_Profit: [1]
 };
-var zs = [];
+var zs       = [];
 var z_length = Object.keys(z).length;
 var z_plot   = Object.create(null);
 var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
@@ -52,37 +48,36 @@ function evalSliders(iFood) {
 
 function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,C_cust) {
   let C_delivery = Par[0] + X_delivery*Par[1];
-  let C_storage = Par[2] + Par[3]*S_infra;
-  let C_total = C_delivery + C_storage + C_store;
-  var y_0 = Par[4] + Par[5] * Training + Par[6] * Signage + Par[7] * Convenience + Par[8] * Taste + Par[9] * Affordability + Par[10] * Healthiness;
-  var a = Par[11];
+  let C_storage  = Par[2] + Par[3]*S_infra;
+  let C_total    = C_delivery + C_storage + C_store;        // this is only needed if there is no ordinance
+  var y_0        = Par[4] + Par[5]*Training      + Par[6]*Signage + Par[7]*Convenience + Par[8]*Taste
+                          + Par[9]*Affordability + Par[10]*Healthiness;
+  var a          = Par[11];
 
-
-
-    if ((y_0 - a * C_cust) > S_required) {
-        z.M_profit = (C_cust - C_delivery - C_store - C_storage) * (y_0 - C_cust * a);
-    }
-    else if (((S_required / Par[15]) <= (y_0 - C_cust * a)) && ((y_0 - C_cust * a) <= S_required)) {
-      z.M_profit = (C_cust - C_store - C_delivery) * (y_0 - C_cust * a) - C_storage * S_required;
-    }
-    else if ((S_required / Par[15]) > (y_0 - C_cust * a)) {
-      z.M_profit = C_cust * (y_0 - C_cust * a) - (C_store + C_delivery) * S_required / Par[15] - C_storage * S_required;
-    }
+  // if ((y_0 - a*C_cust) > S_required) {
+  //   z.M_profit = (C_cust - C_delivery - C_store - C_storage) * (y_0 - C_cust * a);
+  // }
+  // else if (((S_required/Par[15]) <= (y_0 - C_cust*a)) && ((y_0 - C_cust*a) <= S_required)) {
+  //   z.M_profit = (C_cust - C_store - C_delivery)*(y_0 - C_cust*a) - C_storage*S_required;
+  // }
+  // else if ((S_required / Par[15]) > (y_0 - C_cust*a)) {
+  //   z.M_profit = C_cust*(y_0 - C_cust*a) - (C_store + C_delivery)*S_required/Par[15] - C_storage*S_required;
+  // }
 
   for (j = 0; j < c_max; j++) {
     for (i = 1; i < t_max; i++) {
-      if ((y_0 - a * j / 10) > S_required) {
-        z.M_profit1[i] = (j / 10 - C_delivery - C_store - C_storage) * (y_0 - j/10 * a);
+      if        ((y_0 - j/10*a)  > S_required) {
+        z.M_profit1[i] = (j/10 - C_delivery - C_store - C_storage)*(y_0 - j/10*a);
       }
-      else if (((S_required / Par[15]) <= (y_0 - j/10 * a)) && ((y_0 - j/10 * a) <= S_required)) {
-        z.M_profit1[i] = (j/10 - C_store - C_delivery) * (y_0 - j/10 * a) - C_storage * S_required;
+      else if ((((y_0 - j/10*a) <= S_required)) && ((S_required/Par[15]) <= (y_0 - j/10*a))) {
+        z.M_profit1[i] = (j/10 - C_delivery - C_store            )*(y_0 - j/10*a) - C_storage*S_required;
       }
-      else if ((S_required / Par[15]) > (y_0 - j/10 * a)) {
-        z.M_profit1[i] = j/10 * (y_0 - j/10 * a) - (C_store + C_delivery) * S_required / Par[15] - C_storage * S_required;
+      else if                                      ((S_required/Par[15])  > (y_0 - j/10*a))  {
+        z.M_profit1[i] = (j/10                                   )*(y_0 - j/10*a) - (C_store + C_delivery)*S_required/Par[15]
+                                                                                  - C_storage*S_required;
       }
 
       z.Max_profit = Math.max(z.M_profit1);
-
     }
   }
   return [z.Max_profit];
