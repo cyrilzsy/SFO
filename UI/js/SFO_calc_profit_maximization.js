@@ -21,27 +21,41 @@ var z = {
 var zs       = [];
 var z_length = Object.keys(z).length;
 var z_plot   = Object.create(null);
-var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
+var Pars     = [
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1],
+                  [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Milk
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Cheese
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Eggs
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Meat
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1],
+                  [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Fruits & Vegetables
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
+                [ [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ],
+               ];
 
 function evalSliders(iFood) {
-  Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
-  Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
-  Signage       = sliders.currentValues[iFood[0]][iFood[1]][0][2];
-  S_required    = sliders.currentValues[iFood[0]][iFood[1]][0][3];
-  Convenience   = sliders.currentValues[iFood[0]][iFood[1]][1][0];
-  Taste         = sliders.currentValues[iFood[0]][iFood[1]][1][1];
-  Affordability = sliders.currentValues[iFood[0]][iFood[1]][1][2];
-  Healthiness   = sliders.currentValues[iFood[0]][iFood[1]][1][3];
-  S_infra       = sliders.currentValues[iFood[0]][iFood[1]][2][0];
-  X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
-  C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];         // take out price
-  runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store);
+  let Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
+  let Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
+  let Signage       = sliders.currentValues[iFood[0]][iFood[1]][0][2];
+  let S_required    = sliders.currentValues[iFood[0]][iFood[1]][0][3];
+  let Convenience   = sliders.currentValues[iFood[0]][iFood[1]][1][0];
+  let Taste         = sliders.currentValues[iFood[0]][iFood[1]][1][1];
+  let Affordability = sliders.currentValues[iFood[0]][iFood[1]][1][2];
+  let Healthiness   = sliders.currentValues[iFood[0]][iFood[1]][1][3];
+  let S_infra       = sliders.currentValues[iFood[0]][iFood[1]][2][0];
+  let X_delivery    = sliders.currentValues[iFood[0]][iFood[1]][2][1];
+  let C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];         // take out price
+  let Par           = Pars[iFood[0]][iFood[1]];
+  runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,Par);
   for (key in z) {
     food.results[key][iFood[0]][iFood[1]] = z[key];                        // z is not an array
   }
 }
 
-function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store) {
+function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,Par) {
   let C_delivery = Par[0] + X_delivery*Par[1];
   let C_storage  = Par[2] + Par[3]*S_infra;
   let y_0        = Par[4] + Par[5]*Training      + Par[6]*Signage + Par[7]*Convenience + Par[8]*Taste
