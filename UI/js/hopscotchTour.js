@@ -34,7 +34,10 @@ var tour = {
     },
     {
       title: "SFO Selection",
-      content: "...say something about the Milk checkbox and radio button...",
+      content: "Click on <b>Staple Food Selection</b> button in the bottom bar. \
+                Choose the food you want to simulate by click the <b>blue buttons</b> on the top or the left of each food (Muilt-selection allowed). \
+                Choose the food you want to change the characteristics in the <b>radio button</b> on the right of the food (one food each time). \
+                Click the <b>Staple Food Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window.",
       target: "First_Food_Selection",
       placement: "top",
       showPrevButton: true,
@@ -49,9 +52,11 @@ var tour = {
     },
     {
       title: "Plot Selection",
-      content: "...",
+      content: "Click on <b>Plot Selection</b> button to show the availible plots for the result. \
+                Choose the results that you are interested in by click the <b>blue buttons</b> on the left of each variable. \
+                Click the <b>Plot Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window.",
       target: "Plot_button",
-      placement: "top",
+      placement: "right",
       showPrevButton: true,
       xOffset: 50,
       arrowOffset: "left",
