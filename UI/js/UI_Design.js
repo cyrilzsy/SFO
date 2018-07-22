@@ -1,6 +1,5 @@
   var myTable0 = document.getElementById("checkboxTable");
   var myTable  = myTable0.getElementsByTagName("td");
-  var numNodes = myTable.length;
   var food = {
     names:  [["Fat Free Milk","Original Milk"],
              ["Cheddar Cheese"],
@@ -15,7 +14,7 @@
     numVars: [],
     results: Object.create(null),
     vars:    [],
-    plot:    [[0,0],[1,0]],
+    plot:    [[0,0],[1,0]],                         // initial foods to be plotted
     select:  [0,0],
     numTypes: 0
   };
@@ -34,6 +33,9 @@
                     [ [[0.6,10,5,5],[5,5,5,5],[2,3,1.1]] ],
                     [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ]                                       // take out price
                    ],
+    min:           [[0,  0, 0, 0],[ 0, 0, 0, 0],[ 0, 0,   0]],
+    max:           [[1, 10,10,10],[10,10,10,10],[10,10,  10]],
+    step:          [[0.1,1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,0.05]],
     currentValues: [],
     typeNames:     ["Ordinance","Demand","Supply"],
     vars:         [["Enforcement","PromotionsOwners","PromotionsConsumers","MinimumStock"],
@@ -89,7 +91,16 @@ function updateSelect() {
 function fReset(button) {
   // document.getElementById("checkboxHt"     ).checked = false
   console.log('Reset');
+  initializeOptions();
   updateSelect();
+}
+
+function initializeOptions() {
+  for (key in z) {
+    z_plot[key] = false;
+  };
+  z_plot["price"]    = true;           // initialize
+  z_plot["M_profit"] = true;           // initialize
 }
 
 function fClose() {
@@ -98,43 +109,62 @@ function fClose() {
 };
 
 function updatePlot1() {
-  // document.getElementById("panelPlots").innerHTML = '';
-  let boot_cols = 4;
-  if (food.plot.length>10) {
-    boot_cols = 12;
-  } else if (food.plot.length>6) {
+  let panel = '';
+  let boot_cols = 4;                                             // default number of Bootstrap columns
+  let boot_col_tot = 0;                                          // counter for the number of columns used in a row
+  if (food.plot.length>10) {                                     // food.plot is an array of foods to plot
+    boot_cols = 12;                                              // if the array is large, make the plot full-width
+  } else if (food.plot.length>6) {                               // otherwise, make it half-width
     boot_cols = 6;
   }
 
-  for (plotClear=0; plotClear<12; plotClear++) {
-    document.getElementById('plot' + plotClear).innerHTML = '';
-  }
-
   let plotNum = 0;
+  if (z_plot['price']) {                                         // price is full-width because we show all prices
+    panel += '<div class="row" id="plot' + plotNum++ + '"></div>';
+  };
+  if (z_plot['M_profit']) {                                      // profit is also full-width
+    panel += '<div class="row" id="plot' + plotNum++ + '"></div>';
+  };
+
+  for (k=plotNum; k<z_plot.num_plots; k++) {                     // for each plot
+    if (boot_col_tot==0) {                                       // beginning of a new row
+      panel += '<div class="row">';
+    };                                                           // new div
+    panel += '<div class="col-sm-' + boot_cols + '"><div id="plot' + plotNum++ + '"></div></div>';
+    boot_col_tot += boot_cols;
+    if (boot_col_tot==12) {                                      // end of row
+      boot_col_tot = 0;
+      panel += '</div>';
+    };
+  };
+
+  document.getElementById("panelPlots").innerHTML = panel;       // add plot divs to panelPlots
+
+  plotNum = 0;
   for (key in z) {
-    if (z_plot[key]) {
+    if (z_plot[key]) {                                           // if we are plotting this key
       let xValue = [];
       let yValue = [];
       let plot_title = key;
-      let total_result = 0;
+      let total_result = 0;                                      // total used for profit calcs
       if (key=='M_profit' || key=='price') {
         for (i=0; i<food.numTypes; i++) {
           for (j=0; j<food.numVars[i]; j++) {
             let profit = food.results[key][i][j];
-            total_result = total_result + profit;
-            xValue.push(food.vars[i][j]);
+            total_result += profit;
+            xValue.push(food.names[i][j]);
             yValue.push(profit.toFixed(2));
           };
         };
-        if (key=='M_profit') {plot_title = 'Profit = ' + total_result.toFixed(2)};
+        if (key=='M_profit') {plot_title = 'Profit = ' + total_result.toFixed(2) + ', (dashed line = average)'};
       } else {
-        for (i=0; i<food.plot.length; i++) {
+        for (i=0; i<food.plot.length; i++) {                     // only plot the ones that were checked
           let ploti = food.plot[i];
           xValue.push(food.names[ploti[0]][ploti[1]]);
           yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(2));
         };
       };
-      let trace1 = {
+      let trace0 = {
         x: xValue,
         y: yValue,
         type: 'bar',
@@ -151,26 +181,28 @@ function updatePlot1() {
         },
         showlegend: false
       };
-      let data = [trace1];
+      let data = [trace0];
       if (key=='M_profit') {
-        let trace2 = {
+        let trace_avg = {                                        // set up a line plot to show avg profit
           x: xValue,
           y: Array(xValue.length).fill(total_result/xValue.length),
           mode: 'lines',
           line: {
             color: 'rgb(55, 128, 191)',
-            width: 1.5
+            width: 1.5,
+            dash:  'dash'
           },
           hoverinfo: 'none',
-          name: 'average'
+          name: 'average',
+          showlegend: false
         };
-        data.push(trace2);
+        data.push(trace_avg);
       };
       let layout = {
         title: plot_title
       };
       Plotly.newPlot('plot' + plotNum, data, layout);
-      plotNum = plotNum + 1;
+      plotNum++;
     }
   }
 }
@@ -182,28 +214,35 @@ $(document).ready(function(){
     sliders.sliderHTML[i] = Array(sliders.numVars[i]);
   };
 
-  for (key in z) {
-    z_plot[key] = false;
-  };
-  z_plot["M_profit"] = true;           // initialize
+  initializeOptions();
 
   let plotSelectionHTML = '';
+  let boot_col_tot = 0;
+  let boot_cols = 4;
   for (key in z) {
     let plotOption = '';
     if (z_plot[key]) {
       plotOption = 'checked="checked"';
     };
     food.results[key] = Array(food.numTypes);
-    plotSelectionHTML = plotSelectionHTML +
-      '<div class="form-group"> \
-        <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
-        <div class="btn-group"> \
-          <label for="plot' + key + '" class="btn btn-info"> \
-            <span class="glyphicon glyphicon-ok"></span><span> </span> \
-          </label> \
-          <label for="plot' + key + '" class="btn btn-default active">' + key + '</label> \
-        </div> \
-      </div >';
+    if (boot_col_tot==0) {             // new row
+      plotSelectionHTML += '<div class="row">';
+    }
+    plotSelectionHTML += 
+     '<div class="col-sm-' + boot_cols + '"><div class="form-group">\
+        <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/>\
+        <div class="btn-group">\
+          <label for="plot' + key + '" class="btn btn-info">\
+            <span class="glyphicon glyphicon-ok"></span><span> </span>\
+          </label>\
+          <label for="plot' + key + '" class="btn btn-default active">' + key + '</label>\
+        </div>\
+      </div></div>';
+    boot_col_tot += boot_cols;
+    if (boot_col_tot==12) {
+      boot_col_tot = 0;
+      plotSelectionHTML += '</div>';
+    }
   };
   document.getElementById("plotSelectionForm").innerHTML = plotSelectionHTML;
 
@@ -254,10 +293,14 @@ $(document).ready(function(){
     for (j=0; j<sliders.numVars[i]; j++) {
       let sliderNamei = sliders.namesDisplay[i][j];
       let sliderVarNamei = sliders.vars[i][j];
-      slidersHTML = slidersHTML +
+      slidersHTML +=
         '<div class="slidecontainer"> \
           <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
-          <input type="range" min="0" max="10" step="0.1" value="' + sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" id="slider' + sliderVarNamei + '"> \
+          <input type="range" \
+          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
+          step="' + sliders.step[i][j] + '" value="' + 
+          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
+          id="slider' + sliderVarNamei + '"> \
         </div >';
     }
     mySliders0.innerHTML = slidersHTML;
