@@ -213,7 +213,7 @@ $(document).ready(function(){
       slidersHTML = slidersHTML +
         '<div class="slidecontainer"> \
           <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
-          <input type="range" min="0" max="10" value="' + sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" id="slider' + sliderVarNamei + '"> \
+          <input type="range" min="0" max="10" step="0.1" value="' + sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" id="slider' + sliderVarNamei + '"> \
         </div >';
     }
     mySliders0.innerHTML = slidersHTML;
