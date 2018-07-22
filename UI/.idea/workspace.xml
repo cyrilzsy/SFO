@@ -64,7 +64,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SFO_calc_profit_maximization.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SFO_calc_profit_maximization.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/SFO_calc_profit_maximization.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="525">
@@ -76,19 +76,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UI_Design.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UI_Design.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/UI_Design.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="31" column="57" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
+            <state relative-caret-position="575">
+              <caret line="104" column="52" selection-start-line="104" selection-start-column="52" selection-end-line="104" selection-end-column="52" />
               <folding>
-                <marker date="1532273089884" expanded="true" signature="4996:5432" ph="..." />
-                <marker date="1532273089884" expanded="true" signature="5150:5416" ph="..." />
-                <marker date="1532273089884" expanded="true" signature="5213:5307" ph="..." />
-                <marker date="1532273089884" expanded="true" signature="6519:7130" ph="..." />
-                <marker date="1532273089884" expanded="true" signature="6686:6986" ph="..." />
-                <marker date="1532273089884" expanded="true" signature="6760:6858" ph="..." />
-                <marker date="1532273089884" expanded="true" signature="7609:7885" ph="..." />
+                <marker date="1532275238705" expanded="true" signature="5007:5443" ph="..." />
+                <marker date="1532275238705" expanded="true" signature="5161:5427" ph="..." />
+                <marker date="1532275238705" expanded="true" signature="5224:5318" ph="..." />
+                <marker date="1532275238705" expanded="true" signature="6530:7141" ph="..." />
+                <marker date="1532275238705" expanded="true" signature="6697:6997" ph="..." />
+                <marker date="1532275238705" expanded="true" signature="6771:6869" ph="..." />
+                <marker date="1532275238705" expanded="true" signature="7620:7896" ph="..." />
               </folding>
             </state>
           </provider>
@@ -114,8 +114,8 @@
       <list>
         <option value="$PROJECT_DIR$/UI_Design.html" />
         <option value="$PROJECT_DIR$/js/SFO_calc.js" />
-        <option value="$PROJECT_DIR$/js/UI_Design.js" />
         <option value="$PROJECT_DIR$/js/SFO_calc_profit_maximization.js" />
+        <option value="$PROJECT_DIR$/js/UI_Design.js" />
       </list>
     </option>
   </component>
@@ -538,13 +538,13 @@
         <state relative-caret-position="2900">
           <caret line="116" column="21" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
           <folding>
-            <marker date="1532273089884" expanded="true" signature="4996:5432" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="5150:5416" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="5213:5307" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="6519:7130" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="6686:6986" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="6760:6858" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="7609:7885" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="5007:5443" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="5161:5427" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="5224:5318" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="6530:7141" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="6697:6997" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="6771:6869" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="7620:7896" ph="..." />
           </folding>
         </state>
       </provider>
@@ -887,22 +887,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/UI_Design.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="31" column="57" selection-start-line="31" selection-start-column="57" selection-end-line="31" selection-end-column="57" />
-          <folding>
-            <marker date="1532273089884" expanded="true" signature="4996:5432" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="5150:5416" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="5213:5307" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="6519:7130" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="6686:6986" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="6760:6858" ph="..." />
-            <marker date="1532273089884" expanded="true" signature="7609:7885" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/UI_Design.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="526">
@@ -942,6 +926,22 @@
           <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
           <folding>
             <element signature="e#0#41#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/UI_Design.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="104" column="52" selection-start-line="104" selection-start-column="52" selection-end-line="104" selection-end-column="52" />
+          <folding>
+            <marker date="1532275238705" expanded="true" signature="5007:5443" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="5161:5427" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="5224:5318" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="6530:7141" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="6697:6997" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="6771:6869" ph="..." />
+            <marker date="1532275238705" expanded="true" signature="7620:7896" ph="..." />
           </folding>
         </state>
       </provider>

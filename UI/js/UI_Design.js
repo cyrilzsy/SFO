@@ -103,7 +103,7 @@ function updatePlot1() {
       for (i=0; i<food.plot.length; i++) {
         let ploti = food.plot[i];
         xValue.push(food.names[ploti[0]][ploti[1]]);
-        yValue.push(food.results[key][ploti[0]][ploti[1]]);
+        yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(2));
       }
       let trace1 = {
         x: xValue,
