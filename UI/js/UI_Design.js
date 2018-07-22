@@ -95,16 +95,33 @@ function fClose() {
 };
 
 function updatePlot1() {
+  for (plotClear=0; plotClear<12; plotClear++) {
+    document.getElementById('plot' + plotClear).innerHTML = '';
+  }
   let plotNum = 0;
   for (key in z) {
     if (z_plot[key]) {
       let xValue = [];
       let yValue = [];
-      for (i=0; i<food.plot.length; i++) {
-        let ploti = food.plot[i];
-        xValue.push(food.names[ploti[0]][ploti[1]]);
-        yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(2));
-      }
+      let plot_title = key;
+      let total_profit = 0;
+      if (key=='M_profit') {
+        for (i=0; i<food.numTypes; i++) {
+          for (j=0; j<food.numVars[i]; j++) {
+            let profit = food.results[key][i][j];
+            total_profit = total_profit + profit;
+            xValue.push(food.vars[i][j]);
+            yValue.push(profit.toFixed(2));
+          };
+        };
+        plot_title = 'Profit = ' + total_profit.toFixed(2);
+      } else {
+        for (i=0; i<food.plot.length; i++) {
+          let ploti = food.plot[i];
+          xValue.push(food.names[ploti[0]][ploti[1]]);
+          yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(2));
+        };
+      };
       let trace1 = {
         x: xValue,
         y: yValue,
@@ -119,11 +136,27 @@ function updatePlot1() {
             color: 'rbg(8,48,107)',
             width: 1.5
           }
-        }
+        },
+        showlegend: false
       };
       let data = [trace1];
+      if (key=='M_profit') {
+        let trace2 = {
+          x: xValue,
+          y: Array(xValue.length).fill(total_profit/xValue.length),
+          mode: 'lines',
+          line: {
+            color: 'rgb(55, 128, 191)',
+            width: 1.5
+          },
+          hoverinfo: 'none',
+          name: 'average'
+        };
+        data.push(trace2);
+      };
       let layout = {
-        title: key
+        title: plot_title,
+
       };
       Plotly.newPlot('plot' + plotNum, data, layout);
       plotNum = plotNum + 1;
