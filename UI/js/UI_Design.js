@@ -23,32 +23,32 @@
 
   var sliders = {
     defaultValues: [
-                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1,1]], [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]], [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1,1]] ]
+                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1]], [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]], [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ]                                       // take out price
                    ],
     currentValues: [],
     typeNames:     ["Ordinance","Demand","Supply"],
     vars:         [["Enforcement","PromotionsOwners","PromotionsConsumers","MinimumStock"],
                    ["ConveniencePreparation","Taste","Affordability","Healthiness"],
-                   ["InfrastructureCapacity","EaseDelivery","UnitCost","OptimalPrice"]],
+                   ["InfrastructureCapacity","EaseDelivery","UnitCost"]],                      // take out price
     namesDisplay: [["Level of Enforcement","Promotions to Store Owners","Promotions to Consumers","Minimum Stock Required"],
                    ["Convenience of Preparation","Taste","Affordability","Healthiness"],
-                   ["Infrastructure (storage) Capacity","Ease of Delivery","Unit Cost","Optimal Price on Hand"]],
+                   ["Infrastructure (storage) Capacity","Ease of Delivery","Unit Cost"]],      // take out price
     numVars:       [],
     valuesHTML:    [],
     slidersHTML:   [],
     numTypes:      0
   };
   sliders.currentValues = sliders.defaultValues;
-  sliders.numTypes = sliders.vars.length;
+  sliders.numTypes   = sliders.vars.length;
   sliders.valuesHTML = Array(sliders.numTypes);
   sliders.sliderHTML = Array(sliders.numTypes);
 
@@ -93,28 +93,6 @@ function fClose() {
   console.log('Close');
   $('.collapse').collapse("hide");
 };
-
-// Variables for ODE
-var t_max = 30;
-var S_actual = [1];           // need to initialize these for the ODE solver, runTime
-var Y_demand = [0];           // don't use new Array
-var z = {
-  Y_supply:  [],
-  S_actual:  [],
-  Y_demand:  [],
-  Y_cust:    [],
-  Y_waste:   [],
-  M_profit:  [],
-  M_storage: [],
-  M_supply:  [],
-  M_delivery:[],
-  M_cust:    []
-};
-var zs = [];
-var z_length = Object.keys(z).length;
-var z_plot   = Object.create(null);
-
-var Par = [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1];
 
 function updatePlot1() {
   let plotNum = 0;
@@ -163,7 +141,7 @@ $(document).ready(function(){
   for (key in z) {
     z_plot[key] = false;
   };
-  z_plot["Y_demand"] = true;           // initialize
+  z_plot["M_profit"] = true;           // initialize
 
   let plotSelectionHTML = '';
   for (key in z) {
