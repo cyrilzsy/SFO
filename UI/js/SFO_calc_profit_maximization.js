@@ -6,21 +6,23 @@
 var n_max = 50;                                 // number of points for maximization
 
 var z = {
-  Y_supply:  null,
-  S_actual:  null,
-  Y_demand:  null,
-  Y_cust:    null,
-  Y_waste:   null,
+  price:     null,
   M_profit:  null,
   M_storage: null,
   M_supply:  null,
   M_delivery:null,
   M_cust:    null,
-  price:     null
+  Y_supply:  null,
+  S_actual:  null,
+  Y_demand:  null,
+  Y_cust:    null,
+  Y_waste:   null,
 };
 var zs       = [];
 var z_length = Object.keys(z).length;
-var z_plot   = Object.create(null);
+var z_plot   = {
+  num_plots: null
+};
 var Pars     = [
                 [ [0.6082,-0.1036,0.6489,-0.0883,3,0.15,0.19,0.19,0.16,0.15,0.11,1.41,1.6626,0.0485,-0.1052,4],
                   [0.1511,-0.0352,0.1864,-0.0352,3,0.14,0.18,0.15,0.18,0.17,0.13,3.875,0.4550,0.0104,-0.0323,1] ], // Milk

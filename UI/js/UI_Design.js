@@ -76,8 +76,11 @@ function updateSelect() {
     }
   };
 
+  z_plot.num_plots = 0;
   for (key in z) {
-    z_plot[key] = document.getElementById("plot" + key).checked;
+    let key_checked = document.getElementById("plot" + key).checked;
+    z_plot[key] = key_checked;
+    if (key_checked) {z_plot.num_plots++};
   };
 
   updatePlot1();
@@ -95,26 +98,35 @@ function fClose() {
 };
 
 function updatePlot1() {
+  // document.getElementById("panelPlots").innerHTML = '';
+  let boot_cols = 4;
+  if (food.plot.length>10) {
+    boot_cols = 12;
+  } else if (food.plot.length>6) {
+    boot_cols = 6;
+  }
+
   for (plotClear=0; plotClear<12; plotClear++) {
     document.getElementById('plot' + plotClear).innerHTML = '';
   }
+
   let plotNum = 0;
   for (key in z) {
     if (z_plot[key]) {
       let xValue = [];
       let yValue = [];
       let plot_title = key;
-      let total_profit = 0;
-      if (key=='M_profit') {
+      let total_result = 0;
+      if (key=='M_profit' || key=='price') {
         for (i=0; i<food.numTypes; i++) {
           for (j=0; j<food.numVars[i]; j++) {
             let profit = food.results[key][i][j];
-            total_profit = total_profit + profit;
+            total_result = total_result + profit;
             xValue.push(food.vars[i][j]);
             yValue.push(profit.toFixed(2));
           };
         };
-        plot_title = 'Profit = ' + total_profit.toFixed(2);
+        if (key=='M_profit') {plot_title = 'Profit = ' + total_result.toFixed(2)};
       } else {
         for (i=0; i<food.plot.length; i++) {
           let ploti = food.plot[i];
@@ -143,7 +155,7 @@ function updatePlot1() {
       if (key=='M_profit') {
         let trace2 = {
           x: xValue,
-          y: Array(xValue.length).fill(total_profit/xValue.length),
+          y: Array(xValue.length).fill(total_result/xValue.length),
           mode: 'lines',
           line: {
             color: 'rgb(55, 128, 191)',
@@ -155,8 +167,7 @@ function updatePlot1() {
         data.push(trace2);
       };
       let layout = {
-        title: plot_title,
-
+        title: plot_title
       };
       Plotly.newPlot('plot' + plotNum, data, layout);
       plotNum = plotNum + 1;
