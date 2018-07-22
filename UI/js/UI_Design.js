@@ -85,22 +85,98 @@ function updateSelect() {
     if (key_checked) {z_plot.num_plots++};
   };
 
-  updatePlot1();
+  updatePlot1(true);
 }
 
 function fReset(button) {
   // document.getElementById("checkboxHt"     ).checked = false
   console.log('Reset');
-  initializeOptions();
+  initializePlotOptions();
+  initializeFoodSelection();
   updateSelect();
 }
 
-function initializeOptions() {
+function initializePlotOptions() {
   for (key in z) {
     z_plot[key] = false;
   };
   z_plot["price"]    = true;           // initialize
   z_plot["M_profit"] = true;           // initialize
+
+  let plotSelectionHTML = '';
+  let boot_col_tot = 0;
+  let boot_cols = 4;
+  for (key in z) {
+    let plotOption = '';
+    if (z_plot[key]) {
+      plotOption = 'checked="checked"';
+    };
+    food.results[key] = Array(food.numTypes);
+    if (boot_col_tot==0) {             // new row
+      plotSelectionHTML += '<div class="row">';
+    }
+    plotSelectionHTML += 
+     '<div class="col-sm-' + boot_cols + '"><div class="form-group">\
+        <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/>\
+        <div class="btn-group">\
+          <label for="plot' + key + '" class="btn btn-info">\
+            <span class="glyphicon glyphicon-ok"></span><span> </span>\
+          </label>\
+          <label for="plot' + key + '" class="btn btn-default active">' + key + '</label>\
+        </div>\
+      </div></div>';
+    boot_col_tot += boot_cols;
+    if (boot_col_tot==12) {
+      boot_col_tot = 0;
+      plotSelectionHTML += '</div>';
+    }
+  };
+  document.getElementById("plotSelectionForm").innerHTML = plotSelectionHTML;
+
+  for (i0=0; i0<food.numTypes; i0++) {
+    food.numVars[i0] = food.names[i0].length;
+    // food.results[i0] = Array(z_length);
+    let food_n = food.numVars[i0];
+    food.vars[i0]    = Array(food_n);
+    zs[i0]           = Array(food_n);
+    for (key in z) {
+      food.results[key][i0] = Array(food_n);
+    };
+  };
+}
+
+function initializeFoodSelection() {
+  food.plot = [[0,0],[1,0]];
+
+  for (i=0; i<food.numTypes; i++) {
+    for (j=0; j<food.numVars[i]; j++) {
+      let foodNamei = food.names[i][j];
+      let foodVarNamei = foodNamei.replace(/ /g,"");     // replace all " " with "" (remove blank spaces for variable names)
+      food.vars[i][j] = foodVarNamei;
+      let selectOption = '';
+      let plotOption = '';
+      for (k=0; k<food.plot.length; k++) {
+        if (food.plot[k][0]==i && food.plot[k][1]==j) {
+          plotOption = 'checked="checked"';
+        }
+      };
+      if (food.select[0]==i && food.select[1]==j) {
+        selectOption = 'checked="checked"';
+      };
+      myTable[food.numTypes*j + i].innerHTML =
+        '<div class="form-group"> \
+          <input type="checkbox" id="plot' + foodVarNamei + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
+          <div class="btn-group"> \
+            <label for="plot' + foodVarNamei + '" class="btn btn-info"> \
+              <span class="glyphicon glyphicon-ok"></span><span> </span> \
+            </label> \
+            <label for="plot' + foodVarNamei + '" class="btn btn-default active">' + foodNamei + '</label> \
+          </div> \
+          <input type="radio" id="select' + foodVarNamei + '" name="choose" onchange="updateSelect()" ' + selectOption + '> \
+        </div >';
+    };
+  };
+  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
 }
 
 function fClose() {
@@ -108,7 +184,15 @@ function fClose() {
   $('.collapse').collapse("hide");
 };
 
-function updatePlot1() {
+function updatePlot1(updateResults) {
+  if (updateResults) {
+    for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
+      for (j0=0; j0<food.numVars[i0]; j0++) {
+        evalSliders([i0,j0]);
+      }
+    }
+  };
+
   let panel = '';
   let boot_cols = 4;                                             // default number of Bootstrap columns
   let boot_col_tot = 0;                                          // counter for the number of columns used in a row
@@ -214,78 +298,9 @@ $(document).ready(function(){
     sliders.sliderHTML[i] = Array(sliders.numVars[i]);
   };
 
-  initializeOptions();
+  initializePlotOptions();
 
-  let plotSelectionHTML = '';
-  let boot_col_tot = 0;
-  let boot_cols = 4;
-  for (key in z) {
-    let plotOption = '';
-    if (z_plot[key]) {
-      plotOption = 'checked="checked"';
-    };
-    food.results[key] = Array(food.numTypes);
-    if (boot_col_tot==0) {             // new row
-      plotSelectionHTML += '<div class="row">';
-    }
-    plotSelectionHTML += 
-     '<div class="col-sm-' + boot_cols + '"><div class="form-group">\
-        <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/>\
-        <div class="btn-group">\
-          <label for="plot' + key + '" class="btn btn-info">\
-            <span class="glyphicon glyphicon-ok"></span><span> </span>\
-          </label>\
-          <label for="plot' + key + '" class="btn btn-default active">' + key + '</label>\
-        </div>\
-      </div></div>';
-    boot_col_tot += boot_cols;
-    if (boot_col_tot==12) {
-      boot_col_tot = 0;
-      plotSelectionHTML += '</div>';
-    }
-  };
-  document.getElementById("plotSelectionForm").innerHTML = plotSelectionHTML;
-
-  for (i0=0; i0<food.numTypes; i0++) {
-    food.numVars[i0] = food.names[i0].length;
-    // food.results[i0] = Array(z_length);
-    let food_n = food.numVars[i0];
-    food.vars[i0]    = Array(food_n);
-    zs[i0]           = Array(food_n);
-    for (key in z) {
-      food.results[key][i0] = Array(food_n);
-    };
-  };
-
-  for (i=0; i<food.numTypes; i++) {
-    for (j=0; j<food.numVars[i]; j++) {
-      let foodNamei = food.names[i][j];
-      let foodVarNamei = foodNamei.replace(/ /g,"");     // replace all " " with "" (remove blank spaces for variable names)
-      food.vars[i][j] = foodVarNamei;
-      let selectOption = '';
-      let plotOption = '';
-      for (k=0; k<food.plot.length; k++) {
-        if (food.plot[k][0]==i && food.plot[k][1]==j) {
-          plotOption = 'checked="checked"';
-        }
-      };
-      if (food.select[0]==i && food.select[1]==j) {
-        selectOption = 'checked="checked"';
-      };
-      myTable[food.numTypes*j + i].innerHTML =
-        '<div class="form-group"> \
-          <input type="checkbox" id="plot' + foodVarNamei + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
-          <div class="btn-group"> \
-            <label for="plot' + foodVarNamei + '" class="btn btn-info"> \
-              <span class="glyphicon glyphicon-ok"></span><span> </span> \
-            </label> \
-            <label for="plot' + foodVarNamei + '" class="btn btn-default active">' + foodNamei + '</label> \
-          </div> \
-          <input type="radio" id="select' + foodVarNamei + '" name="choose" onchange="updateSelect()" ' + selectOption + '> \
-        </div >';
-    }
-  }
-  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+  initializeFoodSelection();
 
   for (i=0; i<sliders.numTypes; i++) {
     let mySliders0 = document.getElementById("set" + sliders.typeNames[i]);
@@ -317,19 +332,13 @@ $(document).ready(function(){
           // sliders.valuesHTML[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE?
           // sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = this.value;
           evalSliders(food.select);                          // food.select is used later
-          updatePlot1();
+          updatePlot1(false);
         }
       })([i,j]);                                           // (i,j) is the argument, passed to (e)
     }
   };
 
-  for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
-    for (j0=0; j0<food.numVars[i0]; j0++) {
-      evalSliders([i0,j0]);
-    }
-  };
-
-  updatePlot1();
+  updatePlot1(true);
 
   // See ContraceptiveDT for scrollspy options
 
