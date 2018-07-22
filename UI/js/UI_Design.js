@@ -14,8 +14,9 @@
     numVars: [],
     results: Object.create(null),
     vars:    [],
-    plot:    [[0,0],[1,0]],                         // initial foods to be plotted
-    select:  [0,0],
+    plot:    null,                         // initial foods to be plotted
+    select:  null,
+    // select:  [0,0],
     numTypes: 0
   };
   food.numTypes = food.names.length;
@@ -88,12 +89,16 @@ function updateSelect() {
   updatePlot1(true);
 }
 
-function fReset(button) {
+function fResetPlot(button) {
   // document.getElementById("checkboxHt"     ).checked = false
-  console.log('Reset');
   initializePlotOptions();
   initializeFoodSelection();
   updateSelect();
+}
+
+function fResetSliders(button) {
+  initializeSliders();
+  updatePlot1(true);
 }
 
 function initializePlotOptions() {
@@ -101,7 +106,7 @@ function initializePlotOptions() {
     z_plot[key] = false;
   };
   z_plot["price"]    = true;           // initialize
-  z_plot["M_profit"] = true;           // initialize
+  z_plot["M_profit"] = true;
 
   let plotSelectionHTML = '';
   let boot_col_tot = 0;
@@ -172,11 +177,62 @@ function initializeFoodSelection() {
             </label> \
             <label for="plot' + foodVarNamei + '" class="btn btn-default active">' + foodNamei + '</label> \
           </div> \
-          <input type="radio" id="select' + foodVarNamei + '" name="choose" onchange="updateSelect()" ' + selectOption + '> \
+          <input type="radio" id="select' + foodVarNamei + '" name="choose" onchange="updateRadio()" ' + selectOption + '> \
         </div >';
     };
   };
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+}
+
+function updateRadio() {
+  $("#nav-content").removeClass("in");
+  updateSelect();
+}
+
+function initializeSliders() {
+  food.select = [0,0];
+
+  for (i=0; i<sliders.numTypes; i++) {
+    sliders.numVars[i] = sliders.vars[i].length;
+    sliders.valuesHTML[i] = Array(sliders.numVars[i]);
+    sliders.sliderHTML[i] = Array(sliders.numVars[i]);
+  };
+
+  for (i=0; i<sliders.numTypes; i++) {
+    let mySliders0 = document.getElementById("set" + sliders.typeNames[i]);
+    slidersHTML = '';
+    for (j=0; j<sliders.numVars[i]; j++) {
+      let sliderNamei = sliders.namesDisplay[i][j];
+      let sliderVarNamei = sliders.vars[i][j];
+      slidersHTML +=
+        '<div class="slidecontainer"> \
+          <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
+          <input type="range" \
+          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
+          step="' + sliders.step[i][j] + '" value="' + 
+          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
+          id="slider' + sliderVarNamei + '"> \
+        </div >';
+    }
+    mySliders0.innerHTML = slidersHTML;
+    for (j=0; j<sliders.numVars[i]; j++) {
+      sliders.valuesHTML[i][j] = document.getElementById("value"  + sliders.vars[i][j]);
+      sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
+      sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
+      sliders.sliderHTML[i][j].oninput = (function(e) {
+        return function() {
+          let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
+          console.log(e + ", " + sliderValue);
+          sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i USE ONCHANGE?
+          sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
+          // sliders.valuesHTML[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE?
+          // sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = this.value;
+          evalSliders(food.select);                        // evaluate only the selected food
+          updatePlot1(false);                              // false = don't evaluate all foods
+        }
+      })([i,j]);                                           // (i,j) is the argument, passed to (e)
+    }
+  };  
 }
 
 function fClose() {
@@ -292,53 +348,10 @@ function updatePlot1(updateResults) {
 }
 
 $(document).ready(function(){
-  for (i=0; i<sliders.numTypes; i++) {
-    sliders.numVars[i] = sliders.vars[i].length;
-    sliders.valuesHTML[i] = Array(sliders.numVars[i]);
-    sliders.sliderHTML[i] = Array(sliders.numVars[i]);
-  };
-
+  initializeSliders();
   initializePlotOptions();
-
   initializeFoodSelection();
-
-  for (i=0; i<sliders.numTypes; i++) {
-    let mySliders0 = document.getElementById("set" + sliders.typeNames[i]);
-    slidersHTML = '';
-    for (j=0; j<sliders.numVars[i]; j++) {
-      let sliderNamei = sliders.namesDisplay[i][j];
-      let sliderVarNamei = sliders.vars[i][j];
-      slidersHTML +=
-        '<div class="slidecontainer"> \
-          <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
-          <input type="range" \
-          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
-          step="' + sliders.step[i][j] + '" value="' + 
-          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
-          id="slider' + sliderVarNamei + '"> \
-        </div >';
-    }
-    mySliders0.innerHTML = slidersHTML;
-    for (j=0; j<sliders.numVars[i]; j++) {
-      sliders.valuesHTML[i][j] = document.getElementById("value"  + sliders.vars[i][j]);
-      sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
-      sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
-      sliders.sliderHTML[i][j].oninput = (function(e) {
-        return function() {
-          let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
-          console.log(e + ", " + sliderValue);
-          sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i USE ONCHANGE?
-          sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
-          // sliders.valuesHTML[e[0]][e[1]].innerHTML = this.value;                // e is set to i USE ONCHANGE?
-          // sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = this.value;
-          evalSliders(food.select);                          // food.select is used later
-          updatePlot1(false);
-        }
-      })([i,j]);                                           // (i,j) is the argument, passed to (e)
-    }
-  };
-
-  updatePlot1(true);
+  updatePlot1(true);                     // true = evaluate profit and other results for all foods
 
   // See ContraceptiveDT for scrollspy options
 
