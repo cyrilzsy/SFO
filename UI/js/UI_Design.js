@@ -118,7 +118,7 @@ function initializePlotOptions() {
     if (boot_col_tot==0) {             // new row
       plotSelectionHTML += '<div class="row">';
     }
-    plotSelectionHTML += 
+    plotSelectionHTML +=
      '<div class="col-sm-' + boot_cols + '"><div class="form-group">\
         <input type="checkbox" id="plot' + key + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/>\
         <div class="btn-group">\
@@ -182,7 +182,7 @@ function initializeFoodSelection() {
 }
 
 function updateRadio() {
-  $("#nav-content").removeClass("in");
+//  $("#nav-content").removeClass("in");
   updateSelect();
 }
 
@@ -205,7 +205,7 @@ function initializeSliders() {
           <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
           <input type="range" \
           min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
-          step="' + sliders.step[i][j] + '" value="' + 
+          step="' + sliders.step[i][j] + '" value="' +
           sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
           id="slider' + sliderVarNamei + '"> \
         </div >';
@@ -226,7 +226,7 @@ function initializeSliders() {
         }
       })([i,j]);                                           // (i,j) is the argument, passed to (e)
     }
-  };  
+  };
 }
 
 function fClose() {

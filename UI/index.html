@@ -119,11 +119,11 @@
               <h5>Start you tour here</h5>
               <ul>
                 <li>Click on <b>Staple Food Selection</b> button in the bottom bar</li>
-                <li>Choose the food you want to simulate by click the <b>blue buttons</b> on the top or the left of each food (Muilt-selection allowed)</li>
+                <li>Choose the food you want to simulate by click the <b>blue box</b> on the top or the left of each food (Muilt-selection allowed)</li>
                 <li>Choose the food you want to change the characteristics in the <b>radio button</b> on the right of the food (one food each time)</li>
                 <li>Click the <b>Staple Food Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window</li>
                 <li>Click on <b>Plot Selection</b> button to show the availible plots for the result</li>
-                <li>Choose the results that you are interested in by click the <b>blue buttons</b> on the left of each variable</li>
+                <li>Choose the results that you are interested in by click the <b>blue box</b> on the left of each variable</li>
                 <li>Click the <b>Plot Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window</li>
 
               </ul>
@@ -144,73 +144,74 @@
           <div class="panel-primary">
             <div class="panel-heading">Graphs</div>
             <div class="panel-body">
-              <p>Following descriptions of plots are in the same order of the <b>Plot Selection</b>, from top to bottom, if you selected all the plots in that menu, you will see from <b>Plot 1</b> to <b>Plot 10</b> located from left to right, from top to bottom</p>
+              <p>Following descriptions of plots are in the same order as the <b>Plot Selection</b>, from left to right, top to bottom. If you selected all the plots in that menu, you will see from <b>Plot 1</b> to <b>Plot 11</b> located from top to bottom, left to right. </p>
               <h5>Plot 1</h5>
               <ul>
-                <li><b>Y_supply</b></li>
-                <li>Unit: units/week</li>
-                <li>Amount supplied to the store each week</li>
+                <li><b>price</b></li>
+                <li>Unit: $</li>
+                <li>The optimal price for each food based on the inputs from sliders</li>
               </ul>
               <h5>Plot 2</h5>
-              <ul>
-                <li><b>S_actual</b></li>
-                <li>Unit: units</li>
-                <li>Actual stock in store at the beginning of each week</li>
-              </ul>
-              <h5>Plot 3</h5>
-              <ul>
-                <li><b>Y_demand</b></li>
-                <li>Unit: units/week</li>
-                <li>Customer demand, how many of this food does the customer want each week</li>
-              </ul>
-              <h5>Plot 4</h5>
-              <ul>
-                <li><b>Y_cust</b></li>
-                <li>Unit: units/week</li>
-                <li>Amount of food actually purchased by customer each week</li>
-              </ul>
-              <h5>Plot 5</h5>
-              <ul>
-                <li><b>Y_waste</b></li>
-                <li>Unit: units/week</li>
-                <li>Amount wasted from store each week</li>
-              </ul>
-              <h5>Plot 6</h5>
               <ul>
                 <li><b>M_profit</b></li>
                 <li>Unit: $/week</li>
                 <li>Weekly profit, how much money earned by the store (Costs deducted)</li>
               </ul>
-              <h5>Plot 7</h5>
+              <h5>Plot 3</h5>
               <ul>
                 <li><b>M_storage</b></li>
                 <li>Unit: $/week</li>
                 <li>Storage cost per week, based on how many foods are actually stored in the store</li>
               </ul>
-              <h5>Plot 8</h5>
+              <h5>Plot 4</h5>
               <ul>
                 <li><b>M_supply</b></li>
                 <li>Unit: $/week</li>
                 <li>Weekly purchase cost for the store (to supplier), how much does the store spend to buy the food each week</li>
               </ul>
-              <h5>Plot 9</h5>
+              <h5>Plot 5</h5>
               <ul>
                 <li><b>M_delivery</b></li>
                 <li>Unit: $/week</li>
                 <li>Weekly cost of delivery, how much does the store spend on delivery related actions</li>
               </ul>
-              <h5>Plot 10</h5>
+              <h5>Plot 6</h5>
               <ul>
                 <li><b>M_cust</b></li>
                 <li>Unit: $/week</li>
                 <li>Weekly revenue from customer (to store), how much money does the store earned from customer (cost not deducted)</li>
               </ul>
+              <h5>Plot 7</h5>
+              <ul>
+                <li><b>Y_supply</b></li>
+                <li>Unit: units/week</li>
+                <li>Amount supplied to the store each week</li>
+              </ul>
+              <h5>Plot 8</h5>
+              <ul>
+                <li><b>S_actual</b></li>
+                <li>Unit: units</li>
+                <li>Actual stock in store at the beginning of each week</li>
+              </ul>
+              <h5>Plot 9</h5>
+              <ul>
+                <li><b>Y_demand</b></li>
+                <li>Unit: units/week</li>
+                <li>Customer demand, how many of this food does the customer want each week</li>
+              </ul>
+              <h5>Plot 10</h5>
+              <ul>
+                <li><b>Y_cust</b></li>
+                <li>Unit: units/week</li>
+                <li>Amount of food actually purchased by customer each week</li>
+              </ul>
               <h5>Plot 11</h5>
               <ul>
-                <li><b>S_actual_end</b></li>
-                <li>Unit: units</li>
-                <li>Actual stock in store at the end of each week</li>
+                <li><b>Y_waste</b></li>
+                <li>Unit: units/week</li>
+                <li>Amount wasted from store each week</li>
               </ul>
+
             </div>
           </div>
         </div>
@@ -228,7 +229,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h3 class="modal-title">Send Feedback to Siyao Zhu</h3>
+        <h3 class="modal-title">Send Feedback to Developer</h3>
       </div>
       <div class="modal-body">
         <form action="mailto:szhu34@jhu.edu?subject=SFO app feedback&cc=tigusa@jhu.edu,lpoirie4@jhmi.edu" method="post" enctype="text/plain">
@@ -356,7 +357,7 @@
       <div class="col-sm-4">
         <div class="panel panel-danger">
           <div class="panel-heading">
-            <h4 class="panel-title">Ordinance Characteristics</h4>
+            <h4 class="panel-title" id="sPanel">Ordinance Characteristics</h4>
           </div>
 
           <div class="panel-body" id="setOrdinance">
