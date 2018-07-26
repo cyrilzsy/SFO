@@ -17,6 +17,94 @@
   <script src="hopscotch-0.3.1/js/hopscotch.min.js"></script>
 
   <link   rel="stylesheet" type="text/css" href="css/UI_Design.css"/>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <style>
+    #custom-handle {
+    width: 1.3em;
+    height: 1.6em;
+    text-align: center;
+    line-height: 1.6em;
+    }
+
+    #eq > span {
+    height:120px; float:left; margin:15px
+    }
+
+    #setOrdinance ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    display: inline-flex
+    }
+
+    #setDemand ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    display: inline-flex
+    }
+
+    #setSupply ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    display: inline-flex
+    }
+  </style>
+  <script>
+
+
+
+
+
+  $( function() {
+ //   var s = ['#sliders0'];
+  //  var slidersStr = '';
+ //   var handleStr = '';
+ //   for (i=0;i<11; i++) {
+  //    slidersStr += ','+'#'+'sliders'+ i;
+ //     handleStr +=  '#'+'custom-handle'+ i;
+ //   }
+  //  s.push(slidersStr);
+  //  console.log(s);
+     var handle = $( "#custom-handle0,#custom-handle1,#custom-handle2,#custom-handle3,#custom-handle4,#custom-handle5,#custom-handle6,#custom-handle7,#custom-handle8,#custom-handle9,#custom-handle10" );
+     var sliders = $('#sliders0,#sliders1,#sliders2,#sliders3,#sliders4,#sliders5,#sliders6,#sliders7,#sliders8,#sliders9,#sliders10');
+      sliders.slider({
+        create: function () {
+          handle.text($(this).slider("value"));
+        },
+        orientation: "vertical",
+        range: "min",
+        min: 1,
+        max: 10,
+        slide: function (event, ui) {
+          handle.text(ui.value);
+        }
+      });
+  });
+
+  //  $( function() {
+//    $( "#eq > span" ).each(function() {
+      // read initial values from markup and remove that
+ //     var value = parseInt( $( this ).text(), 10 );
+ //     $( this ).empty().slider({
+//        value: value,
+ //       range: "min",
+ //       min: 1,
+ //       max: 10,
+ //       animate: true,
+ //       orientation: "vertical",
+ //       slide: function( event, ui ) {
+ //       $( "#amount" ).val( ui.value );
+//        }
+//      });
+//    });
+ //   $( "#amount" ).val( $( "#eq" ).slider( "value" ) );
+//  } );
+
+  </script>
  </head>
 
 <body data-spy="scroll" data-target="#myNavbar" data-offset="50">
@@ -361,6 +449,35 @@
           </div>
 
           <div class="panel-body" id="setOrdinance">
+            <ul>
+            <li style="">Value on Change:</li>
+            <li id="custom-handle0" style="border:0; color:#f6931f; font-weight:bold;"></li>
+            </ul>
+            <div>
+            <ul>
+              <li>
+                <p>Level of Enforcement</p>
+                <div id="sliders0">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Promotions to Store Owners</p>
+                <div id="sliders1">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Promotions to Consumers</p>
+                <div id="sliders2">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Minimum Stock Required</p>
+                <div id="sliders3">
+                </div>
+              </li>
+            </ul>
+            </div>
+
           </div>
         </div>
       </div>
@@ -372,6 +489,34 @@
           </div>
 
           <div class="panel-body" id="setDemand">
+            <ul>
+            <li style="">Value on Change:</li>
+            <li id="custom-handle4" style="border:0; color:#f6931f; font-weight:bold;"></li>
+            </ul>
+            <div>
+            <ul>
+              <li>
+                <p>Convenience of Preparation</p>
+                <div id="sliders4">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Taste</p>
+                <div id="sliders5">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Affordability</p>
+                <div id="sliders6">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Healthiness</p>
+                <div id="sliders7">
+                </div>
+              </li>
+            </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -383,6 +528,29 @@
           </div>
 
           <div class="panel-body" id="setSupply">
+            <ul>
+            <li style="">Value on Change:</li>
+            <li id="custom-handle8" style="border:0; color:#f6931f; font-weight:bold;"></li>
+            </ul>
+            <div>
+            <ul>
+              <li>
+                <p>Infrastructure (storage) Capacity</p>
+                <div id="sliders8">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Ease of Delivery</p>
+                <div id="sliders9">
+                </div>
+              </li>
+              <li style="padding-left: 20px">
+                <p>Unit Cost</p>
+                <div id="sliders10">
+                </div>
+              </li>
+            </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -397,14 +565,16 @@
   </div>
 
   <div class="panel-body" id='panelPlots'>
+    <img src="p1.jpg" width="1000" height="333">
+    <img src="p2.jpg" width="1050" height="400">
   </div>
 </div>
 
-<script src="js/UI_Design.js"></script>
+<!--<script src="js/UI_Design.js"></script>
 <!-- <script src="js/SFO_calc.js"></script> -->
 <script src="js/SFO_calc_profit_maximization.js"></script>
-<script src="js/hopscotchTour.js"></script>
+<!--<script src="js/hopscotchTour.js"></script>
 
-  </div>
+
 </body>
 </html>
