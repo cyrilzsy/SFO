@@ -1,12 +1,12 @@
   var myTable0 = document.getElementById("checkboxTable");
   var myTable  = myTable0.getElementsByTagName("td");
   var food = {
-    names:  [["Fat Free Milk","Original Milk"],
+    names:  [["Fat Free Milk"],
              ["Cheddar Cheese"],
              ["Egg"],
-             ["Tofu"],
+             ["Canned Tuna","Lettuce"],
              ["Banana","Frozen Vegetables"],
-             ["Orange Juice"],
+             ["Canned Fruit in 100% Juice"],
              ["Whole Grain Cereal"],
              ["Whole Wheat Bread"],
              ["Low Sodium Canned Beans"],
@@ -22,11 +22,11 @@
 
   var sliders = {
     defaultValues: [
-                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1.3]], [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1.3]] ],
                     [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
                     [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,0.3]], [[0.6,10,5,5],[5,5,5,5],[2,3,1.2]] ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]], [[0.6,10,5,5],[5,5,5,5],[2,3,1]]  ],
+                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,0.3]], [[0.6,10,5,5],[5,5,5,5],[2,3,1.2]]],
                     [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1]] ],
                     [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
                     [ [[0.6,10,5,5],[5,5,5,5],[2,3,2.4]] ],
