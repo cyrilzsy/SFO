@@ -22,19 +22,19 @@
 
   var sliders = {
     defaultValues: [
-                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1.3]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,0.3]], [[0.6,10,5,5],[5,5,5,5],[2,3,1.2]], [[0.6,10,5,5],[5,5,5,5],[2,3,1]]],
-                    [ [[0.5, 5,5,5],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,2.4]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1.1]] ],
-                    [ [[0.6,10,5,5],[5,5,5,5],[2,3,1]] ]                                       // take out price
+                    [ [[0.5, 5,5,3],[5,5,5,5],[2,3,1.3]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,10,5,5],[5,5,5,5],[2,3,1.2]], [[0.6,10,5,5],[5,5,5,5],[2,3,1]]],
+                    [ [[0.5, 5,5,3],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,2.4]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1.1]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ]                                       // take out price
                    ],
-    min:           [[0,  0, 0, 0],[ 0, 0, 0, 0],[ 0, 0,   0]],
-    max:           [[1, 10,10,10],[10,10,10,10],[10,10,  10]],
+    min:           [[0,  1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,   0.1]],
+    max:           [[1, 10,10,10],[10,10,10,10],[5, 5,  10]],
     step:          [[0.1,1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,0.05]],
     currentValues: [],
     typeNames:     ["Ordinance","Demand","Supply"],
@@ -146,27 +146,28 @@ function initializePlotOptions() {
     };
   };
 }
-console.log(food.vars);
+
 
 function initializeFoodSelection() {
   food.plot = [[0,0],[1,0]];
 
-  for (i=0; i<food.numTypes; i++) {
-    for (j=0; j<food.numVars[i]; j++) {
-      let foodNamei = food.names[i][j];
+  for (i0=0; i0<food.numTypes; i0++) {
+    for (j0=0; j0<food.numVars[i0]; j0++) {
+      let foodNamei = food.names[i0][j0];
       let foodVarNamei = foodNamei.replace(/ /g,"");     // replace all " " with "" (remove blank spaces for variable names)
-      food.vars[i][j] = foodVarNamei;
+      food.vars[i0][j0] = foodVarNamei;
       let selectOption = '';
       let plotOption = '';
+
       for (k=0; k<food.plot.length; k++) {
-        if (food.plot[k][0]==i && food.plot[k][1]==j) {
+        if (food.plot[k][0]==i0 && food.plot[k][1]==j0) {
           plotOption = 'checked="checked"';
         }
       };
-      if (food.select[0]==i && food.select[1]==j) {
+      if (food.select[0]==i0 && food.select[1]==j0) {
         selectOption = 'checked="checked"';
       };
-      myTable[food.numTypes*j + i].innerHTML =
+      myTable[food.numTypes*j0 + i0].innerHTML =
         '<div class="form-group"> \
           <input type="checkbox" id="plot' + foodVarNamei + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
           <div class="btn-group"> \
@@ -222,12 +223,28 @@ function initializeSliders() {
           console.log(e + ", " + sliderValue);
           sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i
           sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
+          if (sliders.sliderHTML[0][0].value == 0) {
+            sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "None";
+          }
+          else if (sliders.sliderHTML[0][0].value <= 0.3) {
+            sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "Low";
+          }
+          else if (sliders.sliderHTML[0][0].value > 0.3 && sliders.sliderHTML[0][0].value <= 0.7){
+            sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "Medium";
+          }
+          else if (sliders.sliderHTML[0][0].value > 0.7 && sliders.sliderHTML[0][0].value <= 1){
+            sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "High";
+          }
+
           evalSliders(food.select);                        // evaluate only the selected food
           updatePlot1(false);                              // false = don't evaluate all foods
+
         }
       })([i,j]);                                           // (i,j) is the argument, passed to (e)
+
     }
   };
+
 }
 
 function fClose() {
@@ -255,10 +272,10 @@ function updatePlot1(updateResults) {
 
   let plotNum = 0;
   if (z_plot['price']) {                                         // price is full-width because we show all prices
-    panel += '<div class="row" id="plot' + plotNum++ + '"></div>';
+    panel += '<br><hr  noshade><div class="row" id="plot' + plotNum++ + '"></div><br><hr noshade>';
   };
   if (z_plot['M_profit']) {                                      // profit is also full-width
-    panel += '<div class="row" id="plot' + plotNum++ + '"></div>';
+    panel += '<br><hr  noshade><div class="row" id="plot' + plotNum++ + '"></div><br><hr noshade>';
   };
 
   for (k=plotNum; k<z_plot.num_plots; k++) {                     // for each plot

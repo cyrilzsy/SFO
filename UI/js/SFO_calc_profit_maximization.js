@@ -98,6 +98,6 @@ function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability
     z.M_delivery = z.Y_supply*C_delivery;
     z.M_cust     = z.Y_demand*z.price
   }
-  console.log(z);
+
 }
 
