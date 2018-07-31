@@ -1,16 +1,12 @@
   var myTable0 = document.getElementById("checkboxTable");
   var myTable  = myTable0.getElementsByTagName("td");
   var food = {
-    names:  [["Fat Free Milk"],
-             ["Cheddar Cheese"],
-             ["Egg"],
-             ["Canned Tuna"],
-             ["Banana","Frozen Vegetables","Lettuce"],
-             ["Canned Fruit in 100% Juice"],
-             ["Whole Grain Cereal"],
-             ["Whole Wheat Bread"],
-             ["Low Sodium Canned Beans"],
-             ["Peas"]],
+    names:  [["Fresh Oranges","Fresh Carrots","Tomatoes","Fresh Bananas","Canned Fruit in 100% Juice","Frozen Broccoli","Fresh Iceberg Lettuce"],
+             ["Whole Wheat Tortillas","Plain Oatmeal","Whole Wheat Pasta","Whole Wheat Bread","Whole Grain Cereal"],
+             ["Low-sugar Yogurt","Low-fat Cheese","Fat-free/skim Milk","Eggs"],
+             ["Ground Beef (10% fat)","Unbreaded Poultry","Canned Tuna in Water"],
+             ["Peanut Butter","Soymilk","Low Sodium Canned Beans"]
+             ],
     numVars: [],
     results: Object.create(null),
     vars:    [],
@@ -22,16 +18,11 @@
 
   var sliders = {
     defaultValues: [
-                    [ [[0.5, 5,5,3],[5,5,5,5],[2,3,1.3]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,10,5,5],[5,5,5,5],[2,3,1.2]], [[0.6,10,5,5],[5,5,5,5],[2,3,1]]],
-                    [ [[0.5, 5,5,3],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,2.4]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1.1]] ],
-                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]] ]                                       // take out price
+                    [ [[0.5, 5,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,10,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,0.2]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.7]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.5]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,1]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.7]], [[0.6,10,5,3],[5,5,5,5],[2,3,2.2]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,3.5]], [[0.6,10,5,3],[5,5,5,5],[2,3,3.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,2.5]] ],
+                    [ [[0.6,10,5,3],[5,5,5,5],[2,3,2.3]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.5]], [[0.6,10,5,3],[5,5,5,5],[2,3,1]]]  // take out price
                    ],
     min:           [[0,  1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,   0.1]],
     max:           [[1, 10,10,10],[10,10,10,10],[5, 5,  10]],
@@ -282,7 +273,7 @@ function updatePlot1(updateResults) {
     if (boot_col_tot==0) {                                       // beginning of a new row
       panel += '<div class="row">';
     };                                                           // new div
-    panel += '<div class="col-sm-' + boot_cols + '"><div id="plot' + plotNum++ + '"></div></div>';
+    panel += '<div class="col-sm-' + boot_cols + '"><div style="padding-bottom: inherit" id="plot' + plotNum++ + '"></div></div>';
     boot_col_tot += boot_cols;
     if (boot_col_tot==12) {                                      // end of row
       boot_col_tot = 0;
