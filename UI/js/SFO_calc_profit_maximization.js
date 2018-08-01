@@ -16,7 +16,7 @@ var z = {
   S_actual:  null,
   Y_demand:  null,
   Y_cust:    null,
-  Y_waste:   null,
+  Y_waste:   null
 };
 var zs       = [];
 var z_length = Object.keys(z).length;

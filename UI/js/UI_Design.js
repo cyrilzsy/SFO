@@ -24,8 +24,8 @@
                     [ [[0.6,10,5,3],[5,5,5,5],[2,3,3.5]], [[0.6,10,5,3],[5,5,5,5],[2,3,3.2]], [[0.6,10,5,3],[5,5,5,5],[2,3,2.5]] ],
                     [ [[0.6,10,5,3],[5,5,5,5],[2,3,2.3]], [[0.6,10,5,3],[5,5,5,5],[2,3,1.5]], [[0.6,10,5,3],[5,5,5,5],[2,3,1]]]  // take out price
                    ],
-    min:           [[0,  1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,   0.1]],
-    max:           [[1, 10,10,10],[10,10,10,10],[5, 5,  10]],
+    min:           [[0, 1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,   0.1]],
+    max:           [[1, 5, 5, 10],[ 5, 5, 5, 5],[ 5, 5,  10]],
     step:          [[0.1,1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,0.05]],
     currentValues: [],
     typeNames:     ["Ordinance","Demand","Supply"],
@@ -46,11 +46,6 @@
   sliders.sliderHTML = Array(sliders.numTypes);
 
 
-  $("sliderMinimumStock").sliders({
-    ticks: [0, 1, 2, 3, 4],
-    ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
-    ticks_snap_bounds: 30
-    });
 
 function updateSelect() {
   food.plot = [];
@@ -187,37 +182,75 @@ function updateRadio() {
 }
 
 function initializeSliders() {
-  food.select = [0,0];
+  food.select = [0, 0];
 
-  for (i=0; i<sliders.numTypes; i++) {
+  for (i = 0; i < sliders.numTypes; i++) {
     sliders.numVars[i] = sliders.vars[i].length;
     sliders.valuesHTML[i] = Array(sliders.numVars[i]);
     sliders.sliderHTML[i] = Array(sliders.numVars[i]);
-  };
+  }
+  ;
 
-  for (i=0; i<sliders.numTypes; i++) {
+  for (i = 0; i < sliders.numTypes; i++) {
     slidersHTML = '';
-    for (j=0; j<sliders.numVars[i]; j++) {
+    for (j = 0; j < sliders.numVars[i]; j++) {
       let sliderNamei = sliders.namesDisplay[i][j];
       let sliderVarNamei = sliders.vars[i][j];
-      console.log(sliderVarNamei);
-      slidersHTML +=
-        '<div class="slidecontainer"> \
-          <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
+      if (i == 0 && j == 0) {
+        slidersHTML +=
+          '<div class="slidecontainer"> \
+            <p>' + sliderNamei + ' (Percentage Enforced): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
           <input type="range" \
           min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
           step="' + sliders.step[i][j] + '" value="' +
           sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
-          id="slider' + sliderVarNamei + '" data-slider-ticks="[0, 1, 2, 3, 4]" data-slider-ticks-snap-bounds="30" data-slider-ticks-labels=\'["$0", "$100", "$200", "$300", "$400"]\'/> \
+          id="slider' + sliderVarNamei + '"> \
         </div >';
-    };
+      }
+      else if (i == 0 && j == 3) {
+        slidersHTML +=
+          '<div class="slidecontainer"> \
+            <p>' + sliderNamei + ' (Ordinance Required Amount (Units)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+          <input type="range" \
+          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
+          step="' + sliders.step[i][j] + '" value="' +
+          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
+          id="slider' + sliderVarNamei + '"> \
+        </div >';
+      }
+      else if (i == 2 && j == 2) {
+        slidersHTML +=
+          '<div class="slidecontainer"> \
+            <p>' + sliderNamei + ' (Unit Price for Customers ($)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+          <input type="range" \
+          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
+          step="' + sliders.step[i][j] + '" value="' +
+          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
+          id="slider' + sliderVarNamei + '"> \
+        </div >';
+      }
+      else {
+        slidersHTML +=
+          '<div class="slidecontainer"> \
+            <p>' + sliderNamei + ' (Rate from 1 to 5): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+          <input type="range" \
+          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
+          step="' + sliders.step[i][j] + '" value="' +
+          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
+          id="slider' + sliderVarNamei + '"> \
+        </div >';
+      }
+    }
+
+
     document.getElementById("set" + sliders.typeNames[i]).innerHTML = slidersHTML;
-    for (j=0; j<sliders.numVars[i]; j++) {
-      sliders.valuesHTML[i][j] = document.getElementById("value"  + sliders.vars[i][j]);
+
+    for (j = 0; j < sliders.numVars[i]; j++) {
+      sliders.valuesHTML[i][j] = document.getElementById("value" + sliders.vars[i][j]);
       sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
       sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
-      sliders.sliderHTML[i][j].oninput = (function(e) {
-        return function() {
+      sliders.sliderHTML[i][j].oninput = (function (e) {
+        return function () {
           let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
           console.log(e + ", " + sliderValue);
           sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i
@@ -228,10 +261,10 @@ function initializeSliders() {
           else if (sliders.sliderHTML[0][0].value <= 0.3) {
             sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "Low";
           }
-          else if (sliders.sliderHTML[0][0].value > 0.3 && sliders.sliderHTML[0][0].value <= 0.7){
+          else if (sliders.sliderHTML[0][0].value > 0.3 && sliders.sliderHTML[0][0].value <= 0.7) {
             sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "Medium";
           }
-          else if (sliders.sliderHTML[0][0].value > 0.7 && sliders.sliderHTML[0][0].value <= 1){
+          else if (sliders.sliderHTML[0][0].value > 0.7 && sliders.sliderHTML[0][0].value <= 1) {
             sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "High";
           }
 
@@ -239,12 +272,12 @@ function initializeSliders() {
           updatePlot1(false);                              // false = don't evaluate all foods
 
         }
-      })([i,j]);                                           // (i,j) is the argument, passed to (e)
-
+      })([i, j]);                                           // (i,j) is the argument, passed to (e)
     }
-  };
-
+  }
 }
+
+
 
 function fClose() {
   console.log('Close');
@@ -281,7 +314,7 @@ function updatePlot1(updateResults) {
     if (boot_col_tot==0) {                                       // beginning of a new row
       panel += '<div class="row">';
     };                                                           // new div
-    panel += '<div class="col-sm-' + boot_cols + '"><div style="padding-bottom: inherit" id="plot' + plotNum++ + '"></div></div>';
+    panel += '<div class="col-sm-' + boot_cols + '"><div id="plot' + plotNum++ + '"></div></div>';
     boot_col_tot += boot_cols;
     if (boot_col_tot==12) {                                      // end of row
       boot_col_tot = 0;
@@ -299,22 +332,62 @@ function updatePlot1(updateResults) {
       let plot_title = key;
       let total_result = 0;                                      // total used for profit calcs
       if (key=='M_profit' || key=='price') {
-        for (i=0; i<food.numTypes; i++) {
-          for (j=0; j<food.numVars[i]; j++) {
+        for (i = 0; i < food.numTypes; i++) {
+          for (j = 0; j < food.numVars[i]; j++) {
             let profit = food.results[key][i][j];
             total_result += profit;
             xValue.push(food.names[i][j]);
             yValue.push(profit.toFixed(2));
-          };
-        };
-        if (key=='M_profit') {plot_title = 'Profit = ' + total_result.toFixed(2) + ', (dashed line = average)'};
-      } else {
-        for (i=0; i<food.plot.length; i++) {                     // only plot the ones that were checked
+          }
+        }
+        if (key == 'M_profit') {
+          plot_title = 'Total Weekly Profit = $' + total_result.toFixed(2) + ', (dashed line = Average profit for all foods in dollars per week)'
+        }
+        else if (key == 'price') {
+          plot_title = 'Recommended Selling Unit Price for Each Food in Dollars'
+        }
+      }
+      else if (key=='M_storage' || key=='M_supply' || key=='M_delivery' || key=='M_cust') {
+        for (i = 0; i < food.plot.length; i++) {                     // only plot the ones that were checked
           let ploti = food.plot[i];
           xValue.push(food.names[ploti[0]][ploti[1]]);
           yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(2));
-        };
-      };
+          if (key == 'M_storage') {
+            plot_title = 'Weekly Storage Cost in Dollars'
+          }
+          else if (key == 'M_supply') {
+            plot_title = 'Cost for Stores to Buy the Food from Supplier In Dollars Per Week'
+          }
+          else if (key == 'M_delivery') {
+            plot_title = 'Delivery Cost In Dollars Per Week'
+          }
+          else if (key == 'M_cust') {
+            plot_title = 'Money Get from Customers in Dollars Per Week (Costs not Deducted)'
+          }
+        }
+      }
+      else {
+        for (i = 0; i < food.plot.length; i++) {                     // only plot the ones that were checked
+          let ploti = food.plot[i];
+          xValue.push(food.names[ploti[0]][ploti[1]]);
+          yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(0));
+          if (key == 'Y_supply') {
+            plot_title = 'Amount Supplied to The Store from Supplier Each Week'
+          }
+          else if (key == 'S_actual') {
+            plot_title = 'Actual Stock in The Store Each Week'
+          }
+          else if (key == 'Y_demand') {
+            plot_title = 'Customer Demand in Units Per Week'
+          }
+          else if (key == 'Y_cust') {
+            plot_title = 'Amount of Food Actually Purchased by Customer Per Week'
+          }
+          else if (key == 'Y_waste') {
+            plot_title = 'Amount of Food Wasted from Store Per Week'
+          }
+        }
+      }
       let trace0 = {
         x: xValue,
         y: yValue,
