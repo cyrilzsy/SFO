@@ -388,7 +388,27 @@ function updatePlot1(updateResults) {
           }
         }
       }
+
       let trace0 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false,
+        name: xValue[0]
+      };
+      console.log(xValue);
+      let trace1 = {
         x: xValue,
         y: yValue,
         type: 'bar',
@@ -405,6 +425,348 @@ function updatePlot1(updateResults) {
         },
         showlegend: false
       };
+      let trace2 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace3 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace4 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace5 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace6 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace7 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace8 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace9 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace10 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace11 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace12 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace13 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace14 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace15 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace16 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace17 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace18 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace19 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace20 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+      let trace21 = {
+        x: xValue,
+        y: yValue,
+        type: 'bar',
+        text: yValue,
+        textposition: 'auto',
+        hoverinfo: 'none',
+        marker: {
+          color: 'rgb(158,202,225)',
+          opacity: 0.6,
+          line: {
+            color: 'rbg(8,48,107)',
+            width: 1.5
+          }
+        },
+        showlegend: false
+      };
+
+
       let data = [trace0];
       if (key=='M_profit') {
         let trace_avg = {                                        // set up a line plot to show avg profit
