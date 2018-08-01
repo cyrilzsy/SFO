@@ -45,6 +45,13 @@
   sliders.valuesHTML = Array(sliders.numTypes);
   sliders.sliderHTML = Array(sliders.numTypes);
 
+
+  $("sliderMinimumStock").sliders({
+    ticks: [0, 1, 2, 3, 4],
+    ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
+    ticks_snap_bounds: 30
+    });
+
 function updateSelect() {
   food.plot = [];
   for (i=0; i<food.numTypes; i++) {
@@ -193,6 +200,7 @@ function initializeSliders() {
     for (j=0; j<sliders.numVars[i]; j++) {
       let sliderNamei = sliders.namesDisplay[i][j];
       let sliderVarNamei = sliders.vars[i][j];
+      console.log(sliderVarNamei);
       slidersHTML +=
         '<div class="slidecontainer"> \
           <p>' + sliderNamei + ': <span id="value' + sliderVarNamei + '"></span></p> \
@@ -200,7 +208,7 @@ function initializeSliders() {
           min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
           step="' + sliders.step[i][j] + '" value="' +
           sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
-          id="slider' + sliderVarNamei + '"> \
+          id="slider' + sliderVarNamei + '" data-slider-ticks="[0, 1, 2, 3, 4]" data-slider-ticks-snap-bounds="30" data-slider-ticks-labels=\'["$0", "$100", "$200", "$300", "$400"]\'/> \
         </div >';
     };
     document.getElementById("set" + sliders.typeNames[i]).innerHTML = slidersHTML;
