@@ -294,12 +294,12 @@ function updatePlot1(updateResults) {
   };
 
   let panel = '';
-  let boot_cols = 4;                                             // default number of Bootstrap columns
+  let boot_cols = 12;                                             // default number of Bootstrap columns
   let boot_col_tot = 0;                                          // counter for the number of columns used in a row
   if (food.plot.length>10) {                                     // food.plot is an array of foods to plot
     boot_cols = 12;                                              // if the array is large, make the plot full-width
   } else if (food.plot.length>6) {                               // otherwise, make it half-width
-    boot_cols = 6;
+    boot_cols = 12;
   }
 
   let plotNum = 0;
@@ -331,6 +331,7 @@ function updatePlot1(updateResults) {
       let yValue = [];
       let plot_title = key;
       let total_result = 0;                                      // total used for profit calcs
+      let average_result = 0;
       if (key=='M_profit' || key=='price') {
         for (i = 0; i < food.numTypes; i++) {
           for (j = 0; j < food.numVars[i]; j++) {
@@ -338,10 +339,11 @@ function updatePlot1(updateResults) {
             total_result += profit;
             xValue.push(food.names[i][j]);
             yValue.push(profit.toFixed(2));
+            average_result = total_result/xValue.length;
           }
         }
         if (key == 'M_profit') {
-          plot_title = 'Total Weekly Profit = $' + total_result.toFixed(2) + ', (dashed line = Average profit for all foods in dollars per week)'
+          plot_title = 'Total Weekly Profit = $' + total_result.toFixed(2) + '/Week, (dashed line = Average profit for all foods = $' + average_result.toFixed(2) + '/Week)';
         }
         else if (key == 'price') {
           plot_title = 'Recommended Selling Unit Price for Each Food in Dollars'
@@ -390,387 +392,188 @@ function updatePlot1(updateResults) {
       }
 
       let trace0 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [yValue[0],0,0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false,
+        hoverinfo: ["y+name",'none','none','none','none'],
+        hoverlabel: {namelength: -1},
         name: xValue[0]
       };
-      console.log(xValue);
+
       let trace1 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [yValue[1],0,0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['y+name','none','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[1]
       };
       let trace2 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [yValue[2],0,0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['y+name','none','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[2]
       };
       let trace3 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [yValue[3],0,0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['y+name','none','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[3]
       };
       let trace4 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [yValue[4],0,0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['y+name','none','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[4]
       };
       let trace5 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [yValue[5],0,0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['y+name','none','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[5]
       };
       let trace6 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [yValue[6],0,0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['y+name','none','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[6]
       };
       let trace7 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,yValue[7],0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','y+name','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[7]
       };
       let trace8 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,yValue[8],0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','y+name','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[8]
       };
       let trace9 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,yValue[9],0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','y+name','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[9]
       };
       let trace10 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,yValue[10],0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','y+name','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[10]
       };
       let trace11 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,yValue[11],0,0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','y+name','none','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[11]
       };
       let trace12 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,yValue[12],0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','y+name','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[12]
       };
       let trace13 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,yValue[13],0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','y+name','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[13]
       };
       let trace14 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,yValue[14],0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','y+name','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[14]
       };
       let trace15 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,yValue[15],0,0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','y+name','none','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[15]
       };
       let trace16 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,0,yValue[16],0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','none','y+name','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[16]
       };
       let trace17 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,0,yValue[17],0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','none','y+name','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[17]
       };
       let trace18 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,0,yValue[18],0],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','none','y+name','none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[18]
       };
       let trace19 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,0,0,yValue[19]],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','none','none','y+name'],
+        hoverlabel: {namelength: -1},
+        name: xValue[19]
       };
       let trace20 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,0,0,yValue[20]],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','none','none','y+name'],
+        hoverlabel: {namelength: -1},
+        name: xValue[20]
       };
       let trace21 = {
-        x: xValue,
-        y: yValue,
+        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+        y: [0,0,0,0,yValue[21]],
         type: 'bar',
-        text: yValue,
-        textposition: 'auto',
-        hoverinfo: 'none',
-        marker: {
-          color: 'rgb(158,202,225)',
-          opacity: 0.6,
-          line: {
-            color: 'rbg(8,48,107)',
-            width: 1.5
-          }
-        },
-        showlegend: false
+        hoverinfo: ['none','none','none','none','y+name'],
+        hoverlabel: {namelength: -1},
+        name: xValue[21]
       };
 
 
-      let data = [trace0];
+      let data = [trace0,trace1,trace2,trace3,trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12,trace13,trace14,trace15,trace16,trace17,trace18,trace19,trace20,trace21];
       if (key=='M_profit') {
         let trace_avg = {                                        // set up a line plot to show avg profit
-          x: xValue,
+          x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
           y: Array(xValue.length).fill(total_result/xValue.length),
           mode: 'lines',
           line: {
@@ -785,7 +588,8 @@ function updatePlot1(updateResults) {
         data.push(trace_avg);
       };
       let layout = {
-        title: plot_title
+        title: plot_title,
+        barmode: 'group'
       };
       Plotly.newPlot('plot' + plotNum, data, layout);
       plotNum++;
