@@ -3,23 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <script>
-    var slider = new Slider("#ex13", {
-    ticks: [0, 100, 200, 300, 400],
-    ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
-    ticks_snap_bounds: 30
-});
-  </script>
+
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.css"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css"></script>
+
+  <script>
+
+  $(document).ready(function(){
+
+    var realValues = [14, 60, 120, 365];
+    var labelValues = ['14d', '60d', '120d', '365d'];
+
+    var r = $('#ex1').slider({
+      max: 10,
+      min: 0,
+      step: 1,
+      ticks: [0,3,10],
+      formatter: function(val) {
+        return labelValues[val];
+      }
+    })
+    .on('change', function(data){
+      console.log(data);
+       $("#ex6SliderVal").text(data.value.newValue)
+    })
+   ;
+  })
+
+
+
+  </script>
 </head>
 
 <body>
-<div class="panel-body" id="setOrdinance">
-        <div class="slidecontainer">
-            <p>(Percentage Enforced): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p>
-          <input id="ex13" type="range" data-slider-ticks="[0, 100, 200, 300, 400]" data-slider-ticks-snap-bounds="30" data-slider-ticks-labels='["$0", "$100", "$200", "$300", "$400"]'/>
-        </div >
-    </div>
+
+
+<input id="ex1" data-slider-id='ex1Slider' type="text"/>
+<span id="ex6CurrentSliderValLabel">Current Slider Value: <span id="ex6SliderVal"></span></span>
+
 </body>
 </html>

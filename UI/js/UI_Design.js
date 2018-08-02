@@ -248,7 +248,15 @@ function initializeSliders() {
     for (j = 0; j < sliders.numVars[i]; j++) {
       sliders.valuesHTML[i][j] = document.getElementById("value" + sliders.vars[i][j]);
       sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
-      sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
+      if (i==0 && j==0){
+        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"Medium";
+      }
+      else if (i==0 && j==3) {
+        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"(Default)"
+      }
+      else {
+        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
+      }
       sliders.sliderHTML[i][j].oninput = (function (e) {
         return function () {
           let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
@@ -266,6 +274,9 @@ function initializeSliders() {
           }
           else if (sliders.sliderHTML[0][0].value > 0.7 && sliders.sliderHTML[0][0].value <= 1) {
             sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "High";
+          }
+          if (sliders.sliderHTML[0][3].value == 3) {
+            sliders.valuesHTML[0][3].innerHTML = sliders.sliderHTML[0][3].value + " " + "(Default)";
           }
 
           evalSliders(food.select);                        // evaluate only the selected food
