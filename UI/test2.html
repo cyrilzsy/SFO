@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Test</title>
+
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.js"></script>
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.min.js"></script>-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.css">
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.min.css">-->
+
+  <!--<script>-->
+
+
+  <!--$(document).ready(function(){-->
+
+    <!--var realValues = [14, 60, 120, 365];-->
+    <!--var labelValues = ['14d', '60d', '120d', '365d'];-->
+
+    <!--var r = $('#ex1').slider({-->
+      <!--max: 10,-->
+      <!--min: 0,-->
+      <!--step: 1,-->
+      <!--ticks: [0,3,10],-->
+      <!--formatter: function(val) {-->
+        <!--return labelValues[val];-->
+      <!--}-->
+    <!--})-->
+    <!--.on('change', function(data){-->
+      <!--console.log(data);-->
+       <!--$("#ex6SliderVal").text(data.value.newValue)-->
+    <!--})-->
+   <!--;-->
+  <!--})-->
+
+  <!--</script>-->
+
+  <script type='text/javascript'>
+    	$(document).ready(function() {
+			/* Example 13 */
+			$("#ex13").slider({
+				ticks: [0, 100, 200, 300, 400],
+				ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
+				ticks_snap_bounds: 30,
+				value: 200
+			});
+
+		});
+
+    </script>
+
+
+</head>
+
+<body>
+<!--<div>-->
+
+<!--<input id="ex1" data-slider-id='ex1Slider' type="text"/>-->
+<!--<span id="ex6CurrentSliderValLabel">Current Slider Value: <span id="ex6SliderVal"></span></span>-->
+<!--</div>-->
+
+
+
+  <input id="ex13" type="text"/>
+
+
+
+</body>
+</html>

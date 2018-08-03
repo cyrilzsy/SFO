@@ -19,8 +19,22 @@
 
   <link   rel="stylesheet" type="text/css" href="css/UI_Design.css"/>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" />
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css" />-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/bootstrap-slider.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.0/css/bootstrap-slider.css">
 
+  <script type='text/javascript'>
+    	$(document).ready(function() {
+			/* Example 13 */
+			$("#sliderMinimumStock").slider({
+				ticks: [0, 3, 10],
+				ticks_labels: ['0', '3', '10'],
+        ticks_positions: [0, 30, 100],
+				ticks_snap_bounds: 0.5,
+				value: 3
+			});
+		});
+  </script>
  </head>
 
 <body data-spy="scroll" data-target="#myNavbar" data-offset="50">
@@ -385,6 +399,7 @@
           </div>
 
           <div class="panel-body" id="setOrdinance">
+
           </div>
         </div>
       </div>
@@ -423,6 +438,9 @@
   <div class="panel-body" id='panelPlots'>
   </div>
 </div>
+
+
+
 
 <script src="js/UI_Design.js"></script>
 <!-- <script src="js/SFO_calc.js"></script> -->

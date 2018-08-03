@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{bootstrap, plotly-latest}" />
+    <file url="PROJECT" libraries="{analytics, bootstrap, bootstrap-slider, cookie_used_reload-ad47fd0c6e26ac84e84e95272cddc82a26caa7342cea5c006434d4bbb69d7b44, jquery, jquery-ui, plotly-latest}" />
   </component>
 </project>

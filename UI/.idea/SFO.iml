@@ -10,6 +10,11 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="plotly-latest" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="jquery-ui" level="application" />
+    <orderEntry type="library" name="bootstrap-slider" level="application" />
+    <orderEntry type="library" name="analytics" level="application" />
+    <orderEntry type="library" name="cookie_used_reload-ad47fd0c6e26ac84e84e95272cddc82a26caa7342cea5c006434d4bbb69d7b44" level="application" />
   </component>
   <component name="TestRunnerService">
     <option name="PROJECT_TEST_RUNNER" value="Unittests" />
