@@ -237,13 +237,16 @@ function initializeSliders() {
       }
       else if (i == 0 && j == 3) {
         slidersHTML +=
-          '<div class="slidecontainer"> \
+          '<script type="text/javascript">$(document).ready(function() {$("#sliderMinimumStock").slider({ \
+				ticks: [0, 3, 10],  \
+				ticks_labels: ["0", "3", "10"], \
+        ticks_positions: [0, 30, 100],  \
+				ticks_snap_bounds: 0.5, \
+				value: 3});});</script> \
+          <div class="slidecontainer"> \
             <p>' + sliderNamei + ' (Ordinance Required Amount (Units)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
-          <input type="range" \
-          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
-          step="' + sliders.step[i][j] + '" value="' +
-          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
-          id="slider' + sliderVarNamei + '"> \
+          <input type="text" \
+          id="sliderMinimumStock"> \
         </div >';
       }
       else if (i == 2 && j == 2) {
