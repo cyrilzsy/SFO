@@ -1,14 +1,4 @@
-$(document).ready(function() {
-			/* Example 13 */
-			$("#sliderMinimumStock").slider({
-				ticks: [0, 3, 10],
-				ticks_labels: ['0', '3', '10'],
-        ticks_positions: [0, 30, 100],
-				ticks_snap_bounds: 0.5,
-				value: 3
-			});
-		});
-var myTable0 = document.getElementById("checkboxTable");
+  var myTable0 = document.getElementById("checkboxTable");
   var myTable  = myTable0.getElementsByTagName("td");
   var food = {
     names:  [["Fresh Oranges","Fresh Carrots","Tomatoes","Fresh Bananas","Canned Fruit in 100% Juice","Frozen Broccoli","Fresh Iceberg Lettuce"],
@@ -170,7 +160,7 @@ function initializePlotOptions() {
 
 
 function initializeFoodSelection() {
-  food.plot = [[0,0],[1,0]];
+  food.plot = [[0,0],[1,0],[2,0],[3,0],[4,0],[0,1],[1,1],[2,1],[3,1],[4,1],[0,2],[1,2],[2,2],[3,2],[4,2],[0,3],[1,3],[2,3],[0,4],[1,4],[0,5],[0,6]];
 
   for (i0=0; i0<food.numTypes; i0++) {
     for (j0=0; j0<food.numVars[i0]; j0++) {
@@ -227,7 +217,7 @@ function initializeSliders() {
       if (i == 0 && j == 0) {
         slidersHTML +=
           '<div class="slidecontainer"> \
-            <p>' + sliderNamei + ' (Percentage Enforced): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+            <p><b>' + sliderNamei + '</b> (Percentage Enforced): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
           <input type="range" \
           min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
           step="' + sliders.step[i][j] + '" value="' +
@@ -237,22 +227,33 @@ function initializeSliders() {
       }
       else if (i == 0 && j == 3) {
         slidersHTML +=
-          '<script type="text/javascript">$(document).ready(function() {$("#sliderMinimumStock").slider({ \
-				ticks: [0, 3, 10],  \
-				ticks_labels: ["0", "3", "10"], \
-        ticks_positions: [0, 30, 100],  \
-				ticks_snap_bounds: 0.5, \
-				value: 3});});</script> \
-          <div class="slidecontainer"> \
-            <p>' + sliderNamei + ' (Ordinance Required Amount (Units)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
-          <input type="text" \
-          id="sliderMinimumStock"> \
+          '<div class="slidecontainer"> \
+            <p><b>' + sliderNamei + '</b> (Ordinance Required Amount (Units)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+          <input type="range" \
+          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
+          step="' + sliders.step[i][j] + '" value="' +
+          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
+          id="slider' + sliderVarNamei + '"\
+          list="Listmark1"> \
+          <datalist id="Listmark1">\
+            <option value="0"> \
+            <option value="1"> \
+            <option value="2"> \
+            <option value="3" label="3"> \
+            <option value="4"> \
+            <option value="5"> \
+            <option value="6"> \
+            <option value="7"> \
+            <option value="8"> \
+            <option value="9"> \
+            <option value="10"> \
+          </datalist> \
         </div >';
       }
       else if (i == 2 && j == 2) {
         slidersHTML +=
           '<div class="slidecontainer"> \
-            <p>' + sliderNamei + ' (Unit Price for Customers ($)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+            <p><b>' + sliderNamei + '</b> (Unit Price for Stores ($)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
           <input type="range" \
           min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
           step="' + sliders.step[i][j] + '" value="' +
@@ -263,7 +264,7 @@ function initializeSliders() {
       else {
         slidersHTML +=
           '<div class="slidecontainer"> \
-            <p>' + sliderNamei + ' (Rate from 1 to 5): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+            <p><b>' + sliderNamei + '</b> (Rate from 1 to 5): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
           <input type="range" \
           min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
           step="' + sliders.step[i][j] + '" value="' +
@@ -283,7 +284,7 @@ function initializeSliders() {
         sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"Medium";
       }
       else if (i==0 && j==3) {
-        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"(Default)"
+        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"(SNAP Default)"
       }
       else {
         sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
@@ -392,10 +393,16 @@ function updatePlot1(updateResults) {
         }
       }
       else if (key=='M_storage' || key=='M_supply' || key=='M_delivery' || key=='M_cust') {
-        for (i = 0; i < food.plot.length; i++) {                     // only plot the ones that were checked
-          let ploti = food.plot[i];
-          xValue.push(food.names[ploti[0]][ploti[1]]);
-          yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(2));
+        // for (i = 0; i < food.plot.length; i++) {                     // only plot the ones that were checked
+        //   let ploti = food.plot[i];
+        //   xValue.push(food.names[ploti[0]][ploti[1]]);
+        //   yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(2));
+        for (i = 0; i < food.numTypes; i++) {
+          for (j = 0; j < food.numVars[i]; j++) {
+            xValue.push(food.names[i][j]);
+            yValue.push(food.results[key][i][j].toFixed(2));
+          }
+
           if (key == 'M_storage') {
             plot_title = 'Weekly Storage Cost in Dollars'
           }
@@ -411,10 +418,15 @@ function updatePlot1(updateResults) {
         }
       }
       else {
-        for (i = 0; i < food.plot.length; i++) {                     // only plot the ones that were checked
-          let ploti = food.plot[i];
-          xValue.push(food.names[ploti[0]][ploti[1]]);
-          yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(0));
+        // for (i = 0; i < food.plot.length; i++) {                     // only plot the ones that were checked
+        //   let ploti = food.plot[i];
+        //   xValue.push(food.names[ploti[0]][ploti[1]]);
+        //   yValue.push(food.results[key][ploti[0]][ploti[1]].toFixed(0));
+        for (i = 0; i < food.numTypes; i++) {
+          for (j = 0; j < food.numVars[i]; j++) {
+            xValue.push(food.names[i][j]);
+            yValue.push(food.results[key][i][j].toFixed(2));
+          }
           if (key == 'Y_supply') {
             plot_title = 'Amount Supplied to The Store from Supplier Each Week'
           }
@@ -433,14 +445,15 @@ function updatePlot1(updateResults) {
         }
       }
 
-      let trace0 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[0],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ["y+name",'none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[0]
-      };
+
+          let trace0 = {
+            x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
+            y: [yValue[i], 0, 0, 0, 0],
+            type: 'bar',
+            hoverinfo: ["y+name", 'none', 'none', 'none', 'none'],
+            hoverlabel: {namelength: -1},
+            name: xValue[i]
+          };
 
       let trace1 = {
         x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
@@ -612,7 +625,7 @@ function updatePlot1(updateResults) {
       };
 
 
-      let data = [trace0,trace1,trace2,trace3,trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12,trace13,trace14,trace15,trace16,trace17,trace18,trace19,trace20,trace21];
+        let data = [trace0,trace1,trace2,trace3,trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12,trace13,trace14,trace15,trace16,trace17,trace18,trace19,trace20,trace21];
       if (key=='M_profit') {
         let trace_avg = {                                        // set up a line plot to show avg profit
           x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
