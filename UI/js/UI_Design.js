@@ -227,27 +227,8 @@ function initializeSliders() {
       }
       else if (i == 0 && j == 3) {
         slidersHTML +=
-          '<div class="slidecontainer"> \
+          ' <div class="slidecontainer" id="test1"> \
             <p><b>' + sliderNamei + '</b> (Ordinance Required Amount (Units)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
-          <input type="range" \
-          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
-          step="' + sliders.step[i][j] + '" value="' +
-          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
-          id="slider' + sliderVarNamei + '"\
-          list="Listmark1"> \
-          <datalist id="Listmark1">\
-            <option value="0"> \
-            <option value="1"> \
-            <option value="2"> \
-            <option value="3" label="3"> \
-            <option value="4"> \
-            <option value="5"> \
-            <option value="6"> \
-            <option value="7"> \
-            <option value="8"> \
-            <option value="9"> \
-            <option value="10"> \
-          </datalist> \
         </div >';
       }
       else if (i == 2 && j == 2) {
@@ -281,7 +262,7 @@ function initializeSliders() {
       sliders.valuesHTML[i][j] = document.getElementById("value" + sliders.vars[i][j]);
       sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
       if (i==0 && j==0){
-        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"Medium";
+        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+" Medium";
       }
       else if (i==0 && j==3) {
         sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"(SNAP Default)"

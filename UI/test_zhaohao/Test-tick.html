@@ -15,7 +15,31 @@
 
 <body>
 
-<input id="ex13" type="text"/>
+<!--<input id="ex13" type="text"/>-->
+
+<!--<div class="panel-body" id="test1">-->
+  <!---->
+
+<!--</div>-->
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h2 class="panel-title" id="sliderPanel">Sliders for: </h2>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-4">
+              <div class="panel panel-danger">
+                <div class="panel-heading">
+                  <h4 class="panel-title" id="sPanel">Ordinance Characteristics</h4>
+                </div>
+                <div class="panel-body" id="test1">
+
+                </div>
+              </div>
+      </div>
+      </div>
+    </div>
+  </div>
 
 
 </body>
@@ -33,4 +57,17 @@
 
     </script>
 
+  <script type='text/javascript'>
+    	$(document).ready(function() {
+			$("#sliderMinimumStock").slider({
+				ticks: [0, 3, 10],
+				ticks_labels: ['0', '3', '10'],
+        ticks_positions: [0, 30, 100],
+				ticks_snap_bounds: 0.5,
+				value: 3
+			});
+		});
+  </script>
+
+<script src="test-tick.js"></script>
 </html>
