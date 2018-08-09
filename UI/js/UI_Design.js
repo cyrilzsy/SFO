@@ -3,8 +3,8 @@
   var food = {
     names:  [["Fresh Oranges","Fresh Carrots","Tomatoes","Fresh Bananas","Canned Fruit in 100% Juice","Frozen Broccoli","Fresh Iceberg Lettuce"],
              ["Whole Wheat Tortillas","Plain Oatmeal","Whole Wheat Pasta","Whole Wheat Bread","Whole Grain Cereal"],
-             ["Low-sugar Yogurt","Low-fat Cheese","Fat-free/skim Milk","Eggs"],
-             ["Ground Beef (10% fat)","Unbreaded Poultry","Canned Tuna in Water"],
+             ["Low-sugar Yogurt","Low-fat Cheese","Fat-free/skim Milk"],
+             ["Ground Beef (10% fat)","Unbreaded Poultry","Canned Tuna in Water","Eggs"],
              ["Peanut Butter","Soymilk","Low Sodium Canned Beans"]
              ],
     numVars: [],
@@ -20,8 +20,8 @@
     defaultValues: [
                     [ [[0.5, 5,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]] ],
                     [ [[0.6,5,5,3],[5,5,5,5],[2,3,1]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.7]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.5]] ],
-                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,1]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.7]], [[0.6,5,5,3],[5,5,5,5],[2,3,2.2]] ],
-                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,3.5]], [[0.6,5,5,3],[5,5,5,5],[2,3,3.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,2.5]] ],
+                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,1]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.7]] ],
+                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,3.5]], [[0.6,5,5,3],[5,5,5,5],[2,3,3.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,2.5]], [[0.6,5,5,3],[5,5,5,5],[2,3,2.2]] ],
                     [ [[0.6,5,5,3],[5,5,5,5],[2,3,2.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.5]], [[0.6,5,5,3],[5,5,5,5],[2,3,1]]]  // take out price
 
 
@@ -160,7 +160,7 @@ function initializePlotOptions() {
 
 
 function initializeFoodSelection() {
-  food.plot = [[0,0],[1,0],[2,0],[3,0],[4,0],[0,1],[1,1],[2,1],[3,1],[4,1],[0,2],[1,2],[2,2],[3,2],[4,2],[0,3],[1,3],[2,3],[0,4],[1,4],[0,5],[0,6]];
+  food.plot = [[0,0],[1,0],[2,0],[3,0],[4,0],[0,1],[1,1],[2,1],[3,1],[4,1],[0,2],[1,2],[2,2],[3,2],[4,2],[0,3],[1,3],[3,3],[0,4],[1,4],[0,5],[0,6]];
 
   for (i0=0; i0<food.numTypes; i0++) {
     for (j0=0; j0<food.numVars[i0]; j0++) {
@@ -308,7 +308,7 @@ function initializeSliders() {
             sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "High";
           }
           if (sliders.sliderHTML[0][3].value == 3) {
-            sliders.valuesHTML[0][3].innerHTML = sliders.sliderHTML[0][3].value + " " + "(Default)";
+            sliders.valuesHTML[0][3].innerHTML = sliders.sliderHTML[0][3].value + " " + "(SNAP Default)";
           }
 
           evalSliders(food.select);                        // evaluate only the selected food
@@ -569,9 +569,9 @@ function updatePlot1(updateResults) {
       };
       let trace15 = {
         x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,yValue[15],0,0],
+        y: [0,0,0,yValue[15],0],
         type: 'bar',
-        hoverinfo: ['none','none','y+name','none','none'],
+        hoverinfo: ['none','none','none','y+name','none'],
         hoverlabel: {namelength: -1},
         name: xValue[15]
       };
