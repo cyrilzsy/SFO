@@ -229,6 +229,25 @@ function initializeSliders() {
         slidersHTML +=
           ' <div class="slidecontainer" id="test1"> \
             <p><b>' + sliderNamei + '</b> (Ordinance Required Amount (Units)): <span id="value' + sliderVarNamei + '" style="border:0; color:#f6931f; font-weight:bold;"></span></p> \
+            <input type="range" \
+          min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
+          step="' + sliders.step[i][j] + '" value="' +
+          sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
+          id="slider' + sliderVarNamei + '"\
+          list="Listmark1"> \
+          <datalist id="Listmark1">\
+            <option value="0"> \
+            <option value="1"> \
+            <option value="2"> \
+            <option value="3" label="3"> \
+            <option value="4"> \
+            <option value="5"> \
+            <option value="6"> \
+            <option value="7"> \
+            <option value="8"> \
+            <option value="9"> \
+            <option value="10"> \
+          </datalist> \
         </div >';
       }
       else if (i == 2 && j == 2) {
@@ -427,14 +446,14 @@ function updatePlot1(updateResults) {
       }
 
 
-          let trace0 = {
-            x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
-            y: [yValue[i], 0, 0, 0, 0],
-            type: 'bar',
-            hoverinfo: ["y+name", 'none', 'none', 'none', 'none'],
-            hoverlabel: {namelength: -1},
-            name: xValue[i]
-          };
+      let trace0 = {
+        x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
+        y: [yValue[0], 0, 0, 0, 0],
+        type: 'bar',
+        hoverinfo: ["y+name", 'none', 'none', 'none', 'none'],
+        hoverlabel: {namelength: -1},
+        name: xValue[0]
+      };
 
       let trace1 = {
         x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
