@@ -386,6 +386,10 @@
 </nav>
 
 <!-- Sliders -->
+<div>
+  <h2 id="test">TEST SLIDERS</h2>
+</div>
+
 <div class="panel panel-success">
   <div class="panel-heading">
     <h2 class="panel-title" id="sliderPanel">Sliders for: </h2>
@@ -438,12 +442,9 @@
   </div>
 </div>
 
-
-
-
 </body>
 
-  <script type='text/javascript'>
+<!--   <script type='text/javascript'>
     	$(document).ready(function() {
 			$("#sliderMinimumStock").slider({
 				ticks: [0, 3, 10],
@@ -467,7 +468,7 @@
 
 		});
 
-    </script>
+    </script> -->
 
 
 <!--<script src="test_zhaohao/test-tick.js"></script>-->
@@ -476,5 +477,13 @@
 <script src="js/SFO_calc_profit_maximization.js"></script>
 <script src="js/hopscotchTour.js"></script>
 
+<script type="text/javascript">
+  var slider = new Slider("#test", {
+    ticks: [0, 100, 200, 300, 400],
+    ticks_labels: ['$0', '$100', '$200', '$300', '$400'],
+    ticks_snap_bounds: 30,
+    value: 200
+  });
+</script>
 
 </html>

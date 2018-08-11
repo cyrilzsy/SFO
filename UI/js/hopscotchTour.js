@@ -108,7 +108,7 @@ var tour = {
   ]
 };
 
-hopscotchTour();   // Start the tour
+// hopscotchTour();   // Start the tour
 
 function hopscotchTour() {
   document.getElementById("menuDropdown").className = "dropdown open";

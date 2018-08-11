@@ -106,7 +106,7 @@ function fResetPlot(button) {
 }
 
 function fResetSliders(button) {
-  initializeSliders();
+  initializeSliders(food.select);
   updatePlot1(true);
 }
 
@@ -192,15 +192,18 @@ function initializeFoodSelection() {
     };
   };
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+  initializeSliders(food.select);
 }
 
 function updateRadio() {
 //  $("#nav-content").removeClass("in");
   updateSelect();
+  fResetSliders();
 }
 
-function initializeSliders() {
-  food.select = [0, 0];
+function initializeSliders(food_select) {
+  food.select = food_select;
+  let i, j;
 
   for (i = 0; i < sliders.numTypes; i++) {
     sliders.numVars[i] = sliders.vars[i].length;
@@ -274,7 +277,6 @@ function initializeSliders() {
       }
     }
 
-
     document.getElementById("set" + sliders.typeNames[i]).innerHTML = slidersHTML;
 
     for (j = 0; j < sliders.numVars[i]; j++) {
@@ -318,9 +320,22 @@ function initializeSliders() {
       })([i, j]);                                           // (i,j) is the argument, passed to (e)
     }
   }
+  updateSliders();
 }
 
-
+function updateSliders() {
+  let i=0,j=0;
+  let slider_range = (sliders.max[i][j] - sliders.min[i][j]), slider_tick = (sliders.min[i][j] + sliders.max[i][j])/3;
+  var slider = [];
+  slider = new Slider("#slider" + sliders.vars[i][j], {
+    ticks:            [sliders.min[i][j], slider_tick, sliders.max[i][j]],
+    ticks_positions:  [                0,          30,               100],
+    ticks_labels:     [sliders.min[i][j],     'label', sliders.max[i][j]],
+    ticks_snap_bounds: 0.1,
+    step:              0.05,
+    value:             sliders.defaultValues[food.select[0]][food.select[1]][i][j]
+  });
+}
 
 function fClose() {
   console.log('Close');
@@ -653,7 +668,7 @@ function updatePlot1(updateResults) {
 }
 
 $(document).ready(function(){
-  initializeSliders();
+  initializeSliders([0,0]);
   initializePlotOptions();
   initializeFoodSelection();
   updatePlot1(true);                     // true = evaluate profit and other results for all foods
