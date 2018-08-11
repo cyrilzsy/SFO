@@ -209,8 +209,7 @@ function initializeSliders(food_select) {
     sliders.numVars[i] = sliders.vars[i].length;
     sliders.valuesHTML[i] = Array(sliders.numVars[i]);
     sliders.sliderHTML[i] = Array(sliders.numVars[i]);
-  }
-  ;
+  };
 
   for (i = 0; i < sliders.numTypes; i++) {
     slidersHTML = '';
@@ -460,187 +459,37 @@ function updatePlot1(updateResults) {
         }
       }
 
+      let data = [], k = 0;
+      for (i = 0; i < food.numTypes; i++) {
+        let hoverinfo = [];
+        for (l = 0; l < food.numTypes; l++) {
+          if (l == i) {
+            hoverinfo.push('y+name');
+          } else {
+            hoverinfo.push('none');            
+          }
+        }
+        for (j = 0; j < food.numVars[i]; j++) {
+          let y = [];                                    // need to reinitialize y because y is an object which changes for every j
+          for (l = 0; l < food.numTypes; l++) {
+            if (l == i) {
+              y.push(yValue[k]);
+            } else {
+              y.push(0);
+            }
+          }
+          data.push({
+            x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
+            y: y,
+            type: 'bar',
+            hoverinfo: hoverinfo,
+            hoverlabel: {namelength: -1},
+            name: xValue[k]
+          });
+          k++;
+        }
+      }
 
-      let trace0 = {
-        x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
-        y: [yValue[0], 0, 0, 0, 0],
-        type: 'bar',
-        hoverinfo: ["y+name", 'none', 'none', 'none', 'none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[0]
-      };
-
-      let trace1 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[1],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[1]
-      };
-      let trace2 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[2],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[2]
-      };
-      let trace3 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[3],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[3]
-      };
-      let trace4 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[4],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[4]
-      };
-      let trace5 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[5],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[5]
-      };
-      let trace6 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[6],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[6]
-      };
-      let trace7 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[7],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[7]
-      };
-      let trace8 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[8],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[8]
-      };
-      let trace9 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[9],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[9]
-      };
-      let trace10 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[10],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[10]
-      };
-      let trace11 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[11],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[11]
-      };
-      let trace12 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,yValue[12],0,0],
-        type: 'bar',
-        hoverinfo: ['none','none','y+name','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[12]
-      };
-      let trace13 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,yValue[13],0,0],
-        type: 'bar',
-        hoverinfo: ['none','none','y+name','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[13]
-      };
-      let trace14 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,yValue[14],0,0],
-        type: 'bar',
-        hoverinfo: ['none','none','y+name','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[14]
-      };
-      let trace15 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[15],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[15]
-      };
-      let trace16 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[16],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[16]
-      };
-      let trace17 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[17],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[17]
-      };
-      let trace18 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[18],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[18]
-      };
-      let trace19 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,0,yValue[19]],
-        type: 'bar',
-        hoverinfo: ['none','none','none','none','y+name'],
-        hoverlabel: {namelength: -1},
-        name: xValue[19]
-      };
-      let trace20 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,0,yValue[20]],
-        type: 'bar',
-        hoverinfo: ['none','none','none','none','y+name'],
-        hoverlabel: {namelength: -1},
-        name: xValue[20]
-      };
-      let trace21 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,0,yValue[21]],
-        type: 'bar',
-        hoverinfo: ['none','none','none','none','y+name'],
-        hoverlabel: {namelength: -1},
-        name: xValue[21]
-      };
-
-
-        let data = [trace0,trace1,trace2,trace3,trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12,trace13,trace14,trace15,trace16,trace17,trace18,trace19,trace20,trace21];
       if (key=='M_profit') {
         let trace_avg = {                                        // set up a line plot to show avg profit
           x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
