@@ -42,7 +42,7 @@
                     // [ [[1,5,5,10],[1,1,1,1],[2,3,2.3]], [[1,5,5,10],[1,1,1,1],[2,3,1.5]], [[1,5,5,10],[1,1,1,1],[2,3,1]]]  // take out price
 
                     ],
-    min:           [[0, 1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,   0.1]],
+    min:           [[0, 1, 1, 0],[ 1, 1, 1, 1],[ 1, 1,   0.1]],
     max:           [[1, 5, 5, 10],[ 5, 5, 5, 5],[ 5, 5,  10]],
     step:          [[0.1,1, 1, 1],[ 1, 1, 1, 1],[ 1, 1,0.05]],
     currentValues: [],
@@ -106,7 +106,7 @@ function fResetPlot(button) {
 }
 
 function fResetSliders(button) {
-  initializeSliders();
+  initializeSliders(food.select);
   updatePlot1(true);
 }
 
@@ -192,22 +192,27 @@ function initializeFoodSelection() {
     };
   };
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+  initializeSliders(food.select);
 }
+
+
 
 function updateRadio() {
 //  $("#nav-content").removeClass("in");
   updateSelect();
+  fResetSliders();
 }
 
-function initializeSliders() {
-  food.select = [0, 0];
+function initializeSliders(food_select) {
+  food.select = food_select;
+  let i,j;
 
   for (i = 0; i < sliders.numTypes; i++) {
     sliders.numVars[i] = sliders.vars[i].length;
     sliders.valuesHTML[i] = Array(sliders.numVars[i]);
     sliders.sliderHTML[i] = Array(sliders.numVars[i]);
   }
-  ;
+
 
   for (i = 0; i < sliders.numTypes; i++) {
     slidersHTML = '';
@@ -233,21 +238,7 @@ function initializeSliders() {
           min="' + sliders.min[i][j] + '" max="' + sliders.max[i][j] + '" \
           step="' + sliders.step[i][j] + '" value="' +
           sliders.defaultValues[food.select[0]][food.select[1]][i][j] + '" \
-          id="slider' + sliderVarNamei + '"\
-          list="Listmark1"> \
-          <datalist id="Listmark1">\
-            <option value="0"> \
-            <option value="1"> \
-            <option value="2"> \
-            <option value="3" label="3"> \
-            <option value="4"> \
-            <option value="5"> \
-            <option value="6"> \
-            <option value="7"> \
-            <option value="8"> \
-            <option value="9"> \
-            <option value="10"> \
-          </datalist> \
+          id="slider' + sliderVarNamei + '">\
         </div >';
       }
       else if (i == 2 && j == 2) {
@@ -276,7 +267,10 @@ function initializeSliders() {
 
 
     document.getElementById("set" + sliders.typeNames[i]).innerHTML = slidersHTML;
+  }
 
+
+  for (i = 0; i < sliders.numTypes; i++) {
     for (j = 0; j < sliders.numVars[i]; j++) {
       sliders.valuesHTML[i][j] = document.getElementById("value" + sliders.vars[i][j]);
       sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
@@ -313,19 +307,53 @@ function initializeSliders() {
 
           evalSliders(food.select);                        // evaluate only the selected food
           updatePlot1(false);                              // false = don't evaluate all foods
-
         }
       })([i, j]);                                           // (i,j) is the argument, passed to (e)
     }
   }
+updateSliders();
 }
 
+
+function updateSliders() {
+  let i=0,j=3;
+  let slider_range = (sliders.max[i][j] - sliders.min[i][j]), slider_tick = 3;
+  var slider = [];
+  slider = new Slider("#slider" + sliders.vars[i][j], {
+    ticks:            [sliders.min[i][j], slider_tick, sliders.max[i][j]],
+    ticks_positions:  [                0,          30,               100],
+    ticks_labels:     [sliders.min[i][j],     '3(SNAP Minimum)', sliders.max[i][j]],
+    ticks_snap_bounds: 0.1,
+    step:              1,
+    value:             sliders.defaultValues[food.select[0]][food.select[1]][i][j]
+  });
+    slider.on("slide", function(sliderValue) {
+    document.getElementById("value" + sliders.vars[i][j]).textContent = sliderValue;
+  });
+}
+
+
+// function updateSliders() {
+//   let slider_range = 9, slider_tick = 3;
+//   var slider = [];
+//   slider = new Slider("#sliderMinimumStock", {
+//     ticks: [1, slider_tick, 10],
+//     ticks_positions: [0, 30, 100],
+//     ticks_labels: [1, '3(SNAP Minimum)', 10],
+//     ticks_snap_bounds: 0.1,
+//     step: 1,
+//     value: 3
+//   });
+//   slider.on("slide", function(sliderValue) {
+//     document.getElementById("valueMinimumStock").textContent = sliderValue;
+//   });
+// }
 
 
 function fClose() {
   console.log('Close');
   $('.collapse').collapse("hide");
-};
+}
 
 function updatePlot1(updateResults) {
   if (updateResults) {
@@ -446,186 +474,218 @@ function updatePlot1(updateResults) {
       }
 
 
-      let trace0 = {
-        x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
-        y: [yValue[0], 0, 0, 0, 0],
-        type: 'bar',
-        hoverinfo: ["y+name", 'none', 'none', 'none', 'none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[0]
-      };
+      let data = [], k = 0;
+      for (i = 0; i < food.numTypes; i++) {
+        let hoverinfo = [];
+        for (l = 0; l < food.numTypes; l++) {
+          if (l == i) {
+            hoverinfo.push('y+name');
+          } else {
+            hoverinfo.push('none');
+          }
+        }
+        for (j = 0; j < food.numVars[i]; j++) {
+          let y = [];                                    // need to reinitialize y because y is an object which changes for every j
+          for (l = 0; l < food.numTypes; l++) {
+            if (l == i) {
+              y.push(yValue[k]);
+            } else {
+              y.push(0);
+            }
+          }
+          data.push({
+            x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
+            y: y,
+            type: 'bar',
+            hoverinfo: hoverinfo,
+            hoverlabel: {namelength: -1},
+            name: xValue[k]
+          });
+          k++;
+        }
+      }
+      // console.log(data);
 
-      let trace1 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[1],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[1]
-      };
-      let trace2 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[2],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[2]
-      };
-      let trace3 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[3],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[3]
-      };
-      let trace4 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[4],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[4]
-      };
-      let trace5 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[5],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[5]
-      };
-      let trace6 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [yValue[6],0,0,0,0],
-        type: 'bar',
-        hoverinfo: ['y+name','none','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[6]
-      };
-      let trace7 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[7],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[7]
-      };
-      let trace8 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[8],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[8]
-      };
-      let trace9 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[9],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[9]
-      };
-      let trace10 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[10],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[10]
-      };
-      let trace11 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,yValue[11],0,0,0],
-        type: 'bar',
-        hoverinfo: ['none','y+name','none','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[11]
-      };
-      let trace12 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,yValue[12],0,0],
-        type: 'bar',
-        hoverinfo: ['none','none','y+name','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[12]
-      };
-      let trace13 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,yValue[13],0,0],
-        type: 'bar',
-        hoverinfo: ['none','none','y+name','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[13]
-      };
-      let trace14 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,yValue[14],0,0],
-        type: 'bar',
-        hoverinfo: ['none','none','y+name','none','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[14]
-      };
-      let trace15 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[15],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[15]
-      };
-      let trace16 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[16],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[16]
-      };
-      let trace17 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[17],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[17]
-      };
-      let trace18 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,yValue[18],0],
-        type: 'bar',
-        hoverinfo: ['none','none','none','y+name','none'],
-        hoverlabel: {namelength: -1},
-        name: xValue[18]
-      };
-      let trace19 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,0,yValue[19]],
-        type: 'bar',
-        hoverinfo: ['none','none','none','none','y+name'],
-        hoverlabel: {namelength: -1},
-        name: xValue[19]
-      };
-      let trace20 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,0,yValue[20]],
-        type: 'bar',
-        hoverinfo: ['none','none','none','none','y+name'],
-        hoverlabel: {namelength: -1},
-        name: xValue[20]
-      };
-      let trace21 = {
-        x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
-        y: [0,0,0,0,yValue[21]],
-        type: 'bar',
-        hoverinfo: ['none','none','none','none','y+name'],
-        hoverlabel: {namelength: -1},
-        name: xValue[21]
-      };
-
-
-        let data = [trace0,trace1,trace2,trace3,trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12,trace13,trace14,trace15,trace16,trace17,trace18,trace19,trace20,trace21];
+      // let trace0 = {
+      //   x: ['Fruits & Vegetables', 'Grains', 'Dairy', 'Meat, Poultry, Fish', 'Other'],
+      //   y: [yValue[0], 0, 0, 0, 0],
+      //   type: 'bar',
+      //   hoverinfo: ["y+name", 'none', 'none', 'none', 'none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[0]
+      // };
+      //
+      // let trace1 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [yValue[1],0,0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['y+name','none','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[1]
+      // };
+      // let trace2 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [yValue[2],0,0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['y+name','none','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[2]
+      // };
+      // let trace3 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [yValue[3],0,0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['y+name','none','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[3]
+      // };
+      // let trace4 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [yValue[4],0,0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['y+name','none','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[4]
+      // };
+      // let trace5 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [yValue[5],0,0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['y+name','none','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[5]
+      // };
+      // let trace6 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [yValue[6],0,0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['y+name','none','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[6]
+      // };
+      // let trace7 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,yValue[7],0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','y+name','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[7]
+      // };
+      // let trace8 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,yValue[8],0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','y+name','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[8]
+      // };
+      // let trace9 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,yValue[9],0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','y+name','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[9]
+      // };
+      // let trace10 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,yValue[10],0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','y+name','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[10]
+      // };
+      // let trace11 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,yValue[11],0,0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','y+name','none','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[11]
+      // };
+      // let trace12 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,yValue[12],0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','y+name','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[12]
+      // };
+      // let trace13 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,yValue[13],0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','y+name','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[13]
+      // };
+      // let trace14 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,yValue[14],0,0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','y+name','none','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[14]
+      // };
+      // let trace15 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,0,yValue[15],0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','none','y+name','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[15]
+      // };
+      // let trace16 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,0,yValue[16],0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','none','y+name','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[16]
+      // };
+      // let trace17 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,0,yValue[17],0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','none','y+name','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[17]
+      // };
+      // let trace18 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,0,yValue[18],0],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','none','y+name','none'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[18]
+      // };
+      // let trace19 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,0,0,yValue[19]],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','none','none','y+name'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[19]
+      // };
+      // let trace20 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,0,0,yValue[20]],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','none','none','y+name'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[20]
+      // };
+      // let trace21 = {
+      //   x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
+      //   y: [0,0,0,0,yValue[21]],
+      //   type: 'bar',
+      //   hoverinfo: ['none','none','none','none','y+name'],
+      //   hoverlabel: {namelength: -1},
+      //   name: xValue[21]
+      // };
+      //
+      //
+      //   let data = [trace0,trace1,trace2,trace3,trace4,trace5,trace6,trace7,trace8,trace9,trace10,trace11,trace12,trace13,trace14,trace15,trace16,trace17,trace18,trace19,trace20,trace21];
       if (key=='M_profit') {
         let trace_avg = {                                        // set up a line plot to show avg profit
           x: ['Fruits & Vegetables','Grains','Dairy','Meat, Poultry, Fish','Other'],
@@ -653,10 +713,15 @@ function updatePlot1(updateResults) {
 }
 
 $(document).ready(function(){
-  initializeSliders();
+  initializeSliders([0,0]);
   initializePlotOptions();
   initializeFoodSelection();
+  // updateSliders();
   updatePlot1(true);                     // true = evaluate profit and other results for all foods
+
+
+// let sliderValue = sliders.sliderHTML[0][3].value;
+//   console.log(sliderValue);
 
   // See ContraceptiveDT for scrollspy options
 
@@ -682,3 +747,6 @@ $(document).ready(function(){
     }
   });
 });
+
+
+
