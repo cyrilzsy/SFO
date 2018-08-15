@@ -77,9 +77,10 @@ function updateSelect() {
         food.select = [i,j];
       }
     }
-  };
+  }
 
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+  document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
 
   for (i=0; i<sliders.numTypes; i++) {
     for (j=0; j<sliders.numVars[i]; j++) {
@@ -87,14 +88,14 @@ function updateSelect() {
       sliders.valuesHTML[i][j].innerHTML = sliderValue;
       sliders.sliderHTML[i][j].value = sliderValue;
     }
-  };
+  }
 
   z_plot.num_plots = 0;
   for (key in z) {
     let key_checked = document.getElementById("plot" + key).checked;
     z_plot[key] = key_checked;
     if (key_checked) {z_plot.num_plots++};
-  };
+  }
 
   updatePlot1(true);
 }
@@ -189,10 +190,12 @@ function initializeFoodSelection() {
           </div> \
           <input type="radio" id="select' + foodVarNamei + '" name="choose" onchange="updateRadio()" ' + selectOption + '> \
         </div >';
-    };
-  };
+    }
+  }
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+  document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
   initializeSliders(food.select);
+  createTopSliders();
 }
 
 
@@ -201,6 +204,7 @@ function updateRadio() {
 //  $("#nav-content").removeClass("in");
   updateSelect();
   fResetSliders();
+  createTopSliders();
 }
 
 function initializeSliders(food_select) {
@@ -267,7 +271,21 @@ function initializeSliders(food_select) {
 
 
     document.getElementById("set" + sliders.typeNames[i]).innerHTML = slidersHTML;
+
   }
+
+  let m=0,n=3;
+  let slider_range = (sliders.max[m][n] - sliders.min[m][n]), slider_tick = 3;
+  var slider = [];
+  slider = new Slider("#slider" + sliders.vars[m][n], {
+    ticks:            [sliders.min[m][n], slider_tick, sliders.max[m][n]],
+    ticks_positions:  [                0,          30,               100],
+    ticks_labels:     [sliders.min[m][n],     '3(SNAP Minimum)', sliders.max[m][n]],
+    ticks_snap_bounds: 0.1,
+    step:              1,
+    value:             sliders.defaultValues[food.select[0]][food.select[1]][m][n]
+  });
+
 
 
   for (i = 0; i < sliders.numTypes; i++) {
@@ -286,9 +304,16 @@ function initializeSliders(food_select) {
       sliders.sliderHTML[i][j].oninput = (function (e) {
         return function () {
           let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
+          // let tickValue = valtick;
           console.log(e + ", " + sliderValue);
+          // console.log(e + ", " + tickValue);
+          // if (e[0]==0 && e[1]==3){
+          //   sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = tickValue;
+          // }
+          // else {
           sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i
           sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
+            // }
           if (sliders.sliderHTML[0][0].value == 0) {
             sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "None";
           }
@@ -309,45 +334,60 @@ function initializeSliders(food_select) {
           updatePlot1(false);                              // false = don't evaluate all foods
         }
       })([i, j]);                                           // (i,j) is the argument, passed to (e)
+
+
+      slider.on("slide", function(sliderValue) {
+        document.getElementById("value" + sliders.vars[m][n]).textContent = sliderValue;
+        // document.getElementById("slider" + sliders.vars[i][j]).value= sliderValue;
+        valtick=sliderValue;
+        console.log(valtick);
+        sliders.currentValues[food.select[0]][food.select[1]][0][3] = sliderValue;
+        evalSliders(food.select);
+        updatePlot1(false);
+      });
     }
   }
-updateSliders();
-}
-
-
-function updateSliders() {
-  let i=0,j=3;
-  let slider_range = (sliders.max[i][j] - sliders.min[i][j]), slider_tick = 3;
-  var slider = [];
-  slider = new Slider("#slider" + sliders.vars[i][j], {
-    ticks:            [sliders.min[i][j], slider_tick, sliders.max[i][j]],
-    ticks_positions:  [                0,          30,               100],
-    ticks_labels:     [sliders.min[i][j],     '3(SNAP Minimum)', sliders.max[i][j]],
-    ticks_snap_bounds: 0.1,
-    step:              1,
-    value:             sliders.defaultValues[food.select[0]][food.select[1]][i][j]
-  });
-    slider.on("slide", function(sliderValue) {
-    document.getElementById("value" + sliders.vars[i][j]).textContent = sliderValue;
-  });
 }
 
 
 // function updateSliders() {
-//   let slider_range = 9, slider_tick = 3;
+//   let i=0,j=3;
+//   // sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
+//   let slider_range = (sliders.max[i][j] - sliders.min[i][j]), slider_tick = 3;
 //   var slider = [];
-//   slider = new Slider("#sliderMinimumStock", {
-//     ticks: [1, slider_tick, 10],
-//     ticks_positions: [0, 30, 100],
-//     ticks_labels: [1, '3(SNAP Minimum)', 10],
+//   slider = new Slider("#slider" + sliders.vars[i][j], {
+//     ticks:            [sliders.min[i][j], slider_tick, sliders.max[i][j]],
+//     ticks_positions:  [                0,          30,               100],
+//     ticks_labels:     [sliders.min[i][j],     '3(SNAP Minimum)', sliders.max[i][j]],
 //     ticks_snap_bounds: 0.1,
-//     step: 1,
-//     value: 3
+//     step:              1,
+//     value:             sliders.defaultValues[food.select[0]][food.select[1]][i][j]
 //   });
-//   slider.on("slide", function(sliderValue) {
-//     document.getElementById("valueMinimumStock").textContent = sliderValue;
+//     slider.on("slide", function(sliderValue) {
+//       document.getElementById("value" + sliders.vars[i][j]).textContent = sliderValue;
+//       // document.getElementById("slider" + sliders.vars[i][j]).value= sliderValue;
+//       valtick=sliderValue;
+//       console.log(valtick);
 //   });
 // }
+
+function createTopSliders() {
+  var slider1 = [];
+  slider1 = new Slider("#sliderTop" , {
+    ticks:            [1, 2, 3],
+    ticks_positions:  [                0,          50,               100],
+    ticks_labels:     ['SNAP Minimum',     'SNAP Proposed', 'Minneapolis'],
+    ticks_snap_bounds: 1,
+    step:              1,
+    value:             1
+  });
+    slider1.on("slide", function(sliderValue) {
+      keepValue = sliderValue;
+      // document.getElementById("value" + sliders.vars[i][j]).textContent = sliderValue;
+  });
+}
+
+
 
 
 function fClose() {
@@ -712,11 +752,12 @@ function updatePlot1(updateResults) {
   }
 }
 
+
+
 $(document).ready(function(){
   initializeSliders([0,0]);
   initializePlotOptions();
   initializeFoodSelection();
-  // updateSliders();
   updatePlot1(true);                     // true = evaluate profit and other results for all foods
 
 

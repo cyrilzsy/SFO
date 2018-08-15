@@ -58,6 +58,8 @@ var Pars     = [
                 ]
                ];
 
+
+
 function evalSliders(iFood) {
    let Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
    let Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
@@ -76,6 +78,7 @@ function evalSliders(iFood) {
     food.results[key][iFood[0]][iFood[1]] = z[key];                             // z is not an array
   }
 }
+
 
 function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,Par) {
   let C_delivery = Par[0] + X_delivery*Par[1];
@@ -120,4 +123,5 @@ function runOptimal(Enforcement,Training,Signage,Convenience,Taste,Affordability
   }
 
 }
+
 
