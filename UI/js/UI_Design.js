@@ -16,6 +16,16 @@
   };
   food.numTypes = food.names.length;
 
+  var tops = {
+    ticks:            [1, 2, 3],
+    ticks_positions:  [                0,          50,               100],
+    ticks_labels:     ['SNAP Minimum',     'SNAP Proposed', 'Minneapolis'],
+    ticks_snap_bounds: 1,
+    step:              1,
+    value:             1,
+    tooltip:          'hide'
+  };
+
   var sliders = {
     defaultValues: [
                     [ [[0.5, 5,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]] ],
@@ -98,7 +108,7 @@ function updateSelect() {
     z_plot[key] = key_checked;
     if (key_checked) {z_plot.num_plots++};
   }
-  createTopSliders(food.select);
+  createTopSliders();
   updatePlot1(true);
 }
 
@@ -198,7 +208,7 @@ function initializeFoodSelection() {
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
   document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
   initializeSliders(food.select);
-  createTopSliders(food.select);
+  createTopSliders();
 }
 
 
@@ -214,7 +224,6 @@ function updateRadio() {
 function initializeSliders(food_select) {
   food.select = food_select;
   let i,j;
-
 
   for (i = 0; i < sliders.numTypes; i++) {
     sliders.numVars[i] = sliders.vars[i].length;
@@ -377,19 +386,10 @@ function initializeSliders(food_select) {
 //   });
 // }
 
-function createTopSliders(food_select) {
-  food.select = food_select;
-  var slider1 = [];
-  slider1 = new Slider("#sliderTop" , {
-    ticks:            [1, 2, 3],
-    ticks_positions:  [                0,          50,               100],
-    ticks_labels:     ['SNAP Minimum',     'SNAP Proposed', 'Minneapolis'],
-    ticks_snap_bounds: 1,
-    step:              1,
-    value:             1,
-    tooltip:          'hide'
-  });
 
+function createTopSliders() {
+  var slider1 = [];
+  slider1 = new Slider("#sliderTop" , tops);
 
   for (i = 0; i < sliders.numTypes; i++) {
     sliders.numVars[i] = sliders.vars[i].length;
@@ -423,18 +423,17 @@ function createTopSliders(food_select) {
         [[[0.1, 5, 5, 3], [5, 5, 5, 5], [2, 3, 2.3]], [[0.1, 5, 5, 3], [5, 5, 5, 5], [2, 3, 1.5]], [[0.1, 5, 5, 3], [5, 5, 5, 5], [2, 3, 1]]]]
     }
     sliders.currentValues = sliders.defaultValues;
-    console.log(sliders.currentValues);
-    for (i0 = 0; i0 < sliders.numTypes; i0++) {
-      for (j0 = 0; j0 < sliders.numVars[i0]; j0++) {
+    for (i0 = 0; i0 < food.numTypes; i0++) {
+      for (j0 = 0; j0 < food.numVars[i0]; j0++) {
 
         let Select = [i0, j0];
         evalSliders(Select);
-        initializeSliders(Select);
+
         updatePlot1(false);
       }
     }
-    slider1.value = keepValue;
-    console.log(slider1.value);
+    initializeSliders(food.select);
+    tops.value = keepValue;
   });
 
 }
