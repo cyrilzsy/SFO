@@ -26,13 +26,28 @@
     tooltip:          'hide'
   };
 
+    var foodGroup = {
+    names:  [["Fruits & Vegetables"],
+             ["Grains"],
+             ["Dairy"],
+             ["Meat, Poultry, Fish"],
+             ["Other"]
+             ],
+    numVars: [],
+    vars:    [],
+    select:  null,
+    numTypes: 0
+  };
+  foodGroup.numTypes = foodGroup.names.length;
+
+
   var sliders = {
     defaultValues: [
-                    [ [[0.5, 5,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,0.2]] ],
-                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,1]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.7]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.5]] ],
-                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,1]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.7]] ],
-                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,3.5]], [[0.6,5,5,3],[5,5,5,5],[2,3,3.2]], [[0.6,5,5,3],[5,5,5,5],[2,3,2.5]], [[0.6,5,5,3],[5,5,5,5],[2,3,2.2]] ],
-                    [ [[0.6,5,5,3],[5,5,5,5],[2,3,2.3]], [[0.6,5,5,3],[5,5,5,5],[2,3,1.5]], [[0.6,5,5,3],[5,5,5,5],[2,3,1]]]  // take out price
+                    [ [[0.5, 5,5,4],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,4],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,0.3]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,0.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,0.2]] ],
+                    [ [[0.6,5,5,4],[5,5,5,5],[2,3,1]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.7]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.5]] ],
+                    [ [[0.6,5,5,4],[5,5,5,5],[2,3,1]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.7]] ],
+                    [ [[0.6,5,5,4],[5,5,5,5],[2,3,3.5]], [[0.6,5,5,4],[5,5,5,5],[2,3,3.2]], [[0.6,5,5,4],[5,5,5,5],[2,3,2.5]], [[0.6,5,5,4],[5,5,5,5],[2,3,2.2]] ],
+                    [ [[0.6,5,5,4],[5,5,5,5],[2,3,2.3]], [[0.6,5,5,4],[5,5,5,5],[2,3,1.5]], [[0.6,5,5,4],[5,5,5,5],[2,3,1]]]  // take out price
 
 
 
@@ -41,7 +56,6 @@
                     // [ [[0.1,5,5,3],[5,5,5,5],[2,3,1]], [[0.1,5,5,3],[5,5,5,5],[2,3,1.2]], [[0.1,5,5,3],[5,5,5,5],[2,3,1.7]], [[0.1,5,5,3],[5,5,5,5],[2,3,2.2]] ],
                     // [ [[0.1,5,5,3],[5,5,5,5],[2,3,3.5]], [[0.1,5,5,3],[5,5,5,5],[2,3,3.2]], [[0.1,5,5,3],[5,5,5,5],[2,3,2.5]] ],
                     // [ [[0.1,5,5,3],[5,5,5,5],[2,3,2.3]], [[0.1,5,5,3],[5,5,5,5],[2,3,1.5]], [[0.1,5,5,3],[5,5,5,5],[2,3,1]]]
-
 
 
 
@@ -74,7 +88,8 @@
   sliders.sliderHTML = Array(sliders.numTypes);
 
 
-
+  var myTableHead0 = document.getElementById("tableHead");
+  var myTableHead  = myTableHead0.getElementsByTagName("th");
 
 
 function updateSelect() {
@@ -87,11 +102,20 @@ function updateSelect() {
       }
       if (document.getElementById("select" + foodVarNamei).checked) {
         food.select = [i,j];
+        document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
       }
     }
   }
 
-  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+  for (i=0;i<foodGroup.numTypes; i++) {
+    let foodGroupNamei = foodGroup.vars[i];
+    if (document.getElementById("select" + foodGroupNamei).checked) {
+        foodGroup.select = i;
+        document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + foodGroup.names[foodGroup.select];
+      }
+  }
+  
+
   document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
 
   for (i=0; i<sliders.numTypes; i++) {
@@ -188,10 +212,10 @@ function initializeFoodSelection() {
         if (food.plot[k][0]==i0 && food.plot[k][1]==j0) {
           plotOption = 'checked="checked"';
         }
-      };
+      }
       if (food.select[0]==i0 && food.select[1]==j0) {
         selectOption = 'checked="checked"';
-      };
+      }
       myTable[food.numTypes*j0 + i0].innerHTML =
         '<div class="form-group"> \
           <input type="checkbox" id="plot' + foodVarNamei + '" autocomplete="off" onchange="updateSelect()" ' + plotOption + '/> \
@@ -205,6 +229,19 @@ function initializeFoodSelection() {
         </div >';
     }
   }
+
+
+  for (i=0;i<foodGroup.numTypes; i++) {
+    let foodGroupNamei = foodGroup.names[i];
+    foodGroup.vars[i] = foodGroupNamei;
+
+    myTableHead[i].innerHTML =
+      '<div class="form-group"> \
+          <h4>'+ foodGroupNamei +'</h4>\
+          <input type="radio" id="select' + foodGroupNamei + '" name="choose" onchange="updateSelect()"> \
+        </div >'
+  }
+
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
   document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
   initializeSliders(food.select);
@@ -307,10 +344,10 @@ function initializeSliders(food_select) {
       sliders.valuesHTML[i][j] = document.getElementById("value" + sliders.vars[i][j]);
       sliders.sliderHTML[i][j] = document.getElementById("slider" + sliders.vars[i][j]);
       if (i==0 && j==0){
-        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+" Medium";
+        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
       }
       else if (i==0 && j==3) {
-        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j]+"(SNAP Default)"
+        sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
       }
       else {
         sliders.valuesHTML[i][j].innerHTML = sliders.defaultValues[food.select[0]][food.select[1]][i][j];
