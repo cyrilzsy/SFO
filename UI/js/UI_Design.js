@@ -102,6 +102,7 @@ function updateSelect() {
       }
       if (document.getElementById("select" + foodVarNamei).checked) {
         food.select = [i,j];
+        foodGroup.select = null;
         document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
       }
     }
@@ -113,8 +114,10 @@ function updateSelect() {
         foodGroup.select = i;
         document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + foodGroup.names[foodGroup.select];
       }
+
   }
-  
+
+
 
   document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
 
@@ -151,7 +154,7 @@ function fResetSliders(button) {
 function initializePlotOptions() {
   for (key in z) {
     z_plot[key] = false;
-  };
+  }
   z_plot["price"]    = true;           // initialize
   z_plot["M_profit"] = true;
 
@@ -162,7 +165,7 @@ function initializePlotOptions() {
     let plotOption = '';
     if (z_plot[key]) {
       plotOption = 'checked="checked"';
-    };
+    }
     food.results[key] = Array(food.numTypes);
     if (boot_col_tot==0) {             // new row
       plotSelectionHTML += '<div class="row">';
@@ -182,7 +185,7 @@ function initializePlotOptions() {
       boot_col_tot = 0;
       plotSelectionHTML += '</div>';
     }
-  };
+  }
   document.getElementById("plotSelectionForm").innerHTML = plotSelectionHTML;
 
   for (i0=0; i0<food.numTypes; i0++) {
@@ -241,6 +244,7 @@ function initializeFoodSelection() {
           <input type="radio" id="select' + foodGroupNamei + '" name="choose" onchange="updateSelect()"> \
         </div >'
   }
+
 
   document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
   document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
@@ -355,13 +359,7 @@ function initializeSliders(food_select) {
       sliders.sliderHTML[i][j].oninput = (function (e) {
         return function () {
           let sliderValue = sliders.sliderHTML[e[0]][e[1]].value;
-          // let tickValue = valtick;
-          console.log(e + ", " + sliderValue);
-          // console.log(e + ", " + tickValue);
-          // if (e[0]==0 && e[1]==3){
-          //   sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = tickValue;
-          // }
-          // else {
+          // console.log(e + ", " + sliderValue);
           sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i
           sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
             // }
@@ -381,8 +379,18 @@ function initializeSliders(food_select) {
             sliders.valuesHTML[0][3].innerHTML = sliders.sliderHTML[0][3].value + " " + "(SNAP Default)";
           }
 
-          evalSliders(food.select);                        // evaluate only the selected food
-          updatePlot1(false);                              // false = don't evaluate all foods
+          if (foodGroup.select != null) {
+            let foodGroupi = foodGroup.select;
+              for (j0=0;j0<food.numVars[foodGroupi];j0++) {
+               evalSliders([foodGroupi,j0]);
+              }
+              updatePlot1(true);
+          }
+
+          else if (foodGroup.select == null) {
+            evalSliders(food.select);                        // evaluate only the selected food
+            updatePlot1(false);                              // false = don't evaluate all foods
+          }
         }
       })([i, j]);                                           // (i,j) is the argument, passed to (e)
 
@@ -398,6 +406,7 @@ function initializeSliders(food_select) {
         sliders.currentValues[food.select[0]][food.select[1]][0][3] = sliderValue;
         evalSliders(food.select);
         updatePlot1(false);
+
       });
 }
 
@@ -471,6 +480,7 @@ function createTopSliders() {
     }
     initializeSliders(food.select);
     tops.value = keepValue;
+    console.log(foodGroup.select);
   });
 
 }
