@@ -362,7 +362,6 @@ function initializeSliders(food_select) {
           // console.log(e + ", " + sliderValue);
           sliders.valuesHTML[e[0]][e[1]].innerHTML = sliderValue;                // e is set to i
           sliders.currentValues[food.select[0]][food.select[1]][e[0]][e[1]] = sliderValue;
-            // }
           if (sliders.sliderHTML[0][0].value == 0) {
             sliders.valuesHTML[0][0].innerHTML = sliders.sliderHTML[0][0].value + " " + "None";
           }
@@ -379,17 +378,19 @@ function initializeSliders(food_select) {
             sliders.valuesHTML[0][3].innerHTML = sliders.sliderHTML[0][3].value + " " + "(SNAP Default)";
           }
 
+
+          if (foodGroup.select == null) {
+            evalSliders(food.select);                        // evaluate only the selected food
+            updatePlot1(false);                              // false = don't evaluate all foods
+          }
           if (foodGroup.select != null) {
             let foodGroupi = foodGroup.select;
               for (j0=0;j0<food.numVars[foodGroupi];j0++) {
-               evalSliders([foodGroupi,j0]);
+                sliders.currentValues[foodGroupi][j0][e[0]][e[1]] = sliderValue;
+                evalSliders([foodGroupi,j0]);
+                updatePlot1(false);
+                // console.log(food.results);
               }
-              updatePlot1(true);
-          }
-
-          else if (foodGroup.select == null) {
-            evalSliders(food.select);                        // evaluate only the selected food
-            updatePlot1(false);                              // false = don't evaluate all foods
           }
         }
       })([i, j]);                                           // (i,j) is the argument, passed to (e)
@@ -402,11 +403,19 @@ function initializeSliders(food_select) {
         document.getElementById("value" + sliders.vars[m][n]).textContent = sliderValue;
         // document.getElementById("slider" + sliders.vars[i][j]).value= sliderValue;
         valtick=sliderValue;
-        // console.log(valtick);
         sliders.currentValues[food.select[0]][food.select[1]][0][3] = sliderValue;
-        evalSliders(food.select);
-        updatePlot1(false);
-
+        if (foodGroup.select == null) {
+            evalSliders(food.select);                        // evaluate only the selected food
+            updatePlot1(false);                              // false = don't evaluate all foods
+          }
+          if (foodGroup.select != null) {
+            let foodGroupi = foodGroup.select;
+            for (j0 = 0; j0 < food.numVars[foodGroupi]; j0++) {
+              sliders.currentValues[foodGroupi][j0][0][3] = sliderValue;
+              evalSliders([foodGroupi, j0]);
+              updatePlot1(false);
+            }
+          }
       });
 }
 
