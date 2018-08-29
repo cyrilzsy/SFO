@@ -103,7 +103,7 @@ function updateSelect() {
       if (document.getElementById("select" + foodVarNamei).checked) {
         food.select = [i,j];
         foodGroup.select = null;
-        document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
+        document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + '<span style="border:0; color:#f6931f; font-weight:bold;">' + food.names[food.select[0]][food.select[1]] + '</span>';
       }
     }
   }
@@ -112,14 +112,14 @@ function updateSelect() {
     let foodGroupNamei = foodGroup.vars[i];
     if (document.getElementById("select" + foodGroupNamei).checked) {
         foodGroup.select = i;
-        document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + foodGroup.names[foodGroup.select];
+        document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + '<span style="border:0; color:#f6931f; font-weight:bold;">' + foodGroup.names[foodGroup.select] + '</span>';
       }
 
   }
 
 
 
-  document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
+  document.getElementById("sliderPanel2").innerHTML = '<b>Choose Standard Requirement:</b>' +'<div><input type="range" id="sliderTop"></div>';
 
   for (i=0; i<sliders.numTypes; i++) {
     for (j=0; j<sliders.numVars[i]; j++) {
@@ -246,8 +246,8 @@ function initializeFoodSelection() {
   }
 
 
-  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + food.names[food.select[0]][food.select[1]];
-  document.getElementById("sliderPanel2").innerHTML = '<input type="range" id="sliderTop"> ';
+  document.getElementById("sliderPanel").innerHTML = 'Sliders for: ' + '<span style="border:0; color:#f6931f; font-weight:bold;">' + food.names[food.select[0]][food.select[1]] + '</span>';
+  document.getElementById("sliderPanel2").innerHTML = '<b>Choose Standard Requirement:</b>' + '<div><input type="range" id="sliderTop"></div>' ;
   initializeSliders(food.select);
   createTopSliders();
 }
@@ -478,15 +478,15 @@ function createTopSliders() {
         [[[0.1, 5, 5, 3], [5, 5, 5, 5], [2, 3, 2.3]], [[0.1, 5, 5, 3], [5, 5, 5, 5], [2, 3, 1.5]], [[0.1, 5, 5, 3], [5, 5, 5, 5], [2, 3, 1]]]]
     }
     sliders.currentValues = sliders.defaultValues;
-    for (i0 = 0; i0 < food.numTypes; i0++) {
-      for (j0 = 0; j0 < food.numVars[i0]; j0++) {
-
-        let Select = [i0, j0];
-        evalSliders(Select);
-
-        updatePlot1(false);
-      }
-    }
+    // for (i0 = 0; i0 < food.numTypes; i0++) {
+    //   for (j0 = 0; j0 < food.numVars[i0]; j0++) {
+    //
+    //     let Select = [i0, j0];
+    //     evalSliders(Select);
+    //     updatePlot1(false);
+    //   }
+    // }
+    updatePlot1(true);
     initializeSliders(food.select);
     tops.value = keepValue;
     console.log(foodGroup.select);
