@@ -38,10 +38,10 @@ var tour = {
                 Choose the food you want to change the characteristics in the <b>radio button</b> on the right of the food (one food each time). \
                 Click the <b>Staple Food Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window.",
       target: "Food_Group_1",
-      placement: "top",
+      placement: "right",
       showPrevButton: true,
-      xOffset: 50,
-      yOffset: -40,
+      xOffset: -180,
+      yOffset: -60,
       arrowOffset: "left",
       width: tourWidth,
       delay: scrollTime,
@@ -56,9 +56,10 @@ var tour = {
                 Choose the results that you are interested in by click the <b>blue box</b> on the left of each variable. \
                 Click the <b>Plot Selection</b> button again or click on the <b>x</b> button on the top right of the bar to retract the selection window.",
       target: "Plot_button",
-      placement: "top",
+      placement: "right",
       showPrevButton: true,
-      xOffset: 50,
+      xOffset: -20,
+      yOffset: -20,
       arrowOffset: "left",
       width: tourWidth,
       delay: scrollTime,
@@ -75,6 +76,20 @@ var tour = {
       showPrevButton: true,
       xOffset: -100,
       yOffset: -60,
+      arrowOffset: "left",
+      width: tourWidth,
+      delay: scrollTime
+    },
+
+    {
+      title: "Basic Requirements Selection",
+      content: "Use this <b>Slider</b> to set the initial parameters for all foods based on three different requirements. \
+                You will see changes in the <b>Sliders</b> below and in the result area",
+      target: "sliderPanel2",
+      placement: "bottom",
+      showPrevButton: true,
+      xOffset: 0,
+      yOffset: 0,
       arrowOffset: "left",
       width: tourWidth,
       delay: scrollTime
