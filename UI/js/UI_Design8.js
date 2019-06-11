@@ -561,21 +561,21 @@ function fClose() {
 
 function updatePlot1(updateResults) {
   if (updateResults) {
-    let iRound = 1;
-    S_actual_all = new Array(t_max).fill(0);
-    for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
-      for (j0=0; j0<food.numVars[i0]; j0++) {
-        evalSliders([i0,j0]);
-        for (var jj = 0; jj < t_max; jj++) {
-          S_actual_all[iRound] = S_actual_all[iRound - 1] + z.Actual_Amount_in_Store[j_max][t_max - 1];
-          if (jj > iRound) {
-            S_actual_all[jj] = S_actual_all[iRound];
-          }
-        }
-        iRound = iRound + 1;
-        // console.log(S_actual_all);
-      }
-    }
+    // let iRound = 1;
+    evalSliders([0,0]);
+    // for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
+    //   for (j0=0; j0<food.numVars[i0]; j0++) {
+    //     evalSliders([i0,j0]);
+    //     for (var jj = 0; jj < t_max; jj++) {
+    //       S_actual_all[iRound] = S_actual_all[iRound - 1] + z.Actual_Amount_in_Store[j_max][t_max - 1];
+    //       if (jj > iRound) {
+    //         S_actual_all[jj] = S_actual_all[iRound];
+    //       }
+    //     }
+    //     iRound = iRound + 1;
+    //     // console.log(S_actual_all);
+    //   }
+    // }
   }
 console.log(S_actual_all);
   // console.log(food.results);
@@ -751,20 +751,21 @@ console.log(S_actual_all);
 
 function updatePlot2(updateResults) {
   if (updateResults) {
-    let iRound = 1;
-    S_actual_all = new Array(t_max).fill(0);
-    for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
-      for (j0=0; j0<food.numVars[i0]; j0++) {
-        evalSliders([i0,j0]);
-        for (var jj = 0; jj < t_max; jj++) {
-          S_actual_all[iRound] = S_actual_all[iRound - 1] + z.Actual_Amount_in_Store[j_max][t_max - 1];
-          if (jj > iRound) {
-            S_actual_all[jj] = S_actual_all[iRound];
-          }
-        }
-        iRound = iRound + 1;
-      }
-    }
+    evalSliders([0,0]);
+    // let iRound = 1;
+    // S_actual_all = new Array(t_max).fill(0);
+    // for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
+    //   for (j0=0; j0<food.numVars[i0]; j0++) {
+    //     evalSliders([i0,j0]);
+    //     for (var jj = 0; jj < t_max; jj++) {
+    //       S_actual_all[iRound] = S_actual_all[iRound - 1] + z.Actual_Amount_in_Store[j_max][t_max - 1];
+    //       if (jj > iRound) {
+    //         S_actual_all[jj] = S_actual_all[iRound];
+    //       }
+    //     }
+    //     iRound = iRound + 1;
+    //   }
+    // }
   }
   // console.log(food.timeResult['Weekly_Profit'][0][0]);
   // console.log(food.results['Weekly_Profit'][0][0]);

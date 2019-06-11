@@ -7,6 +7,10 @@ var j_max      = null;
 var numFood = 22;
 var S_actual_all = new Array(t_max).fill(0);
 var t_ordinance = new Array(numFood).fill(0);
+for (i=1; i<=numFood; i++) {
+  t_ordinance[i] = 2*i + 1;
+}
+
 // var S_actual_all = [0];
 // var Actual_Amount_in_Store = [1];           // need to initialize these for the ODE solver, runTime
 // var Weekly_Consumer_Demand = [0];           // don't use new Array
@@ -103,7 +107,29 @@ var Pars     = [
                 ]
                ];
 
-function evalSliders(iFood) {
+var k_Food;
+
+function evalSliders(iFood_unused) {
+  S_actual_all.fill(0);
+  for (var i = 2; i < t_max; i++) {
+    k_Food = 0;
+    for (i0=0; i0<food.numTypes; i0++) {                     // doesn't work if we use i,j
+      for (j0=0; j0<food.numVars[i0]; j0++) {
+        evalSlidersTime_i([i0,j0],i);
+        k_Food += 1;
+        S_actual_all[i] += z.Actual_Amount_in_Store[j_max][i];
+        for (key in z) {
+          if (i==t_max-1) {
+            food.results[key][i0][j0] = z[key][j_max][i];
+          }
+          food.timeResult[key][i0][j0][i] = z[key][j_max][i];
+        }
+      }
+    }    
+  }
+}
+
+function evalSlidersTime_i(iFood,i) {
   Enforcement   = sliders.currentValues[iFood[0]][iFood[1]][0][0];
   Training      = sliders.currentValues[iFood[0]][iFood[1]][0][1];
   Signage       = sliders.currentValues[iFood[0]][iFood[1]][0][2];
@@ -117,21 +143,25 @@ function evalSliders(iFood) {
   C_store       = sliders.currentValues[iFood[0]][iFood[1]][2][2];
   // C_cust        = sliders.currentValues[iFood[0]][iFood[1]][2][3];
   Par           = Pars[iFood[0]][iFood[1]];
-  runTime(Enforcement, Training, Signage, Convenience, Taste, Affordability, Healthiness, S_infra, S_required, X_delivery, C_store, Par, S_actual_all);
+  if (i<t_ordinance[k_Food]) {
+    S_required = 0;
+  }
+  runTime(Enforcement, Training, Signage, Convenience, Taste, Affordability, Healthiness, S_infra, S_required, X_delivery, C_store, Par, S_actual_all,i);
   // console.log(j_max);
   // console.log(z.Actual_Amount_in_Store[j_max][0]);
   // console.log(S_actual_all);
 
-  for (key in z) {
-    food.results[key][iFood[0]][iFood[1]] = z[key][j_max][t_max-1];
-    for (var i = 0; i < t_max; i++) {
-      food.timeResult[key][iFood[0]][iFood[1]][i] = z[key][j_max][i];
-      // console.log(food.timeResult['Weekly_Profit'][0][0]);
-    }
-  }
+  // for (key in z) {
+  //   if (i==t_max-1) {
+  //     food.results[key][iFood[0]][iFood[1]] = z[key][j_max][i];}
+  //   for (var i = 0; i < t_max; i++) {
+  //     food.timeResult[key][iFood[0]][iFood[1]][i] = z[key][j_max][i];
+  //     // console.log(food.timeResult['Weekly_Profit'][0][0]);
+  //   }
+  // }
 }
 
-function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,Par,S_actual_all) {
+function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,Healthiness,S_infra,S_required,X_delivery,C_store,Par,S_actual_all,i) {
   let C_delivery = Par[0] + X_delivery*Par[1];
   // let C_storage = Par[2] + Par[3]*S_infra;
   // let C_total = C_delivery + C_storage + C_store;
@@ -146,7 +176,6 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
   // Weekly_Consumer_Demand[0] = 0;
   // z.Weekly_Amount_of_Supply[0][0] = 1;
 
-
   for (var j = 0; j < n_max; j++) {
     C_custj = C_cust_max * j / n_max;           // price for the customer
     if (C_custj > 0) {
@@ -155,35 +184,32 @@ function runTime(Enforcement,Training,Signage,Convenience,Taste,Affordability,He
       C_custj = 0;
     }
 
-    for (var i = 2; i < t_max; i++) {
-      // for (var k = 0; k < numFood; k++) {
-      //   if (i > t_ordinance[k])
-        // z.C_storage[j][i] = Par[2] + Par[3] * S_infra + 0.15 * ((z.S_actual_all[j][i - 2]).reduce(getSum));
-        z.C_storage[j][i] = Par[2] + Par[3] * S_infra + 0.015 * S_actual_all[i - 2];
-        z.Weekly_Amount_of_Supply[j][i] = Math.max(S_required * Enforcement - z.S_actual_end[j][i - 1], 0, z.Weekly_Consumer_Demand[j][i - 1] - z.S_actual_end[j][i - 1]);
-        z.Actual_Amount_in_Store[j][i] = z.Weekly_Amount_of_Supply[j][i] + z.S_actual_end[j][i - 1];
-        z.Weekly_Consumer_Demand[j][i] = y_0 - C_custj/a + 0.02 * S_actual_all[i - 2];
-        z.Weekly_Amount_Sold[j][i] = Math.min(z.Weekly_Consumer_Demand[j][i], z.Actual_Amount_in_Store[j][i]);
-        z.Weekly_Amount_Wasted[j][i] = Math.max(z.Actual_Amount_in_Store[j][i] / Par[15] - z.Weekly_Amount_Sold[j][i], 0);
-        z.S_actual_end[j][i] = z.Actual_Amount_in_Store[j][i] - z.Weekly_Amount_Sold[j][i] - z.Weekly_Amount_Wasted[j][i];
-        z.Weekly_Item_Cost[j][i] = z.Weekly_Amount_of_Supply[j][i] * C_store;
-        z.Weekly_Storage_Cost[j][i] = z.C_storage[j][i] * z.Actual_Amount_in_Store[j][i];
-        z.Weekly_Delivery_Cost[j][i] = C_delivery * z.Weekly_Amount_of_Supply[j][i];
-        z.Weekly_Revenue[j][i] = C_custj * z.Weekly_Amount_Sold[j][i];
-        z.Weekly_Profit[j][i] = z.Weekly_Revenue[j][i] - z.Weekly_Delivery_Cost[j][i] - z.Weekly_Storage_Cost[j][i] - z.Weekly_Item_Cost[j][i];
-        z.price[j][i] = C_custj;
-        // z.S_actual_all[j][i] = z.Actual_Amount_in_Store[j][i];
-      // }
-    }
+    // for (var k = 0; k < numFood; k++) {
+    // z.C_storage[j][i] = Par[2] + Par[3] * S_infra + 0.15 * ((z.S_actual_all[j][i - 2]).reduce(getSum));
+    z.C_storage[j][i] = Par[2] + Par[3] * S_infra + 0.015 * S_actual_all[i - 2];
+    z.Weekly_Amount_of_Supply[j][i] = Math.max(S_required * Enforcement - z.S_actual_end[j][i - 1], 0, z.Weekly_Consumer_Demand[j][i - 1] - z.S_actual_end[j][i - 1]);
+    z.Actual_Amount_in_Store[j][i] = z.Weekly_Amount_of_Supply[j][i] + z.S_actual_end[j][i - 1];
+    z.Weekly_Consumer_Demand[j][i] = y_0 - C_custj/a + 0.02 * S_actual_all[i - 2];
+    z.Weekly_Amount_Sold[j][i] = Math.min(z.Weekly_Consumer_Demand[j][i], z.Actual_Amount_in_Store[j][i]);
+    z.Weekly_Amount_Wasted[j][i] = Math.max(z.Actual_Amount_in_Store[j][i] / Par[15] - z.Weekly_Amount_Sold[j][i], 0);
+    z.S_actual_end[j][i] = z.Actual_Amount_in_Store[j][i] - z.Weekly_Amount_Sold[j][i] - z.Weekly_Amount_Wasted[j][i];
+    z.Weekly_Item_Cost[j][i] = z.Weekly_Amount_of_Supply[j][i] * C_store;
+    z.Weekly_Storage_Cost[j][i] = z.C_storage[j][i] * z.Actual_Amount_in_Store[j][i];
+    z.Weekly_Delivery_Cost[j][i] = C_delivery * z.Weekly_Amount_of_Supply[j][i];
+    z.Weekly_Revenue[j][i] = C_custj * z.Weekly_Amount_Sold[j][i];
+    z.Weekly_Profit[j][i] = z.Weekly_Revenue[j][i] - z.Weekly_Delivery_Cost[j][i] - z.Weekly_Storage_Cost[j][i] - z.Weekly_Item_Cost[j][i];
+    z.price[j][i] = C_custj;
+    // z.S_actual_all[j][i] = z.Actual_Amount_in_Store[j][i];
+    // }
 
     // console.log(z.S_actual_end[0][0]);
-    if (z.Weekly_Profit[j][t_max-1] > M_profit_max) {            // update the maximum profit
+    if (z.Weekly_Profit[j][i] > M_profit_max) {            // update the maximum profit
       j_max      = j;                         // index j corresponding to the maximum profit
       // console.log(j_max);
       // z.Weekly_Profit = Weekly_Profit[t_max];                  // set the z key values
       // z.Weekly_Consumer_Demand = Weekly_Consumer_Demand[t_max];
       // z.price[j]    = C_custj;
-      M_profit_max = z.Weekly_Profit[j][t_max-1];
+      M_profit_max = z.Weekly_Profit[j][i];
     }
     // console.log(z.Weekly_Profit);
   }
