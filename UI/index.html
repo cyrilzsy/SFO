@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" http-equiv="Pragma" content="no-cache">
   <title>Staple Food Ordinance</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -17,7 +17,7 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script src="hopscotch-0.3.1/js/hopscotch.min.js"></script>
 
-  <link   rel="stylesheet" type="text/css" href="css/UI_Design.css"/>
+  <link   rel="stylesheet" type="text/css" href="css/UI_Design1.css"/>
 
   <!--<style>-->
     <!--datalist {-->
@@ -60,6 +60,9 @@
 
     <li>
       <span style="color: white; font-size:200%">Staple Food Ordinance Model</span>
+    </li>
+    <li style="float:right">
+      <button type="button" class="btn" onclick="location.reload(true)">Reload</button>
     </li>
   </ul>
 </nav>
@@ -440,6 +443,10 @@
 <div class="panel panel-success">
   <div class="panel-heading">
     <h2 class="panel-title">Results</h2>
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" onclick="updatePlot1(true)">Bar Plots</button>
+      <button type="button" class="btn btn-primary" onclick="updatePlot2(true)">Line Plots</button>
+    </div>
   </div>
 
   <div class="panel-body" id='panelPlots'>
@@ -451,38 +458,13 @@
 
 </body>
 
-  <!--<script type='text/javascript'>-->
-    	<!--$(document).ready(function() {-->
-			<!--$("#sliderMinimumStock").slider({-->
-				<!--ticks: [0, 3, 10],-->
-				<!--ticks_labels: ['0', '3', '10'],-->
-        <!--ticks_positions: [0, 30, 100],-->
-				<!--ticks_snap_bounds: 0.5,-->
-				<!--value: 3-->
-			<!--});-->
-		<!--});-->
-  <!--</script>-->
 
-    <!--<script>-->
-    	<!--$(document).ready(function() {-->
-			<!--/* Example 13 */-->
-			<!--$("#ex13").slider({-->
-				<!--ticks: [0, 100, 200, 300, 400],-->
-				<!--ticks_labels: ['$0', '$100', '$200', '$300', '$400'],-->
-				<!--ticks_snap_bounds: 30,-->
-				<!--value: 200-->
-			<!--});-->
-
-		<!--});-->
-
-    <!--</script>-->
-
-
-<!--<script src="test_zhaohao/test-tick.js"></script>-->
-<script src="js/UI_Design.js"></script>
-<!-- <script src="js/SFO_calc.js"></script> -->
-<script src="js/SFO_calc_profit_maximization.js"></script>
+<script src="js/UI_Design8.js"></script>
+ <script src="js/SFO_calc1.js"></script>
+<!--<script src="https://engineering.jhu.edu/tak/SFO/UI/js/UI_Design1.js"></script>-->
+<!--<script src="https://engineering.jhu.edu/tak/SFO/UI/js/SFO_calc_profit_maximization1.js"></script>-->
+<!--<script src="https://engineering.jhu.edu/tak/SFO/UI/js/hopscotchTour.js"></script>-->
+<!--<script src="js/SFO_calc_profit_maximization(3).js"></script>-->
 <script src="js/hopscotchTour.js"></script>
-
 
 </html>
